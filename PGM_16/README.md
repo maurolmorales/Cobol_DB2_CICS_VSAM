@@ -118,57 +118,6 @@ TOTAL CUENTAS:   14
 Ejemplo didáctico para prácticas COBOL DB2 en batch.  
 Adaptable a tus datasets, tablas y configuración de `PLAN`.
 
----
 
-## 📄 Licencia
-
-MIT License. Úsalo, modifícalo y compártelo libremente.
-
----
-
-## ✨ Contacto
-
-Si necesitas ayuda para adaptarlo, mejorar el corte de control, o convertirlo en versión con archivo de salida, no dudes en abrir un *Issue* o un *Pull Request*.
-
----
 
 **¡Mainframe is not dead! 🚂**
-
-
-
-
-
-SYSOUT: 
-```COBOL
----------------------------------                           
-SUCURSAL: 01                                                
-CANTIDAD DE CUENTAS:  3                                     
-                                                            
----------------------------------                           
-SUCURSAL: 02                                                
-CANTIDAD DE CUENTAS:  2                                     
-                                                            
----------------------------------                           
-SUCURSAL: 03                                                
-CANTIDAD DE CUENTAS:  3                                     
-                                                            
----------------------------------                           
-SUCURSAL: 04                                                
-CANTIDAD DE CUENTAS:  2                                     
-                                                            
----------------------------------                           
-SUCURSAL: 05                                                
-CANTIDAD DE CUENTAS:  2                                     
-                                                            
----------------------------------                           
-SUCURSAL: 06                                                
-CANTIDAD DE CUENTAS:  1                                     
-                                                            
----------------------------------                           
-SUCURSAL: 07                                                
-CANTIDAD DE CUENTAS:  1                                     
-                                                            
-=================================                           
-TOTAL CUENTAS:   14                                         
-
-```
