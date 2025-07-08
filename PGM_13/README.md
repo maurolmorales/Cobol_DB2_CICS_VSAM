@@ -78,7 +78,7 @@ El programa genera salidas por consola (`DISPLAY`):
 - Mensajes de error si hay fallas en apertura, lectura o cierre.
 - Total general de registros procesados.
 
-```COBOL
+```text
 TOTAL DE CASADO    :    10                     
 TOTAL DE DIVORCIADO:     3                     
 TOTAL DE SOLTERO   :     8                     
