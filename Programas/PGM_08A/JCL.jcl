@@ -1,0 +1,24 @@
+//KC03CAFF JOB CLASS=A,MSGCLASS=O,MSGLEVEL=(1,1),NOTIFY=&SYSUID, 
+//             TIME=(,5) 
+//************************************ 
+//* EJEMPLO EJECUCION JOB BATCH      * 
+//************************************ 
+//* 
+//STEP1    EXEC PGM=IDCAMS,COND=(8,LT) 
+//SYSPRINT DD SYSOUT=* 
+//SYSIN    DD * 
+   DELETE   KC03CAF.ARCHIVOS.NOVCLIEN.VALID 
+//* 
+//************************************ 
+//* EJECUCION PROGRAMA PGMCORTE      * 
+//************************************ 
+//STEP2    EXEC PGM=PGMVACAF 
+//STEPLIB  DD DSN=KC03CAF.CURSOS.PGMLIB,DISP=SHR 
+//DDENTRA  DD DSN=KC03CAF.ARCHIVOS.NOVCLIEN,DISP=SHR 
+//DDSALID  DD DSN=KC03CAF.ARCHIVOS.NOVCLIEN.VALID,DISP=(,CATLG), 
+//            UNIT=SYSDA,VOL=SER=ZASWO1, 
+//            DCB=(LRECL=55,BLKSIZE=0,RECFM=FB), 
+//            SPACE=(TRK,(1,1),RLSE) 
+//SYSOUT   DD DSN=KC03CAF.SYSOUT,DISP=SHR 
+//SYSOUT   DD SYSOUT=* 
+//SYSUDUMP DD SYSOUT=* 
