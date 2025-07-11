@@ -37,6 +37,7 @@ Cada carpeta contiene programas representativos de cada etapa de la cursada:
 * [PGM_07A](/Programas/PGM_07A/) Corte de control Doble.
 * [PGM_08A](/Programas/PGM_08A/) Archivos - Validación.
 * [PGM_11A](/Programas/PGM_11A/) Corte de control con Impresión.
+* [PGM_11S](/Programas/PGM_11S/) Sumatoria por filtro de campo.
 * [PGM_13S](/Programas/PGM_13S/) Validación.
 * [PGM_16S](/Programas/PGM_16S/) Apareamiento.
 * [PGM_16A](/Programas/PGM_16A/) DB2 - Cursor - Corte de control.

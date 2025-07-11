@@ -53,7 +53,7 @@
        77  WS-TOTAL-PRINT          PIC $ZZZ.ZZZ.ZZ9,99. 
  
  
-      *----------- COPYS --------------------------------------------- 
+      */////////// COPYS ///////////////////////////////////////////// 
       *    COPY CORTE. 
       ************************************** 
       *     LAYOUT SUCURSAL                * 
@@ -68,11 +68,11 @@
                05  WS-SUC-TIPC2    PIC 9(01)    VALUE ZEROS. 
            03  FILLER              PIC X(8)     VALUE SPACES. 
 
+      *///////////////////////////////////////////////////////////////
 
 
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        PROCEDURE DIVISION. 
-      *  CUERPO PRINCIPAL DEL PROGRAMA     * 
 
        MAIN-PROGRAM-INICIO. 
 
