@@ -104,11 +104,18 @@
            03  FILLER              PIC X(03)           VALUE ' | '. 
            03  FILLER              PIC X(06)           VALUE 'NROCLI'. 
            03  FILLER              PIC X(03)           VALUE ' | '. 
-           03  FILLER              PIC X(32)           VALUE 'NOMAPE'. 
+           03  FILLER              PIC X(13)           VALUE SPACES. 
+           03  FILLER              PIC X(06)           VALUE 'NOMAPE'. 
+           03  FILLER              PIC X(13)           VALUE SPACES. 
            03  FILLER              PIC X(03)           VALUE ' | '. 
-           03  FILLER              PIC X(09)           VALUE 'SALDO'. 
+           03  FILLER              PIC X(05)           VALUE SPACES. 
+           03  FILLER              PIC X(06)           VALUE 'SALDO'. 
+           03  FILLER              PIC X(05)           VALUE SPACES. 
            03  FILLER              PIC X(03)           VALUE ' | '. 
-           03  FILLER              PIC X(10)           VALUE 'FECSAL'. 
+           03  FILLER              PIC X(03)           VALUE SPACES. 
+           03  FILLER              PIC X(06)           VALUE 'FECSAL'. 
+           03  FILLER              PIC X(03)           VALUE SPACES. 
+           03  FILLER              PIC X(03)           VALUE ' | '. 
   
       *    REGISTROS 
        01  IMP-REG-LISTADO. 
@@ -129,10 +136,11 @@
            03  IMP-NOMAPE          PIC X(30)            VALUE SPACES. 
            03  IMP-COL6            PIC X(03)            VALUE SPACES. 
            03  FILLER              PIC X(2)             VALUE SPACES. 
-           03  IMP-SALDO           PIC -$ZZZZZ,99. 
+           03  IMP-SALDO           PIC -$Z.ZZZ.ZZZ,99. 
            03  IMP-COL7            PIC X(03)            VALUE SPACES. 
            03  FILLER              PIC X(2)             VALUE SPACES. 
            03  IMP-FECSAL          PIC X(10)            VALUE SPACES. 
+           03  IMP-COL8            PIC X(03)            VALUE SPACES. 
 
       *-----------  FECHA DE PROCESO  ------------------------------- 
        01  WS-FECHA. 
@@ -263,6 +271,7 @@
                  MOVE REG-SALDO    TO IMP-SALDO 
                  MOVE WS-PIPE      TO IMP-COL7 
                  MOVE REG-FECSAL   TO IMP-FECSAL 
+                 MOVE WS-PIPE      TO IMP-COL8 
       
                  PERFORM 6000-GRABAR-SALIDA-I
                     THRU 6000-GRABAR-SALIDA-F 
@@ -360,6 +369,7 @@
        6600-IMPRIMIR-SUBTITULOS-I. 
   
            MOVE 1 TO WS-CUENTA-LINEA. 
+           WRITE REG-SALIDA FROM WS-LINE2 AFTER 1. 
            WRITE REG-SALIDA FROM IMP-SUBTITULO AFTER 1 
            WRITE REG-SALIDA FROM WS-LINE2 AFTER 1. 
   

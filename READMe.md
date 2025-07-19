@@ -33,7 +33,7 @@ La **Certificación Desarrollador COBOL** se distingue por ofrecer una formació
 Cada carpeta contiene programas representativos de cada etapa de la cursada:
 
 
-* [PGM_06A](/Programas/PGM_06A/)  Corte de control.
+* [PGM_06A](/Programas/PGM_06A/) Corte de control.
 * [PGM_07A](/Programas/PGM_07A/) Corte de control Doble.
 * [PGM_08A](/Programas/PGM_08A/) Archivos - Validación.
 * [PGM_11A](/Programas/PGM_11A/) Corte de control con Impresión.
@@ -44,7 +44,7 @@ Cada carpeta contiene programas representativos de cada etapa de la cursada:
 * [PGM_16A](/Programas/PGM_16A/) DB2 - Cursor - Corte de control.
 * [PGM_21S](/Programas/PGM_21S/) Impresión.
 * [PGM_27S](/Programas/PGM_27S/) DB2.
-* [PGM_28S](/Programas/PGM_28S/) DB2 CURSOR.
+* [PGM_28S](/Programas/PGM_28S/) Consulta con Cursor DB2 e Impresión.
 * [PGM_30S](/Programas/PGM_30S/) DB2 CALL.
 
 Ejemplos típicos de lo que encontrarás:
