@@ -43,7 +43,7 @@ Este programa COBOL (`PGM5CCAF`) realiza un procesamiento batch que:
 
 ---
 
-### ▶️ descipcion del JCL
+### ▶️ Descipción del JCL
 
 #### 🪛 `COMPILA.jcl`
 
