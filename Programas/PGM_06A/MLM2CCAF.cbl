@@ -1,11 +1,10 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGM2CCAF. 
+       PROGRAM-ID. MLM2CCAF. 
  
       *************************************************** 
-      *                                                 * 
-      *  CLASE ASINCRóNICA 6: PRIMER CORTE DE CONTROL   * 
-      *  ==========================================     * 
-      *                                                 * 
+      *    CLASE ASINCRóNICA 6:                         * 
+      *    ===================                          *
+      *    - CORTE DE CONTROL                           *
       *************************************************** 
  
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
@@ -34,18 +33,18 @@
       *=======================* 
  
       *----------- ARCHIVOS ------------------------------------------ 
-       77  FS-ENT                  PIC XX            VALUE SPACES. 
+       77  FS-ENT                  PIC XX               VALUE SPACES. 
        77  WS-STATUS-FIN           PIC X. 
-           88  WS-FIN-LECTURA                        VALUE 'Y'. 
-           88  WS-NO-FIN-LECTURA                     VALUE 'N'. 
+           88  WS-FIN-LECTURA            VALUE 'Y'. 
+           88  WS-NO-FIN-LECTURA         VALUE 'N'. 
  
       *----------- VARIABLES  ---------------------------------------- 
-       77  WS-SUC-NRO-ANT          PIC 99            VALUE ZEROES. 
+       77  WS-SUC-NRO-ANT          PIC 99               VALUE ZEROES. 
  
  
       *----------- ACUMULADORES -------------------------------------- 
-       77  WS-IMPORTE-ACUM         PIC 9(9)V99       VALUE ZEROES. 
-       77  WS-TOTAL                PIC 9(9)V99       VALUE ZEROES. 
+       77  WS-IMPORTE-ACUM         PIC 9(9)V99          VALUE ZEROES. 
+       77  WS-TOTAL                PIC 9(9)V99          VALUE ZEROES. 
  
  
       *----------- IMPRESION ----------------------------------------- 
@@ -106,6 +105,7 @@
            END-IF. 
 
        1000-INICIO-F. EXIT. 
+       
  
       *--------------------------------------------------------------- 
        2000-PROCESO-I. 

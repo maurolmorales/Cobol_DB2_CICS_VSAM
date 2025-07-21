@@ -29,8 +29,9 @@
        01  REG-ENTRADA  PIC X(93). 
 
 
-      *---------------------------------------------------------------
-       WORKING-STORAGE SECTION. 
+      
+       WORKING-STORAGE SECTION.
+      *=======================*
  
       *---- ARCHIVOS ------------------------------------------------- 
        77  FS-ENT                  PIC XX         VALUE SPACES. 
@@ -53,7 +54,7 @@
        77  WS-SEXO-PRINT           PIC ZZ9        VALUE ZEROES. 
        77  WS-REGISTROS-PRINT      PIC ZZ9        VALUE ZEROES. 
  
-      *---- COPYS ------------------------------------------------- 
+      *---- COPYS ---------------------------------------------------- 
       *     COPY CLICOB. 
       **********************************
       *    LAYOUT SUCURSAL             *
@@ -70,7 +71,6 @@
  
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        PROCEDURE DIVISION. 
-      *  CUERPO PRINCIPAL DEL PROGRAMA     * 
  
        MAIN-PROGRAM-INICIO. 
            PERFORM 1000-INICIO-I  THRU  1000-INICIO-F. 
@@ -138,7 +138,7 @@
        2000-PROCESO-F. EXIT. 
  
  
-      *____ CORTE DE CONTROL POR TIP-DOC ____________________________ 
+      *---- CORTE DE CONTROL POR TIP-DOC ---------------------------- 
        2300-CORTE-TIPDOC-I. 
 
            PERFORM 2600-CORTE-SEXO-I THRU 2600-CORTE-SEXO-F 
@@ -162,7 +162,7 @@
 
 
  
-      *____ CORTE DE CONTROL POR SEXO  ______________________________ 
+      *---- CORTE DE CONTROL POR SEXO  ------------------------------ 
        2600-CORTE-SEXO-I. 
 
            MOVE WS-SEXO-CANT TO WS-SEXO-PRINT 
@@ -172,7 +172,6 @@
            MOVE WS-SUC-SEXO TO WS-SEXO-ANT. 
 
        2600-CORTE-SEXO-F. EXIT. 
-
 
 
       *--------------------------------------------------------------- 
@@ -194,8 +193,6 @@
        2500-LEER-F. EXIT. 
  
  
- 
- 
       *--------------------------------------------------------------- 
        9999-FINAL-I. 
 
@@ -213,4 +210,3 @@
            END-IF. 
 
        9999-FINAL-F. EXIT. 
-

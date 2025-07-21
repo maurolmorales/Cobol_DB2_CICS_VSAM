@@ -263,7 +263,7 @@
       *---- GRABAR REGISTRO ------------------------------------------
        2200-GRABAR-REG. 
 
-           ADD 1 TO NOV-SECUEN 
+           MOVE WS-CANT-LEIDOS TO NOV-SECUEN 
            MOVE WS-REG-NOVCLIE TO NOV-RESTO 
            WRITE REG-SALIDA FROM REG-NOVCLIE-VAL 
  
