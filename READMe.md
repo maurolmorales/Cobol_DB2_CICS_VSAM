@@ -44,6 +44,7 @@ Cada carpeta contiene programas representativos de cada etapa de la cursada:
 * [PGM_16A](/Programas/PGM_16A/) DB2 - Cursor - Corte de control.
 * [PGM_18A](/Programas/PGM_18A/) Apareamiento - Consulta DB2 con Cursores.
 * [PGM_21S](/Programas/PGM_21S/) Impresión.
+* [PGM_23S](/Programas/PGM_23S/) Doble Corte de Control con Entrada VSAM
 * [PGM_27S](/Programas/PGM_27S/) DB2.
 * [PGM_28S](/Programas/PGM_28S/) Consulta con Cursor DB2 e Impresión.
 * [PGM_30S](/Programas/PGM_30S/) DB2 CALL.
