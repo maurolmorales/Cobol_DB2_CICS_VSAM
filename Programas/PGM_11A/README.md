@@ -1,97 +1,145 @@
-# 📄 Corte de Control e Impresión
-
-## Descripción
-
-**PGMIMCAF** es un programa COBOL desarrollado en la **Clase 11 Asíncrona** del curso de Desarrollo COBOL.  
-Su objetivo es procesar un archivo de clientes en formato **QSAM**, realizar un **corte de control** por tipo de documento, generar listados agrupados e imprimir subtotales. La salida se genera en un archivo de tipo **FBA**, apto para impresión paginada.
-
----
-
-## ⚙️ Características principales
-
-- ✅ **Corte de control:** Agrupa registros por tipo de documento y genera subtotales.
-- ✅ **Impresión paginada:** Genera encabezados de página con información de sucursal, fecha y número de página.
-- ✅ **Archivos secuenciales:**  
-  - Entrada: archivo QSAM.  
-  - Salida: archivo FBA con formato de 132 caracteres por línea.
-- ✅ **Variables de control:** Cuenta registros leídos, impresos y totales por grupo.
+# 📄 Corte de control con Impresión.
+  - ENTRADA: Archivo QSAM. 
+  - SALIDA: Archivo QSAM.
+## 📚 Descripción del Programa
+El programa `PGMIMCAF` procesa un archivo de entrada (`ENTRADA`) de registros de clientes, genera un listado impreso (`LISTADO`) y realiza un corte de control cada vez que cambia el tipo de documento del cliente. Además, maneja impresión paginada.
 
 ---
 
-## 🗃️ Archivos procesados
+### 🚀 Estructura del Proyecto
 
-| Archivo   | Descripción                   | Formato |
-|-----------|-------------------------------|---------|
-| ENTRADA   | Novedades de clientes         | QSAM (93 bytes por registro) |
-| LISTADO   | Listado agrupado con totales  | FBA (132 bytes por línea)    |
-
----
-
-## 📑 Layouts de registros
-
-### ➤ Entrada: `REG-CLIENTES`
-
-```cobol
-01 REG-CLIENTES.
-   03 CLIS-TIP-DOC     PIC X(02).
-   03 CLIS-NRO-DOC     PIC 9(11).
-   03 CLIS-SUC         PIC 9(02).
-   03 CLIS-TIPO        PIC 9(02).
-   03 CLIS-NRO         PIC 9(03).
-   03 CLIS-IMPORTE     PIC S9(09)V99 COMP-3.
-   03 CLIS-AAAAMMDD    PIC 9(08).
-   03 CLIS-LOCALIDAD   PIC X(15).
-   03 FILLER           PIC X(01).
 ```
----
-## ➤ Salida: WS-REG-LISTADO
-Cada línea incluye:
+├── src/
+│ ├── PGMIMCAF.cbl # Programa COBOL 
+│ ├── COPY/
+│   ├── CPCLIENS  # Copybook (embebido para tener de referencia)
+│
+├── jcl/
+│ ├── COMPILA.jcl   # JCL para precompilar
+│ ├── EJECUTA.jcl   # JCL para ejecutar
+│
+├── archivos/
+│ ├── CLIENTES  # archivo QSAM de entrada de datos.
+│ ├── LISTADO   # archivo QSAM de salida de datos.
+|
+├── README.md
+```
+</br>
 
-- Tipo y número de documento
-- Sucursal
-- Tipo y número de cliente
-- Importe
-- Fecha
-- Localidad
+### 📋 Archivos Involucrados
+
+- **Programa**: `PGMIMCAF.cbl` Programa fuente de validación.
+- **JCL**: \
+`COMPILA.jcl`: Compila un programa COBOL batch.
+  1. Usa una librería de PROCs (ORIGEN.CURSOS.PROCLIB).
+  2. Ejecuta el PROC COMPCOTE, que compila un programa COBOL batch.
+  3. Compila el programa PGMCORT2 que debe estar en la librería USUARIO.CURSOS.
+  4. (Opcional) Le pasa una librería de COPYBOOKs a través del DD COBOL.SYSLIB. 
+
+  `EJECUTA.jcl`: Trata el archivo de entrada y ejecuta el programa.
+  1. Borra (si existe) el archivo USUARIO.ARCHIVO.CLIENTES.SORT.
+  2. Ordena USUARIO.ARCHIVOS por los primeros 2 bytes y genera USUARIO.ARCHIVO.SORT.
+  3. Ejecuta el programa PGMIMCAF usando como entrada ARCHIVO.SORT y 
+  genera un archivo resultante. Graba salida en SYSOUT.
+
+- **Archivos de datos**:
+  - `USUARIO.ARCHIVOS.CLIENTES`: Archivo QSAM de 50 bytes de largo de clientes. 
+  - `USUARIO.ARCHIVOS.LISTADO`: Archivo QSAM de 132 bytes generado mediante EJECUTA.jcl.
+- **Copybooks utilizados**:
+  - `CPCLIENS`: Estructura de datos de clientes.
+
 ---
-## 🧩 Lógica de procesamiento
-1. Inicialización
-    - Obtiene fecha del sistema.
-    - Abre archivos de entrada y salida.
-    - Inicializa contadores y variables de corte.
-2. Lectura secuencial
-    - Lee registros de entrada uno por uno.
-    - Imprime cada registro en el listado formateado.
-    - Agrupa registros por tipo de documento.
-3. Corte de control
-    - Al detectar un cambio en el tipo de documento, imprime subtotal del grupo anterior.
-    - Se muestra información del corte en consola.
-4. Impresión paginada
-    - Cada página admite hasta 60 líneas.
-    - Si se alcanza el límite, imprime encabezado de nueva página con información de sucursal, fecha y número de página.
-5. Finalización
-    - Muestra totales de registros leídos e impresos.
-    - Cierra archivos y valida estados.
+
+## 🏛️ Estructura del Programa 
+
+  - **1000-INICIO**
+    - Obtiene y guarda la fecha actual.
+    - Inicializa variables y abre archivos ENTRADA y LISTADO.
+    - Verifica errores de apertura y realiza la primera lectura del archivo.
+    - Si el archivo no está vacío:
+        - Muestra el primer tipo de documento y comienza la cuenta.
+  - **2000-PROCESO**
+    - Transfiere los campos del registro de cliente (`REG-CLIENTES`) al registro de salida (`WS-REG-LISTADO`).
+    - Llama a la rutina de escritura `6000-GRABAR-SALIDA`.
+    - Realiza una nueva lectura.
+    - Verifica si terminó el archivo (`WS-FIN-LECTURA`):
+        - Si terminó, llama al corte final.
+        - Si no, compara el tipo de documento actual con el anterior:
+            - Si son iguales, acumula.
+            - Si cambiaron, realiza un corte con `2200-CORTE-MAYOR`.
+
+  - **6000-GRABAR-SALIDA**
+    - Imprime encabezado de página si se superaron 60 líneas.
+    - Escribe el registro en el archivo `LISTADO`.
+    - Aumenta contadores de línea e impresos.
+
+  - **6500-IMPRIMIR-TITULOS**
+    - Escribe el título (encabezado) en una nueva página del listado.
+    - Incrementa número de página y reinicia contador de línea.
+
+  - **2200-CORTE-MAYOR**
+    - Muestra en consola el total de registros para el tipo de documento anterior.
+    - Actualiza el tipo de documento anterior (`WS-TIPO-DOC-ANT`) con el actual.
+    - Reinicia el acumulador para el nuevo tipo de documento.
+
+  - **2100-LEER**
+    - Lee el siguiente registro del archivo de entrada.
+    - Si es correcto ('`00`'), actualiza contadores.
+    - Si llega al final ('`10`'), activa `WS-FIN-LECTURA`.
+    - Si hay error, muestra mensaje y finaliza.
+
+  - **9999-FINAL**
+    - Muestra el total de registros procesados e impresos.
+    - Cierra ambos archivos.
+    - Verifica errores de cierre.
+
 ---
-## ✅ Variables de control destacadas
-- WS-TIPO-DOC-ANT: Guarda el tipo de documento anterior para corte.
-- WS-TIPO-DOC-CANT: Contador de registros por grupo.
-- WS-LEIDOS-FILE1: Total de registros leídos.
-- WS-IMPRESOS: Total de registros impresos.
-- WS-CUENTA-LINEA y WS-CUENTA-PAGINA: Controlan la paginación.
----
-## 🖨️ Formato de salida
-- Formato: FBA (Fixed Blocked ASCII), 132 caracteres por línea.
-- Contenido: Registros detallados con separación de campos.
-- Encabezado de página: Incluye sucursal, fecha y número de página.
-- Pie de corte: Muestra subtotal por grupo de tipo de documento.
----
-## 🚩 Recomendaciones
-- Revisar COPY CPCLIENS para validar la estructura de datos.
-- Configurar correctamente los DD (DDENTRA y DDLISTA) en el JCL.
-- Verificar la configuración de impresión para archivos FBA.
----
-## 👨‍💻 Autor
-Clase 11 Asíncrona - Desarrollo COBOL <br />
-Programa: PGMIMCAF <br />
-Funcionalidad: Corte de control e impresión paginada
+
+## 🎯 Resultado
+
+### 💬 Display 
+```text
+----------------------------         
+REGISTRO VALIDADO OK - DOC: DU NRO: 90323335999
+----------------------------         
+AÑO INVÁLIDO < 2025 - DOC NRO: 00126789000     
+----------------------------         
+DÍA INVÁLIDO PARA MES DE 31 DÍAS NRO: 00126789000        
+----------------------------         
+AÑO INVÁLIDO < 2025 - DOC NRO: 90223373999     
+----------------------------         
+FEBRERO INVÁLIDO NRO: 90223373999    
+----------------------------         
+REGISTRO VALIDADO OK - DOC: PA NRO: 12312312312
+----------------------------         
+REGISTRO VALIDADO OK - DOC: CI NRO: 00136555000
+----------------------------         
+AÑO INVÁLIDO < 2025 - DOC NRO: 00083333999     
+----------------------------         
+TIPO DOCUMENTO INVÁLIDO: CC NRO: 00123333300   
+----------------------------         
+TIPO DOCUMENTO INVÁLIDO: LD NRO: 00123449000   
+----------------------------         
+AÑO INVÁLIDO < 2025 - DOC NRO: 09888000000     
+----------------------------         
+AÑO INVÁLIDO < 2025 - DOC NRO: 00188889000     
+----------------------------         
+AÑO INVÁLIDO < 2025 - DOC NRO: 00022000160     
+----------------------------         
+AÑO INVÁLIDO < 2025 - DOC NRO: 00777789000     
+----------------------------         
+AÑO INVÁLIDO < 2025 - DOC NRO: 00023000190     
+----------------------------         
+DÍA INVÁLIDO PARA MES DE 31 DÍAS NRO: 00023000190        
+==============================       
+ TOTAL DE ENTRADAS LEIDAS 013        
+ TOTAL DE REGISTROS GRABADOS  003    
+ TOTAL DE REGISTROS ERRÓNEOS  013 
+```
+### 💾 Archivo QSAM DDSALID 
+```TEXT
+NOV-SECUEN    NOV-RESTO
+00001         DU903233359990101111......20250425
+00004         PA123123123120202114......20250430
+00005         CI001365550000202130......20250430
+```

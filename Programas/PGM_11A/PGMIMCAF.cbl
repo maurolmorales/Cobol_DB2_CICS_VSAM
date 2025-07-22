@@ -7,7 +7,7 @@
       *    -  CORTE DE CONTROL                         * 
       *    -  IMPRESION                                * 
       *    -  ARCHIVO ENTRADA QSAM                     * 
-      *    -  ARCHIVO SALIDA  FBA                      * 
+      *    -  ARCHIVO SALIDA  QSAM                     * 
       *                                                * 
       ************************************************** 
  
@@ -44,37 +44,36 @@
       *=======================* 
  
       *----------- ARCHIVOS ------------------------------------------ 
-       77  FS-ENT                  PIC XX       VALUE SPACES. 
-       77  WS-FS-LISTADO           PIC XX    VALUE ZEROS. 
+       77  FS-ENT                  PIC XX               VALUE SPACES. 
+       77  WS-FS-LISTADO           PIC XX               VALUE ZEROES. 
  
        77  WS-STATUS-FIN           PIC X. 
-           88  WS-FIN-LECTURA                   VALUE 'Y'. 
-           88  WS-NO-FIN-LECTURA                VALUE 'N'. 
+           88  WS-FIN-LECTURA            VALUE 'Y'. 
+           88  WS-NO-FIN-LECTURA         VALUE 'N'. 
  
       *----------- VARIABLES  ---------------------------------------- 
-       77  WS-TIPO-DOC-ANT       PIC XX         VALUE SPACES. 
+       77  WS-TIPO-DOC-ANT         PIC XX               VALUE SPACES. 
  
       *----------- ACUMULADORES -------------------------------------- 
-       77  WS-TIPO-DOC-CANT      PIC 999        VALUE ZEROES. 
-       77  WS-REGISTROS-CANT     PIC 999        VALUE ZEROES. 
+       77  WS-TIPO-DOC-CANT        PIC 999              VALUE ZEROES. 
+       77  WS-REGISTROS-CANT       PIC 999              VALUE ZEROES. 
 
       *----  CONTADOR DE LEIDOS Y GRABADOS  -------------------------
-       01  WS-LEIDOS-FILE1      PIC 9(05)        VALUE ZEROS. 
-       01  WS-IMPRESOS          PIC 9(05)        VALUE ZEROS. 
+       01  WS-LEIDOS-FILE1         PIC 9(05)            VALUE ZEROS. 
+       01  WS-IMPRESOS             PIC 9(05)            VALUE ZEROS. 
 
       *----  FECHA DE PROCESO  --------------------------------------
        01  WS-FECHA. 
-           03  WS-FECHA-AA      PIC 99            VALUE ZEROS. 
-           03  WS-FECHA-MM      PIC 99            VALUE ZEROS. 
-           03  WS-FECHA-DD      PIC 99            VALUE ZEROS.
+           03  WS-FECHA-AA         PIC 99               VALUE ZEROS. 
+           03  WS-FECHA-MM         PIC 99               VALUE ZEROS. 
+           03  WS-FECHA-DD         PIC 99               VALUE ZEROS.
  
       *----------- IMPRESION ----------------------------------------- 
-       77  WS-TIPO-DOC-PRINT     PIC ZZ9        VALUE ZEROES. 
-       77  WS-REGISTROS-PRINT    PIC ZZ9        VALUE ZEROES. 
-       
+       77  WS-TIPO-DOC-PRINT       PIC ZZ9.
+       77  WS-REGISTROS-PRINT      PIC ZZ9. 
+       77  WS-TOTALES-PRINT        PIC ZZZZ9.              
 
-      *///////////////////////////////////////////////////////////////
-      *----------- COPYS --------------------------------------------- 
+      */////////// COPYS /////////////////////////////////////////////
       *     COPY CPCLIENS. 
       ************************************** 
       *    LAYOUT  ARCHIVO   CLIENTES      * 
@@ -265,8 +264,6 @@
        6500-IMPRIMIR-TITULOS-F. EXIT. 
 
 
-
- 
       *--------------------------------------------------------------
        2200-CORTE-MAYOR-I. 
  
@@ -284,7 +281,6 @@
        2200-CORTE-MAYOR-F. EXIT. 
 
 
- 
       *-------------------------------------------------------------- 
        2100-LEER-I. 
            READ ENTRADA INTO REG-CLIENTES 
@@ -302,7 +298,6 @@
                  SET WS-FIN-LECTURA TO TRUE 
            END-EVALUATE. 
        2100-LEER-F. EXIT. 
-
 
 
       *--------------------------------------------------------------- 
@@ -326,7 +321,9 @@
               SET WS-FIN-LECTURA TO TRUE 
            END-IF. 
 
-           DISPLAY 'LEIDOS:     ' WS-LEIDOS-FILE1. 
-           DISPLAY 'IMPRESOS:   ' WS-IMPRESOS.            
+           MOVE WS-LEIDOS-FILE1 TO WS-REGISTROS-PRINT 
+           DISPLAY 'LEIDOS:     ' WS-REGISTROS-PRINT 
+           MOVE WS-IMPRESOS     TO WS-REGISTROS-PRINT 
+           DISPLAY 'IMPRESOS:   ' WS-REGISTROS-PRINT.      
                               
        9999-FINAL-F. EXIT. 
