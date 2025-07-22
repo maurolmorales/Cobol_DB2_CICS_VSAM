@@ -1,10 +1,11 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PGMBMLM. 
-      ********************************************************** 
-      *                                                        * 
-      *  PROGRAMA PARA SQL EMBEBIDO                            * 
-      *                      
-      ********************************************************** 
+      ************************************************************ 
+      *    CLASE ASINCRÓNICA 16                                  *
+      *    ====================                                  *
+      *    -  CORTE DE CONTROL                                   * 
+      *    -  CONSULTA DB2                                       *
+      ************************************************************ 
  
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
        ENVIRONMENT DIVISION. 
@@ -38,7 +39,26 @@
        77  WS-CUENTA-PRINT         PIC Z9.
        77  WS-TOTAL-PRINT          PIC ZZZ9.
  
- 
+
+      *//////////// COPY  ///////////////////////////////////////////
+       01  DCLTBCURCLI.                                          
+           10 WSC-TIPDOC           PIC X(2).                     
+           10 WSC-NRODOC           PIC S9(11)V USAGE COMP-3.     
+           10 WSC-NROCLI           PIC S9(3)V USAGE COMP-3.      
+           10 WSC-NOMAPE           PIC X(30).                    
+           10 WSC-FECNAC           PIC X(10).                    
+           10 WSC-SEXO             PIC X(1).                     
+
+       01  DCLTBCURCTA.                                                  
+           10 CTA-TIPCUEN          PIC X(2).                             
+           10 CTA-NROCUEN          PIC S9(5)V USAGE COMP-3.              
+           10 CTA-SUCUEN           PIC S9(2)V USAGE COMP-3.              
+           10 CTA-NROCLI           PIC S9(3)V USAGE COMP-3.              
+           10 CTA-SALDO            PIC S9(5)V9(2) USAGE COMP-3.          
+           10 CTA-FECSAL           PIC X(10).                                  
+      *//////////////////////////////////////////////////////////////
+
+
       *----------- SQL ----------------------------------------------
        77  WS-SQLCODE     PIC +++999 USAGE DISPLAY VALUE ZEROS. 
        77  REG-SALDO      PIC -Z(09).99     VALUE ZEROES.
@@ -47,27 +67,27 @@
        77  REG-SUCUEN     PIC 99            VALUE ZEROES.
  
            EXEC SQL INCLUDE SQLCA    END-EXEC. 
-           EXEC SQL INCLUDE TBCURCTA END-EXEC. 
-           EXEC SQL INCLUDE TBCURCLI END-EXEC. 
+      *     EXEC SQL INCLUDE TBCURCTA END-EXEC. 
+      *     EXEC SQL INCLUDE TBCURCLI END-EXEC. 
  
-           EXEC SQL 
-             DECLARE ITEM_CURSOR CURSOR
-             FOR 
-             SELECT A.TIPCUEN, 
-                    A.NROCUEN, 
-                    A.SUCUEN, 
-                    A.NROCLI, 
-                    B.NOMAPE, 
-                    A.SALDO, 
-                    A.FECSAL 
-             FROM  KC02787.TBCURCTA A 
-             INNER JOIN 
-                   KC02787.TBCURCLI B 
-             ON  A.NROCLI = B.NROCLI 
-             WHERE A.SALDO > 0 
-             ORDER BY A.SUCUEN ASC
-                                       
-           END-EXEC. 
+            EXEC SQL 
+              DECLARE ITEM_CURSOR CURSOR
+              FOR 
+              SELECT A.TIPCUEN, 
+                     A.NROCUEN, 
+                     A.SUCUEN, 
+                     A.NROCLI, 
+                     B.NOMAPE, 
+                     A.SALDO, 
+                     A.FECSAL 
+              FROM  KC02787.TBCURCTA A 
+              INNER JOIN 
+                    KC02787.TBCURCLI B 
+              ON  A.NROCLI = B.NROCLI 
+              WHERE A.SALDO > 0 
+              ORDER BY A.SUCUEN ASC
+                                        
+            END-EXEC. 
   
  
        77  FILLER PIC X(26) VALUE '* FINAL  WORKING-STORAGE *'. 
@@ -133,21 +153,21 @@
            EXEC SQL 
               FETCH ITEM_CURSOR 
                  INTO 
-                    :DCLTBCURCTA.WS-TIPCUEN,
-                    :DCLTBCURCTA.WS-NROCUEN,
-                    :DCLTBCURCTA.WS-SUCUEN,
-                    :DCLTBCURCTA.WS-NROCLI,
+                    :DCLTBCURCTA.CTA-TIPCUEN,
+                    :DCLTBCURCTA.CTA-NROCUEN,
+                    :DCLTBCURCTA.CTA-SUCUEN,
+                    :DCLTBCURCTA.CTA-NROCLI,
                     :DCLTBCURCLI.WSC-NOMAPE,
-                    :DCLTBCURCTA.WS-SALDO,
-                    :DCLTBCURCTA.WS-FECSAL
+                    :DCLTBCURCTA.CTA-SALDO,
+                    :DCLTBCURCTA.CTA-FECSAL
            END-EXEC. 
 
            EVALUATE TRUE 
               WHEN SQLCODE EQUAL ZEROS 
-                 MOVE WS-SALDO   TO REG-SALDO 
-                 MOVE WS-TIPCUEN TO REG-TIPCUEN 
-                 MOVE WS-NROCUEN TO REG-NROCUEN 
-                 MOVE WS-SUCUEN  TO REG-SUCUEN 
+                 MOVE CTA-SALDO   TO REG-SALDO 
+                 MOVE CTA-TIPCUEN TO REG-TIPCUEN 
+                 MOVE CTA-NROCUEN TO REG-NROCUEN 
+                 MOVE CTA-SUCUEN  TO REG-SUCUEN 
               WHEN SQLCODE EQUAL +100 
                  SET WS-FIN-LECTURA TO TRUE 
               WHEN OTHER 
@@ -190,7 +210,7 @@
            END-IF. 
 
            DISPLAY ' ' 
-           DISPLAY '=================================' 
-           DISPLAY 'TOTAL CUENTAS: ' WS-TOTAL-PRINT. 
+           DISPLAY '====================================' 
+           DISPLAY 'TOTAL GENERAL DE CUENTAS: ' WS-TOTAL-PRINT. 
  
        9999-FINAL-F. EXIT. 
