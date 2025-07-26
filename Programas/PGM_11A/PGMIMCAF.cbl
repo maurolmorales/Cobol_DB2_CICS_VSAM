@@ -283,6 +283,7 @@
 
       *-------------------------------------------------------------- 
        2100-LEER-I. 
+
            READ ENTRADA INTO REG-CLIENTES 
  
            EVALUATE FS-ENT 
@@ -297,6 +298,7 @@
                  MOVE 9999 TO RETURN-CODE
                  SET WS-FIN-LECTURA TO TRUE 
            END-EVALUATE. 
+           
        2100-LEER-F. EXIT. 
 
 

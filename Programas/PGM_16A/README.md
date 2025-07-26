@@ -1,5 +1,5 @@
 # 🧾 Consulta DB2 con Doble Corte de Control
-Este programa COBOL batch realiza una consulta a DB2 utilizando cursores y aplica un corte de control por sucursal. 
+  - Entrada: DB2
 ## 📚 Descripción del programa
 
 Este programa COBOL (`PGMBMLM`) realiza un procesamiento batch que:

@@ -1,5 +1,6 @@
 # Doble Corte de Control Mas Impresión.
-
+  - Entrada: QSAM
+  - Salida: QSAM
 ## 📚 Descripción del programa
 
 Este programa COBOL (`PGM5CCAF`) realiza un procesamiento batch que:

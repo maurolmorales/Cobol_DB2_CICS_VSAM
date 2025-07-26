@@ -48,7 +48,7 @@
        
       *-----------  SQL  ---------------------------------------------
        77  WS-SQLCODE           PIC +++999 USAGE DISPLAY   VALUE ZEROS. 
-       77  NOT-FOUND            PIC S9(9) COMP VALUE  +100. 
+       77  NOT-FOUND            PIC S9(9)  COMP            VALUE  +100. 
        77  NOTFOUND-FORMAT      PIC -ZZZZZZZZZZ.
 
        77  REG-TIPDOC-CLI       PIC X(2)                  VALUE SPACES.
@@ -61,7 +61,7 @@
 
 
       *////////////  COPYS  /////////////////////////////////////////
-      *     EXEC SQL INCLUDE TBCURCLI END-EXEC. 
+      *    TBCURCLI
             EXEC SQL DECLARE KC02787.TBCURCLI TABLE 
            ( TIPDOC             CHAR(2) NOT NULL, 
              NRODOC             DECIMAL(11, 0) NOT NULL, 
@@ -78,7 +78,7 @@
            10 WSC-FECNAC        PIC X(10).                *> FECNAC
            10 WSC-SEXO          PIC X(1).                 *> FECNAC
 
-      * DCLGEN TABLE(ORIGEN.TBCURCTA)      
+      *    TBCURCTA
            EXEC SQL DECLARE ORIGEN.TBCURCTA TABLE 
            ( TIPCUEN            CHAR(2) NOT NULL, 
              NROCUEN            DECIMAL(5, 0) NOT NULL, 
@@ -95,8 +95,7 @@
            10 CTA-SALDO          PIC S9(5)V9(2)  USAGE COMP-3. 
            10 CTA-FECSAL         PIC X(10).    
 
-      *    NOVCTA
-      * LARGO REGISTRO 23                                           
+      *    NOVCTA  LARGO REGISTRO 23
        01  WS-REG-CTA. 
            10 WS-TIPCUEN           PIC X(2). 
            10 WS-NROCUEN           PIC S9(5)V USAGE COMP-3. 
@@ -293,4 +292,3 @@
            DISPLAY 'NO ENCONTRADOS:   ' WS-NO-ENCONTRADO-CANT.
 
        9999-FINAL-F. EXIT. 
-
