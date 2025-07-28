@@ -24,7 +24,7 @@
            FILE STATUS IS FS-ENT. 
 
            SELECT LISTADO ASSIGN DDLISTA 
-           FILE STATUS IS WS-FS-LISTADO.            
+           FILE STATUS IS FS-LISTADO.            
  
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        DATA DIVISION. 
@@ -45,7 +45,7 @@
  
       *----------- ARCHIVOS ------------------------------------------ 
        77  FS-ENT                  PIC XX               VALUE SPACES. 
-       77  WS-FS-LISTADO           PIC XX               VALUE ZEROES. 
+       77  FS-LISTADO              PIC XX               VALUE ZEROES. 
  
        77  WS-STATUS-FIN           PIC X. 
            88  WS-FIN-LECTURA            VALUE 'Y'. 
@@ -87,7 +87,7 @@
            03  CLIS-TIPO           PIC 9(02)    VALUE ZEROS. 
            03  CLIS-NRO            PIC 9(03)    VALUE ZEROS. 
            03  CLIS-IMPORTE        PIC S9(09)V99 COMP-3 VALUE ZEROS. 
-           03  CLIS-AAAAMMDD       PIC 9(08)            VALUE ZEROS. 
+           03  CLIS-AAAAMMDD       PIC 9(08)    VALUE ZEROS. 
            03  CLIS-LOCALIDAD      PIC X(15)    VALUE SPACES. 
            03  FILLER              PIC X(01)    VALUE SPACES. 
       *///////////////////////////////////////////////////////////////
@@ -170,8 +170,8 @@
            END-IF. 
 
            OPEN OUTPUT LISTADO. 
-           IF WS-FS-LISTADO IS NOT EQUAL '00' 
-              DISPLAY '* ERROR EN OPEN LISTADO = ' WS-FS-LISTADO 
+           IF FS-LISTADO IS NOT EQUAL '00' 
+              DISPLAY '* ERROR EN OPEN LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET  WS-FIN-LECTURA TO TRUE 
            END-IF. 
@@ -234,8 +234,8 @@
            END-IF. 
  
            WRITE REG-SALIDA  FROM WS-REG-LISTADO AFTER 1. 
-           IF WS-FS-LISTADO IS NOT EQUAL '00' THEN 
-              DISPLAY '* ERROR EN WRITE LISTADO = ' WS-FS-LISTADO 
+           IF FS-LISTADO IS NOT EQUAL '00' THEN 
+              DISPLAY '* ERROR EN WRITE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
            END-IF. 
@@ -255,8 +255,8 @@
            MOVE  CLIS-TIP-DOC TO WS-SUCURSAL. 
            WRITE REG-SALIDA FROM WS-TITULO AFTER PAGE. 
  
-           IF WS-FS-LISTADO IS NOT EQUAL '00' 
-              DISPLAY '* ERROR EN WRITE LISTADO = ' WS-FS-LISTADO 
+           IF FS-LISTADO IS NOT EQUAL '00' 
+              DISPLAY '* ERROR EN WRITE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
            END-IF. 
@@ -317,8 +317,8 @@
            END-IF. 
 
            CLOSE LISTADO 
-           IF WS-FS-LISTADO IS NOT EQUAL '00' 
-              DISPLAY '* ERROR EN CLOSE LISTADO = ' WS-FS-LISTADO 
+           IF FS-LISTADO IS NOT EQUAL '00' 
+              DISPLAY '* ERROR EN CLOSE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
            END-IF. 

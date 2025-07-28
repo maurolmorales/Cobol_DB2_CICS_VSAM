@@ -86,7 +86,10 @@ El programa `PGMCORT2` realiza un **doble corte de control** por tipo de documen
   - Si falla el `CLOSE`, muestra error y retorna código 9999.
 
 ---
+## 📊 Diagrama de Flujo
+<image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa">
 
+---
 
 ## 🎯 Resultado
 

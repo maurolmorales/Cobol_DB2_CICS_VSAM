@@ -72,11 +72,13 @@
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        PROCEDURE DIVISION. 
  
-       MAIN-PROGRAM-INICIO. 
+       MAIN-PROGRAM-INICIO.
+
            PERFORM 1000-INICIO-I  THRU  1000-INICIO-F. 
            PERFORM 2000-PROCESO-I THRU  2000-PROCESO-F 
                                   UNTIL WS-FIN-LECTURA. 
            PERFORM 9999-FINAL-I   THRU  9999-FINAL-F. 
+
        MAIN-PROGRAM-FINAL. GOBACK. 
  
  
@@ -91,7 +93,6 @@
               DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-ENT 
               SET  WS-FIN-LECTURA TO TRUE 
            END-IF. 
- 
  
       * LEER EL PRIMER REGISTRO FUERA DEL LOOP PRINCIPAL 
            PERFORM 2500-LEER-I THRU 2500-LEER-F. 

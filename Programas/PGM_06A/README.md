@@ -70,7 +70,10 @@ Lee un nuevo registro.
   - Si hubo error al cerrar, lo muestra y define un código de retorno.
 
 ---
+## 📊 Diagrama de Flujo
+<image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa">
 
+--- 
 
 ## 🎯 Resultado
 
