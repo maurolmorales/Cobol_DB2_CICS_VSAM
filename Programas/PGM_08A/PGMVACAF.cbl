@@ -62,26 +62,43 @@
        77  WS-CANT-GRABADOS           PIC 9(3)    VALUE ZEROS. 
        77  WS-CANT-ERRONEOS           PIC 9(3)    VALUE ZEROS. 
  
+      *---- MENSAJE DE ERROR  ----------------------------------------
+       77  WS-MESSAGE-ERROR           PIC X(32)   VALUE SPACES.
+
+      *---- MENSAJE DE ERROR  ----------------------------------------
+       77  WS-CANT-NUM-PRINT          PIC ZZ9.
 
       *//// COPY PARA ESTRUCTURA DE DATOS ////////////////////////////
       
       *    COPY CPNOVCLI. 
-
       *    LAYOUT NOVEDAD CLIENTES
       *    KC02788.ALU9999.NOVCLIEN
       *    LARGO 50 BYTES
        01  WS-REG-NOVCLIE. 
+      * VALIDOS  DU - PA - PE - CI         * 
            03  NOV-TIP-DOC         PIC X(02)    VALUE SPACES. 
            03  NOV-NRO-DOC         PIC 9(11)    VALUE ZEROS. 
+      * VALIDOS  NRO SUCURSAL ENTRE 1 Y 99 
            03  NOV-SUC             PIC 9(02)    VALUE ZEROS. 
+      * VALIDOS  TIPO CUENTA 01 = CUENTAS CORRIENTES 
+      *          TIPO CUENTA 02 = CAJA DE AHORROS 
+      *          TIPO CUENTA 03 = PLAZO FIJO 
            03  NOV-CLI-TIPO        PIC 9(02)    VALUE ZEROS. 
            03  NOV-CLI-NRO         PIC 9(03)    VALUE ZEROS. 
            03  NOV-CLI-IMP         PIC S9(09)V99 COMP-3 VALUE ZEROS. 
-           03  NOV-CLI-FECHA       PIC X(8)     VALUE ZEROS. 
+      * FORMATO NOV-CLI-FECHA (AAAAMMDD) 
+      *      AAAA = AñO 
+      *      MM = MES 
+      *      DD  = DIA 
+      * VALIDOS  ENTRE DIA 1 Y 31 DEL AñO (SEGúN MES) 
+      *          CONSIDERAR 29 FEBRERO (BISIESTO) 
+      *          AñO NUMéRICO, MAYOR A 2024 
+           03  NOV-CLI-FECHA       PIC X(8)             VALUE ZEROS. 
            03  FILLER              PIC X(16)    VALUE SPACES. 
 
-      *    COPY CPNCLIV. 
 
+
+      *    COPY CPNCLIV. 
       *    LAYOUT NOVEDAD CLIENTES
       *    KC03XXX.NOVCLIEN.VALID
       *    ES EL CPNOVCLI VALIDADO
@@ -139,48 +156,70 @@
 
       *--------------------------------------------------------------- 
        2000-PROCESO-I. 
-
-           IF NOV-TIP-DOC = 'DU' OR 
-              NOV-TIP-DOC = 'PA' OR 
-              NOV-TIP-DOC = 'PE' OR 
-              NOV-TIP-DOC = 'CI' 
-
-              PERFORM 2010-VERIF-FECHA THRU 2010-VERIF-FECHA-F 
-
-              IF WS-REG-VALIDO = 'SI' 
-                 PERFORM 2200-GRABAR-REG THRU 2200-GRABAR-REG-F 
-              END-IF 
-           ELSE 
-              DISPLAY '----------------------------' 
-              DISPLAY  'TIPO DOCUMENTO INVÁLIDO: ' NOV-TIP-DOC 
-                       ' NRO: ' NOV-NRO-DOC 
-              ADD 1 TO WS-CANT-ERRONEOS 
-           END-IF 
- 
+           
+           PERFORM 2010-VERIFICAR-I THRU 2010-VERIFICAR-F
            PERFORM 2100-LEER-I THRU 2100-LEER-F. 
 
        2000-PROCESO-F. EXIT. 
 
 
- 
       *--------------------------------------------------------------- 
-       2010-VERIF-FECHA. 
+       2010-VERIFICAR-I. 
 
            MOVE 'SI' TO WS-REG-VALIDO 
+
+           IF NOV-TIP-DOC = 'DU' OR 
+              NOV-TIP-DOC = 'PA' OR 
+              NOV-TIP-DOC = 'PE' OR 
+              NOV-TIP-DOC = 'CI' THEN
+              CONTINUE 
+           ELSE
+              MOVE 'TIPO DOC NO VALIDO' TO WS-MESSAGE-ERROR
+              PERFORM 2025-HANDLE-ERROR-I 
+                 THRU 2025-HANDLE-ERROR-F
+           END-IF
+
+           IF NOV-NRO-DOC IS NOT NUMERIC 
+              MOVE 'NUMDOC NO ES NUMÉRICO' TO WS-MESSAGE-ERROR
+              PERFORM 2025-HANDLE-ERROR-I 
+                 THRU 2025-HANDLE-ERROR-F              
+           END-IF 
+
+           IF NOV-SUC = 01 OR 
+              NOV-SUC = 02 OR 
+              NOV-SUC = 03 THEN
+              CONTINUE 
+           ELSE
+              MOVE 'NOVSUC NO CORRESPONDE' TO WS-MESSAGE-ERROR
+              PERFORM 2025-HANDLE-ERROR-I 
+                 THRU 2025-HANDLE-ERROR-F              
+           END-IF
+
+           PERFORM 2020-VERIF-FECHA THRU 2020-VERIF-FECHA-F 
+
+           IF WS-REG-VALIDO = 'SI' 
+              PERFORM 2200-GRABAR-REG THRU 2200-GRABAR-REG-F 
+           ELSE 
+              ADD 1 TO WS-CANT-ERRONEOS
+           END-IF.
+
+       2010-VERIFICAR-F. EXIT.
+
+      *--------------------------------------------------------------- 
+       2020-VERIF-FECHA. 
+
            MOVE NOV-CLI-FECHA TO WS-FECHA 
  
            IF FECHA-ANIO < 2025 
-               DISPLAY '----------------------------' 
-               DISPLAY 'AÑO INVÁLIDO < 2025 - DOC NRO: ' NOV-NRO-DOC 
-               MOVE 'NO' TO WS-REG-VALIDO 
-               ADD 1 TO WS-CANT-ERRONEOS 
+              MOVE 'AÑO INVÁLIDO < 2025' TO WS-MESSAGE-ERROR 
+              PERFORM 2025-HANDLE-ERROR-I 
+                 THRU 2025-HANDLE-ERROR-F   
            END-IF 
  
            IF FECHA-MES < 1 OR FECHA-MES > 12 
-               DISPLAY '----------------------------' 
-               DISPLAY 'MES INVÁLIDO DOC NRO: ' NOV-NRO-DOC 
-               MOVE 'NO' TO WS-REG-VALIDO 
-               ADD 1 TO WS-CANT-ERRONEOS 
+              MOVE 'MES FUERA DE RANGO' TO WS-MESSAGE-ERROR 
+              PERFORM 2025-HANDLE-ERROR-I 
+                 THRU 2025-HANDLE-ERROR-F                
            ELSE 
                EVALUATE FECHA-MES 
                   WHEN 1 
@@ -191,53 +230,58 @@
                   WHEN 10 
                   WHEN 12 
                      IF FECHA-DIA < 1 OR FECHA-DIA > 31 
-                        DISPLAY '----------------------------' 
-                        DISPLAY 'DÍA INVÁLIDO PARA MES DE 31 DÍAS' 
-                                 ' NRO: ' NOV-NRO-DOC 
-                        MOVE 'NO' TO WS-REG-VALIDO 
-                        ADD 1 TO WS-CANT-ERRONEOS 
+                       MOVE 'DÍA INVÁLIDO PARA MES DE 31 DÍAS' 
+                         TO WS-MESSAGE-ERROR         
+                       PERFORM 2025-HANDLE-ERROR-I 
+                          THRU 2025-HANDLE-ERROR-F                          
                      END-IF 
                   WHEN 4 
                   WHEN 6 
                   WHEN 9 
                   WHEN 11 
                         IF FECHA-DIA < 1 OR FECHA-DIA > 30 
-                           DISPLAY '----------------------------' 
-                           DISPLAY 'DÍA INVÁLIDO PARA MES DE 30 DÍAS' 
-                                   ' NRO: ' NOV-NRO-DOC 
-                           MOVE 'NO' TO WS-REG-VALIDO 
-                           ADD 1 TO WS-CANT-ERRONEOS 
+                          MOVE 'DÍA INVÁLIDO PARA MES DE 30 DÍAS' 
+                            TO WS-MESSAGE-ERROR 
+                          PERFORM 2025-HANDLE-ERROR-I 
+                             THRU 2025-HANDLE-ERROR-F 
                         END-IF 
                   WHEN 2 
                     IF (FECHA-ANIO / 4) * 4 = FECHA-ANIO AND 
                        (FECHA-ANIO / 100) * 100 NOT = FECHA-ANIO 
                        OR (FECHA-ANIO / 400) * 400 = FECHA-ANIO 
                        IF FECHA-DIA < 1 OR FECHA-DIA > 29 
-                          DISPLAY '----------------------------' 
-                          DISPLAY 'FEBRERO INVÁLIDO EN BISIESTO' 
-                                   ' NRO: ' NOV-NRO-DOC 
-                          MOVE 'NO' TO WS-REG-VALIDO 
-                          ADD 1 TO WS-CANT-ERRONEOS 
+                          MOVE 'FEBRERO INVÁLIDO EN BISIESTO' 
+                            TO WS-MESSAGE-ERROR 
+                          PERFORM 2025-HANDLE-ERROR-I 
+                             THRU 2025-HANDLE-ERROR-F          
                        END-IF 
                      ELSE 
-                        IF FECHA-DIA < 1 OR FECHA-DIA > 28 
-                            DISPLAY '----------------------------' 
-                            DISPLAY 'FEBRERO INVÁLIDO' 
-                                     ' NRO: ' NOV-NRO-DOC 
-                            MOVE 'NO' TO WS-REG-VALIDO 
-                            ADD 1 TO WS-CANT-ERRONEOS 
+                       IF FECHA-DIA < 1 OR FECHA-DIA > 28 
+                          MOVE 'FEBRERO INVÁLIDO' TO WS-MESSAGE-ERROR 
+                          PERFORM 2025-HANDLE-ERROR-I 
+                             THRU 2025-HANDLE-ERROR-F                           
                         END-IF 
                      END-IF 
                   WHEN OTHER 
-                     DISPLAY '----------------------------' 
-                     DISPLAY 'MES INVÁLIDO NRO: ' NOV-NRO-DOC 
-                     MOVE 'NO' TO WS-REG-VALIDO 
-                     ADD 1 TO WS-CANT-ERRONEOS 
+                     MOVE 'MES INVÁLIDO DEFAULT' TO WS-MESSAGE-ERROR 
+                     PERFORM 2025-HANDLE-ERROR-I 
+                        THRU 2025-HANDLE-ERROR-F 
                END-EVALUATE 
            END-IF. 
 
-       2010-VERIF-FECHA-F. EXIT. 
+       2020-VERIF-FECHA-F. EXIT. 
 
+ 
+      *--------------------------------------------------------------- 
+       2025-HANDLE-ERROR-I. 
+
+           MOVE 'NO' TO WS-REG-VALIDO 
+           DISPLAY '----------------------------' 
+           DISPLAY  ' REGISTRO INVÁLIDO: ' NOV-TIP-DOC 
+                    ' NRO: ' NOV-NRO-DOC 
+                    ' CAUSA: ' WS-MESSAGE-ERROR. 
+
+       2025-HANDLE-ERROR-F. EXIT.
 
  
       *--------------------------------------------------------------- 
@@ -258,7 +302,6 @@
 
        2100-LEER-F. EXIT. 
 
-
  
       *---- GRABAR REGISTRO ------------------------------------------
        2200-GRABAR-REG. 
@@ -271,8 +314,8 @@
               WHEN '00' 
                  ADD 1 TO WS-CANT-GRABADOS 
                  DISPLAY '----------------------------' 
-                 DISPLAY 'REGISTRO VALIDADO OK - DOC: ' NOV-TIP-DOC 
-                                               ' NRO: ' NOV-NRO-DOC 
+                 DISPLAY 'REGISTRO OK - DOC: ' NOV-TIP-DOC 
+                                      ' NRO: ' NOV-NRO-DOC 
               WHEN '10' 
                  CONTINUE 
               WHEN OTHER 
@@ -289,8 +332,10 @@
        3000-FINAL-I. 
 
            IF RETURN-CODE NOT EQUAL 9999 
-            PERFORM  3010-CLOSE-FILES      THRU  3010-CLOSE-FILES-F 
-            PERFORM  3020-MOSTRAR-TOTALES  THRU  3020-MOSTRAR-TOTALES-F 
+              PERFORM  3010-CLOSE-FILES 
+                 THRU  3010-CLOSE-FILES-F 
+              PERFORM  3020-MOSTRAR-TOTALES
+                 THRU  3020-MOSTRAR-TOTALES-F 
            END-IF. 
            
        3000-FINAL-F. EXIT. 
@@ -316,10 +361,16 @@
  
       *--------------------------------------------------------------- 
        3020-MOSTRAR-TOTALES. 
-       
+           
            DISPLAY '==============================' 
-           DISPLAY ' TOTAL DE ENTRADAS LEIDAS '     WS-CANT-LEIDOS 
-           DISPLAY ' TOTAL DE REGISTROS GRABADOS  ' WS-CANT-GRABADOS 
-           DISPLAY ' TOTAL DE REGISTROS ERRÓNEOS  ' WS-CANT-ERRONEOS. 
+
+           MOVE WS-CANT-LEIDOS TO WS-CANT-NUM-PRINT
+           DISPLAY ' TOTAL DE ENTRADAS LEIDAS:    ' WS-CANT-NUM-PRINT 
+
+           MOVE WS-CANT-GRABADOS TO WS-CANT-NUM-PRINT
+           DISPLAY ' TOTAL DE REGISTROS GRABADOS: ' WS-CANT-NUM-PRINT 
+
+           MOVE WS-CANT-ERRONEOS TO WS-CANT-NUM-PRINT
+           DISPLAY ' TOTAL DE REGISTROS ERRÓNEOS: ' WS-CANT-NUM-PRINT. 
 
        3020-MOSTRAR-TOTALES-F. EXIT. 
