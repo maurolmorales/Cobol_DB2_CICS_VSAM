@@ -1,18 +1,31 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PGMVACAF. 
-      ************************************************************
-      *                                                          *
-      *  CURSO: DESARROLLO COBOL - CLASE 8 ASINCRÓNICA           *
-      *  PROGRAMA: PGMVACAF                                      *
-      *  DESCRIPCIÓN:                                            *
-      *    PROCESA NOVEDADES DE CLIENTES DESDE UN ARCHIVO DE     *
-      *    ENTRADA, REALIZA VALIDACIONES DE TIPO DE DOCUMENTO Y  *
-      *    FECHAS, Y GENERA UN ARCHIVO DE SALIDA CON REGISTROS   *
-      *    CORRECTOS.                                            *
-      *                                                          *
-      ************************************************************
+      ***************************************************************
+      *                                                             *
+      *    CLASE 8 ASINCRÓNICA                                      *
+      *    ===================                                      *
+      *    - Construir un programa COBOL que valide registros       *
+      *      leídos desde un archivo de novedades de clientes.      *
+      *    - Validar:                                               *
+      *    - Campos numéricos y fechas, incluyendo lógica de fechas *
+      *      válidas (meses, días, años bisiestos, etc.).           *
+      *    - Que fecha de nacimiento tenga un año menor al actual.  *
+      *    - Formatear con espacios las fechas de alta y baja si    *
+      *      están vacías.                                          *
+      *    - En caso de errores:                                    *
+      *    - Mostrar por DISPLAY los campos tipo y número de        *
+      *      documento junto con el detalle de cada error encontrado*
+      *    - Si el registro es válido:                              *
+      *    - Grabarlo en un archivo de novedades validadas,         *
+      *      agregando número de secuencia según el orden de ingreso*
+      *    - Al finalizar, mostrar por DISPLAY:                     *
+      *    - Total de novedades leídas.                             *
+      *    - Total de novedades con errores.                        *
+      *    - Total de registros grabados correctamente.             *
+      *                                                             *
+      ***************************************************************
 
-      *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
+      *|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
        ENVIRONMENT DIVISION. 
        INPUT-OUTPUT SECTION. 
        FILE-CONTROL. 
@@ -23,7 +36,7 @@
            SELECT SALIDA   ASSIGN DDSALID 
                   FILE STATUS IS FS-SALIDA. 
  
-      *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
+      *|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
        DATA DIVISION. 
        FILE SECTION. 
  

@@ -1,12 +1,25 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PGMCORT2. 
  
-      ************************************************** 
-      *  ASINCRONICA 7: CORTE CONTROL                  * 
-      *  ============================                  * 
-      *  - HACE UN CORTE DE CONTROL POR WS-SUC-NRO     * 
-      *  - Y OTRO CORTE DE CONTROL POR WS-SUC-TIPC1    * 
-      ************************************************** 
+      ***************************************************************
+      *    ASINCRONICA 7: CORTE CONTROL DOBLE                       *
+      *    ==================================                       *
+      *    - Construir un programa que resuelva:                    *
+      *       - Corte mayor por TIPO DE DOCUMENTO (WS-SUC-TIP-DOC). *
+      *       - Corte menor por SEXO (WS-SUC-SEXO).                 *
+      *    - Procesar registros de un archivo secuencial con        *
+      *      estructura fija de 93 bytes.                           *
+      *    - Considerar solo documentos válidos: 'DU', 'PA', 'PE',  *
+      *      'CI'.                                                  *
+      *    - Contar y mostrar:                                      *
+      *       - Cantidad de registros por SEXO al finalizar cada    *
+      *         grupo de SEXO.                                      *
+      *       - Cantidad de registros por TIPO DE DOCUMENTO al      *
+      *         finalizar cada grupo de TIPO.                       *
+      *    - Mostrar al final del programa el total general de      *
+      *      registros leídos.                                      *
+      *    - Controlar el caso en que el archivo esté vacío.        *
+      ***************************************************************
  
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        ENVIRONMENT DIVISION. 
@@ -23,6 +36,7 @@
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        DATA DIVISION. 
        FILE SECTION. 
+
        FD  ENTRADA 
            BLOCK CONTAINS 0 RECORDS 
            RECORDING MODE IS F. 
@@ -54,7 +68,7 @@
        77  WS-SEXO-PRINT           PIC ZZ9        VALUE ZEROES. 
        77  WS-REGISTROS-PRINT      PIC ZZ9        VALUE ZEROES. 
  
-      *---- COPYS ---------------------------------------------------- 
+      *//////////////////////////////////////////////////////////////
       *     COPY CLICOB. 
       **********************************
       *    LAYOUT SUCURSAL             *
@@ -67,7 +81,7 @@
            03  WS-SUC-EST-CIV      PIC X(10)    VALUE SPACES. 
            03  WS-SUC-SEXO         PIC X        VALUE SPACES. 
            03  FILLER              PIC X(39)    VALUE SPACES. 
-                           
+      */////////////////////////////////////////////////////////////
  
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        PROCEDURE DIVISION. 

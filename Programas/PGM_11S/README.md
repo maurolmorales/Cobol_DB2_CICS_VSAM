@@ -77,10 +77,19 @@
 6. Fin del programa
     - `GOBACK` al sistema o programa llamador.
 
+  
+---
+
+## 📊 Diagrama de Flujo
+<image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa">
 
 ---
+
 ## 🎯 Resultado
 
 ### 💬 Display 
-
-
+```TEXT
+CANTIDAD REGISTROS LEIDOS:    65              
+CANTIDAD DE DU:               55              
+TOTAL DE SALDOS =  $   97.442.823,60          
+```

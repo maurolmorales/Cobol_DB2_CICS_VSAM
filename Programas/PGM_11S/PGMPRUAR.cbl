@@ -1,6 +1,19 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PGMPRUAR. 
    
+      ***************************************************************
+      *    CLASE SINCRÓNICA 11                                      *
+      *    ===================                                      *
+      *    - Construir un nuevo programa en COBOL a partir de un    *
+      *      esqueleto dado.                                        *
+      *    - Practicar y validar el concepto de programación COBOL  *
+      *      mediante una funcionalidad completa.                   *
+      *    - Leer registros del archivo CLIENTES.                   *
+      *    - Filtrar registros donde CLI-TIP-DOC = 'DU'.            *
+      *    - Sumar los saldos (CLI-SALDO) de esos registros.        *
+      *    - Mostrar el total acumulado por pantalla al finalizar.  *
+      ***************************************************************
+
       *|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        ENVIRONMENT DIVISION. 
        CONFIGURATION SECTION. 
@@ -16,6 +29,7 @@
       *|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        DATA DIVISION. 
        FILE SECTION. 
+
        FD  CLIENTES 
            BLOCK CONTAINS 0 RECORDS 
            RECORDING MODE IS F. 
@@ -36,23 +50,23 @@
        77  WS-DU             PIC XX                 VALUE 'DU'. 
        77  WS-CANT-LEIDOS    PIC 9(05)              VALUE ZEROS. 
        77  WS-CANT-DU        PIC 9(05)              VALUE ZEROS. 
-       77  WS-CLI-EDIT       PIC ZZZZ9              VALUE ZEROS. 
-       77  WS-TOT-EDIT       PIC -ZZ.ZZZ.ZZZ.ZZ9,99 VALUE ZEROS. 
+       77  WS-CLI-EDIT       PIC ZZZZ9. 
+       77  WS-TOT-EDIT       PIC -ZZ.ZZZ.ZZZ.ZZ9,99. 
   
-      ************************************************************
+      */////////////////////////////////////////////////////////////
       *     COPY CPCLI. 
 
        01  REG-CLIENTE. 
-           03  CLI-TIP-DOC        PIC X(02)    VALUE SPACES. 
-           03  CLI-NRO-DOC        PIC 9(11)    VALUE ZEROS. 
-           03  CLI-NRO-SUC        PIC 9(02)    VALUE ZEROS. 
-           03  CLI-TIP-CUE        PIC XX       VALUE SPACES. 
-           03  CLI-NRO            PIC 9(03)    VALUE ZEROS. 
+           03  CLI-TIP-DOC        PIC X(02)          VALUE SPACES. 
+           03  CLI-NRO-DOC        PIC 9(11)          VALUE ZEROES. 
+           03  CLI-NRO-SUC        PIC 9(02)          VALUE ZEROES. 
+           03  CLI-TIP-CUE        PIC XX             VALUE SPACES. 
+           03  CLI-NRO            PIC 9(03)          VALUE ZEROES. 
            03  CLI-SALDO          PIC S9(09)V99 COMP-3 VALUE ZEROS. 
-           03  CLI-AAAAMMDD       PIC 9(08)            VALUE ZEROS. 
-           03  CLI-SEXO           PIC X        VALUE SPACES. 
-           03  CLI-NOMAPE         PIC X(15)    VALUE SPACES. 
-      ************************************************************           
+           03  CLI-AAAAMMDD       PIC 9(08)          VALUE ZEROES. 
+           03  CLI-SEXO           PIC X              VALUE SPACES. 
+           03  CLI-NOMAPE         PIC X(15)          VALUE SPACES. 
+      */////////////////////////////////////////////////////////////
   
       *|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        PROCEDURE DIVISION. 

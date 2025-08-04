@@ -108,8 +108,13 @@ División de procedimientos:
      - Imprime últimos subtotales.
      - Calcula e imprime totales generales (cantidad de registros y saldo acumulado).
    - Cierra los archivos.
+
 ---
 
+## 📊 Diagrama de Flujo
+<image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa">
+
+---
 
 ## 🎯 Formato del archivo de salida y Display
 El archivo de salida `LISTADO` contiene líneas formateadas con información agrupada. Ejemplo de líneas que se generan:
@@ -149,7 +154,7 @@ TOTAL SALDO =  $ 98.022.823,60
 ```
 </br>
 
-#### 📁 Archivo QSAM LISTADO
+#### 💾 Archivo QSAM LISTADO
 ```TEXT
 SUCURSAL: 01                               
 TIPO:  1  -$     20.000,00                 

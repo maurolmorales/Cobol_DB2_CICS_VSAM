@@ -1,12 +1,27 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PGM5CCAF. 
                                                                         
-      ************************************************** 
-      *  ASINCRONICA 12 
-      *  ============== 
-      *  - CORTE DE CONTROL POR CLIS-SUC Y CLIS-TIPO 
-      *  - IMPRESION 
-      ************************************************** 
+      ***************************************************************
+      *  CLASE ASINCRONICA 12                                       *
+      *  ====================                                       *
+      *  - Construir un programa COBOL con doble corte de control:  *
+      *    - Corte mayor por Sucursal (CLIS-SUC).                   *
+      *    - Corte menor por Tipo de Cuenta (CLIS-TIPO).            *
+      *  - Leer registros desde un archivo secuencial de 50 bytes   * 
+      *    de largo fijo, con estructura CPCLIENS.                  *
+      *  - Para cada Sucursal, imprimir:                            *
+      *    - El número de sucursal.                                 *
+      *    - El total acumulado de importes (CLIS-IMPORTE)          *
+      *      correspondientes a esa sucursal, con máscara que       *
+      *      elimine ceros no significativos.                       *
+      *  - Para cada Tipo de Cuenta dentro de cada sucursal:        *
+      *    - Imprimir el tipo de cuenta.                            *
+      *    - Imprimir el total acumulado de importes para ese tipo. *
+      *  - Al final del programa, imprimir:                         *
+      *    - Total general de importes acumulados en todo el        *
+      *      archivo, también con formato limpio (sin ceros no      *
+      *      significativos).                                       *
+      *************************************************************** 
                                                                         
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        ENVIRONMENT DIVISION. 

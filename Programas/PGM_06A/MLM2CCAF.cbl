@@ -1,11 +1,23 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. MLM2CCAF. 
  
-      *************************************************** 
-      *    CLASE ASINCRóNICA 6:                         * 
-      *    ===================                          *
-      *    - CORTE DE CONTROL                           *
-      *************************************************** 
+      ***************************************************************
+      *    CLASE ASINCRóNICA 6:                                     *
+      *    ===================                                      *
+      *    - Construir un programa COBOL que implemente corte de    *
+      *      control por SUCURSAL.                                  *
+      *    - Practicar y validar el concepto de estructura de corte *
+      *      de control simple.                                     *
+      *    - Leer registros de un archivo de entrada secuencial.    *
+      *    - Detectar cambios en el campo WS-SUC-NRO para generar   *
+      *      cortes de control.                                     *
+      *    - Mostrar por pantalla:                                  *
+      *      - Número de sucursal.                                  *
+      *      - Total de importes para esa sucursal (WS-SUC-IMPORTE) *
+      *        con ceros no significativos eliminados.              *
+      *    - Al final, mostrar el total general acumulado del       *
+      *      archivo procesado, también con formato limpio.         *
+      ***************************************************************
  
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        ENVIRONMENT DIVISION. 

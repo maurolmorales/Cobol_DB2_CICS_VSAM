@@ -3,7 +3,7 @@
 
       *****************************************************************
       *    CLASE SINCRÓNICA 13                                        *
-      *                                                               *
+      *    ===================                                        *
       *  ESTE PROGRAMA PROCESA UN ARCHIVO SECUENCIAL DE CLIENTES,     *
       *  LEYENDO TODOS LOS REGISTROS Y AGRUPáNDOLOS POR ESTADO CIVIL. *
       *  REALIZA UN CONTEO ACUMULADO POR CADA ESTADO CIVIL MEDIANTE   *
@@ -53,7 +53,7 @@
        77  WS-EST-CIV-CANT-PRINT PIC ZZZ9          VALUE ZEROS. 
  
  
-      *----  COPYS  -------------------------------------------------
+      *//////////////////////////////////////////////////////////////
       *     COPY CLICOB. 
        01  WS-REG-CLICOB. 
       * TIPO DOCUMENTO VALIDOS: 'DU'; 'PA'; 'PE'; 'CI' 
@@ -66,6 +66,7 @@
       * SEXO           VALIDOS: 'F'; 'M'; 'O' 
            03  WS-SUC-SEXO         PIC X        VALUE SPACES. 
            03  FILLER              PIC X(39)    VALUE SPACES. 
+      *//////////////////////////////////////////////////////////////           
                                                                   
  
  
