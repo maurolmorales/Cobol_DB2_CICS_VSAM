@@ -1,3 +1,4 @@
+[INICIO](/)
 # 📄 Corte de Control
 - Entrada: archivo QSAM
 - Salida: sysout display

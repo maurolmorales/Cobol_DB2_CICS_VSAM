@@ -33,7 +33,7 @@ La **Certificación Desarrollador COBOL** se distingue por ofrecer una formació
 Cada carpeta contiene programas representativos de cada etapa de la cursada:
 
 |LINK |NOMBRE | ENTRADA | SALIDA | 
-|:---:|:-----:|:-------:|:------:|
+|:---:|:------|:-------:|:------:|
 |[PGM_08A](/Programas/PGM_08A/)|Validación de Registros|QSAM|QSAM|
 |[PGM_11S](/Programas/PGM_11S/)|Sumatoria por Filtro de Campo|QSAM| |
 |[PGM_13S](/Programas/PGM_13S/)|Validación.| QSAM| |
