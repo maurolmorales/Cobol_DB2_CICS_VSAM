@@ -1,3 +1,10 @@
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
+
+
 # Doble Corte de Control Mas Impresión.
   - Entrada: QSAM
   - Salida: QSAM
@@ -178,5 +185,11 @@ TOTAL REGISTROS =  65
 TOTAL SALDO =  $ 98.022.823,60             
 
 ```
+
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
 
 

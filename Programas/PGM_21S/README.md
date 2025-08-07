@@ -1,3 +1,10 @@
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
+
+
 # 📄 Programa COBOL con Corte de Control y Listado Formateado
 
 ## Descripción
@@ -92,3 +99,10 @@ TOTAL TIPO DOCU = 15
 TOTAL REGISTROS = 25
 LEIDOS:     25
 IMPRESOS:   25
+```
+
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>

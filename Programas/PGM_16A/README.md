@@ -1,3 +1,9 @@
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
+
 # 🧾 Consulta DB2 con Doble Corte de Control
   - Entrada: DB2
 ## 📚 Descripción del programa
@@ -131,3 +137,8 @@ TOTAL GENERAL DE CUENTAS:   11
 ```
 
 
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>

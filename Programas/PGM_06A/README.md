@@ -1,4 +1,9 @@
-[INICIO](/)
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
+
 # 📄 Corte de Control
 - Entrada: archivo QSAM
 - Salida: sysout display
@@ -103,3 +108,10 @@ IMPORTE: $     33.450,00
 **********************************************                     
 IMPORTE TOTAL = $     87.662,10                                    
 ```
+</br>
+
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>

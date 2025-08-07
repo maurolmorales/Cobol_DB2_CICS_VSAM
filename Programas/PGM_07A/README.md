@@ -1,3 +1,9 @@
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
+
 # 📄 Doble Corte de Control con Verificación
 - Entrada: archivo QSAM
 - Salida: sysout display
@@ -125,3 +131,9 @@ TOTAL TIPO DOCU =   8
 **********************************************          
 TOTAL REGISTROS =  24                          
 ```
+
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>

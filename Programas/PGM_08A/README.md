@@ -1,3 +1,9 @@
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
+
 # 📄 Validación de Registros
   - ENTRADA: Archivo QSAM. 
   - SALIDA: Archivo QSAM.
@@ -165,3 +171,10 @@ NOV-SECUEN    NOV-RESTO
 00004         PA123123123120202114......20250430
 00005         CI001365550000202130......20250430
 ```
+
+
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>

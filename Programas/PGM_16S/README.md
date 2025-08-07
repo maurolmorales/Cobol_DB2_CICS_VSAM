@@ -1,3 +1,9 @@
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
+
 
 # 📄 Programa COBOL con SQL Embebido - Corte de Control por Sucursal
 
@@ -121,3 +127,11 @@ Adaptable a tus datasets, tablas y configuración de `PLAN`.
 
 
 **¡Mainframe is not dead! 🚂**
+
+
+
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>

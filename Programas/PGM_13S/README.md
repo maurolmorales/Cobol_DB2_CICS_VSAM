@@ -1,3 +1,9 @@
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
+
 # 📄 Programa COBOL de Validación y Conteo por Estado Civil
 
 ## Descripción
@@ -110,4 +116,10 @@ TOTAL DE REGISTROS =    24
 Uso educativo y formativo.
 
 ---
+
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
 

@@ -1,3 +1,9 @@
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
+
 # 📄 Corte de control con Impresión.
   - ENTRADA: Archivo QSAM. 
   - SALIDA: Archivo QSAM.
@@ -225,6 +231,10 @@ IMPRESOS:   00065
 
           CANTIDAD TIPO CUENTA PE     4                                      
              
-
-
 ```
+
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>

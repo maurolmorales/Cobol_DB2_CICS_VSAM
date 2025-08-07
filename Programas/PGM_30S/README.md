@@ -1,3 +1,9 @@
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
+
 # 📄 Actualizador de Clientes
 
 ## 📌 Descripción
@@ -90,3 +96,10 @@ PGMB4CAF/
 ## ✅ Resultados esperados
 
 Ejemplo de salida por `DISPLAY`:
+
+
+<div style="text-align: right;">
+
+[( 🏠 )](/)
+
+</div>
