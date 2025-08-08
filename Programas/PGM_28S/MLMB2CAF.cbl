@@ -35,6 +35,7 @@
   
       *----------- ARCHIVOS ----------------------------------------- 
        77  FS-LISTADO              PIC XX               VALUE SPACES. 
+
        77  WS-STATUS-FIN           PIC X. 
            88  WS-FIN-LECTURA         VALUE 'Y'. 
            88  WS-NO-FIN-LECTURA      VALUE 'N'. 
@@ -56,8 +57,8 @@
        77  WS-REGISTROS-CANT     PIC 999                 VALUE ZEROES. 
   
       *-----------  SQL  --------------------------------------------- 
-       77  WS-SQLCODE     PIC +++999 USAGE DISPLAY VALUE ZEROS. 
-       77  NOT-FOUND               PIC S9(9) COMP VALUE  +100. 
+       77  WS-SQLCODE            PIC +++999 USAGE DISPLAY VALUE ZEROS. 
+       77  NOT-FOUND               PIC S9(9) COMP         VALUE  +100. 
        77  NOTFOUND-FORMAT         PIC -ZZZZZZZZZZ. 
   
       *-----------  IMPRESION  --------------------------------------- 
@@ -144,27 +145,27 @@
 
       *-----------  FECHA DE PROCESO  ------------------------------- 
        01  WS-FECHA. 
-           03  WS-FECHA-AA      PIC 99                     VALUE ZEROS. 
-           03  WS-FECHA-MM      PIC 99                     VALUE ZEROS. 
-           03  WS-FECHA-DD      PIC 99                     VALUE ZEROS. 
+           03  WS-FECHA-AA         PIC 99               VALUE ZEROS. 
+           03  WS-FECHA-MM         PIC 99               VALUE ZEROS. 
+           03  WS-FECHA-DD         PIC 99               VALUE ZEROS. 
 
-       01  WS-FECHA-COMPUESTA   PIC X(10). 
+       01  WS-FECHA-COMPUESTA      PIC X(10). 
 
        01  FECHA-MODIF. 
-           03  FM-ANIO          PIC 9(4). 
-           03  FM-SEP1          PIC X VALUE '-'. 
-           03  FM-MES           PIC 9(2). 
-           03  FM-SEP2          PIC X VALUE '-'. 
-           03  FM-DIA           PIC 9(2). 
+           03  FM-ANIO             PIC 9(4). 
+           03  FM-SEP1             PIC X VALUE '-'. 
+           03  FM-MES              PIC 9(2). 
+           03  FM-SEP2             PIC X VALUE '-'. 
+           03  FM-DIA              PIC 9(2). 
   
       *//////////////////////  COPY EMBEBIDO  //////////////////////
        01  DCLTBCURCLI.                                                 
-           10 WSC-TIPDOC           PIC X(2).                            
-           10 WSC-NRODOC           PIC S9(11)V USAGE COMP-3.            
-           10 WSC-NROCLI           PIC S9(3)V USAGE COMP-3.             
-           10 WSC-NOMAPE           PIC X(30).                           
-           10 WSC-FECNAC           PIC X(10).                           
-           10 WSC-SEXO             PIC X(1).                            
+           10 CLI-TIPDOC           PIC X(2).                            
+           10 CLI-NRODOC           PIC S9(11)V USAGE COMP-3.            
+           10 CLI-NROCLI           PIC S9(3)V USAGE COMP-3.             
+           10 CLI-NOMAPE           PIC X(30).                           
+           10 CLI-FECNAC           PIC X(10).                           
+           10 CLI-SEXO             PIC X(1).                            
 
        01  DCLTBCURCTA.                                            
            10 CTA-TIPCUEN          PIC X(2).                       
@@ -192,8 +193,8 @@
                         B.NOMAPE, 
                         A.SALDO, 
                         A.FECSAL 
-                 FROM  KC02787.TBCURCTA A 
-                 INNER JOIN KC02787.TBCURCLI B 
+                 FROM  KC02803.TBCURCTA A 
+                 INNER JOIN KC02803.TBCURCLI B 
                  ON A.NROCLI = B.NROCLI 
                  WHERE A.SALDO > 0 
            END-EXEC. 
@@ -286,6 +287,8 @@
   
        2000-PROCESO-F. EXIT. 
   
+
+  
       *-------------------------------------------------------------- 
        4000-LEER-FETCH-I. 
   
@@ -294,7 +297,7 @@
                                     :DCLTBCURCTA.CTA-NROCUEN, 
                                     :DCLTBCURCTA.CTA-SUCUEN, 
                                     :DCLTBCURCTA.CTA-NROCLI, 
-                                    :DCLTBCURCLI.WSC-NOMAPE, 
+                                    :DCLTBCURCLI.CLI-NOMAPE, 
                                     :DCLTBCURCTA.CTA-SALDO, 
                                     :DCLTBCURCTA.CTA-FECSAL 
            END-EXEC. 
@@ -304,7 +307,7 @@
                  MOVE CTA-TIPCUEN  TO REG-TIPCUEN 
                  MOVE CTA-NROCUEN  TO REG-NROCUEN 
                  MOVE CTA-SUCUEN   TO REG-SUCUEN 
-                 MOVE WSC-NOMAPE   TO REG-NOMAPE 
+                 MOVE CLI-NOMAPE   TO REG-NOMAPE 
                  MOVE CTA-NROCLI   TO REG-NROCLI 
                  MOVE CTA-SALDO    TO REG-SALDO 
                  MOVE CTA-FECSAL   TO REG-FECSAL 
@@ -374,6 +377,7 @@
            WRITE REG-SALIDA FROM WS-LINE2 AFTER 1. 
   
        6600-IMPRIMIR-SUBTITULOS-F. EXIT. 
+  
   
       *-------------------------------------------------------------- 
        9999-FINAL-I. 

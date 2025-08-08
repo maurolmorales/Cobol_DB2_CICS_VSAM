@@ -4,15 +4,30 @@
 
 </div>
 
-# Programa COBOL/DB2 de carga de datos desde archivo VSAM
-<br/>
+# Carga de Novedades a DB desde Archivo VSAM
+  - Entrada: VSAM
+  - Salida: Insert DB2
 
-## ♛ Descripción general (PGMB2CAF)
+## 📚 Descripción del programa
+Este programa COBOL (`PGMB2CAF`) con SQL embebido realiza la carga de registros a una tabla de DB2 a partir de un archivo secuencial VSAM.
+Se encarga de leer datos del archivo `NOVEDADES`, formatear la información y realizar las inserciones correspondientes en la tabla `TBCURCLI`. Además, controla errores durante la carga e informa totales de registros procesados.
 
-Este programa COBOL con SQL embebido realiza la carga de registros a una tabla de DB2 a partir de un archivo secuencial VSAM.
-Se encarga de leer datos del archivo NOVEDADES, formatear la información y realizar las inserciones correspondientes en la tabla KC02787.TBCURCLI. Además, controla errores durante la carga e informa totales de registros procesados.
-
-<br/>
+---
+## 🚀 Estructura del proyecto
+```
+├── programa/
+│ └── PGMB2CAF.cbl 
+│
+├── jcl/
+│ ├── COMPILA.jcl # JCL para compilar
+│ └── BIND.jcl # JCL de definición del archivo VSAM de entrada
+│ └── EJECUTA.jcl # JCL para ejecución
+│
+├── data/
+│ ├── NOVEDADES: NOVECLI.KSDS.VSAM # archivo de tres registros
+│
+├── README.md
+```
 
 ## ✨ Funciones principales
 - Apertura del archivo VSAM (KSDS) DDENTRA
@@ -39,40 +54,101 @@ Se encarga de leer datos del archivo NOVEDADES, formatear la información y real
 - Se ejecuta con un JCL que llama a IKJEFT01 con RUN PROGRAM(PGMB2CAF)
 - El programa usa el plan CURSOCAF y carga registros desde KC03CAF.NOVECLI.KSDS.VSAM
 
-<br/>
 
-## 📂 Requisitos previos
+---
 
-- Archivo VSAM KC03CAF.NOVECLI.KSDS.VSAM con registros cargados y estructura correcta
-- COPY TBVCLIEN alineado al layout real del archivo VSAM
-- COPY TBCURCLI con definición compatible con la tabla DB2
-- La tabla KC02787.TBCURCLI debe existir en la base de datos con sus constraints definidos
-- Plan CURSOCAF correctamente bindeado
+## 🏛️ Estructura del Programa
+División de procedimientos:
 
-<br/>
+- **1000-INICIO**: Abre el archivo NOVEDADES.
+  - Inicializa el indicador de fin de lectura como falso (WS-NO-FIN-LECTURA).
+  - En caso de error al abrir el archivo, muestra mensaje de error, fija código de retorno 9999, y realiza cierre mediante 9999-FINAL.
 
-## 📅 Ejemplo de salida esperada
+- **2000-PROCESO**: Llama al párrafo 2100-LEER para leer un registro del archivo.
+  - Si la lectura es exitosa:
+    - Arma el nombre y apellido combinados.
+    - Transfiere campos del registro leídos a variables individuales.
+    - Muestra los datos por DISPLAY.
+    - Inserta los datos en la tabla `TBCURCLI` vía SQL INSERT.
+    - Controla el resultado de la operación SQL:
+      - Si no encontró, lo informa.
+      - Si fue exitoso, suma a grabados.
+      - Si hubo error, lo muestra y lo cuenta como error.
 
+- **2100-LEER**: Realiza la lectura del archivo `NOVEDADES` al área `WK-TBCLIE`.
+  - Evalúa el código de estado `FS-NOVEDADES`:
+    - `'00'`: lectura correcta, incrementa contador de registros.
+    - `'10'`: fin del archivo, marca fin de lectura.
+    - `OTHER`: error de lectura, lo muestra y finaliza lectura.
+
+- **9999-FINAL**: 
+  - Muestra estadísticas del procesamiento: total leídos, grabados, errores.
+  - Cierra el archivo NOVEDADES.
+  - Si falla el cierre, muestra error y ajusta código de retorno.
+
+---
+
+## 📊 Diagrama de Flujo
+<image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa">
+
+
+---
+
+## 🎯 Formato del archivo de salida y Display
+El archivo de salida `LISTADO` contiene líneas formateadas con información agrupada. Ejemplo de líneas que se generan:
+
+#### 💬 DISPLAY
 ```txt
--> TIPDOC: DU
--> NRODOC: 00302649362
--> NROCLI: 456
--> NOMAPE: ANTONIO, STARK
--> FECNAC: 1990-05-14
--> SEXO:   M
-OK
-
-TOTAL DE REGISTROS: 003
-TOTAL DE GRABADOS: 003
-TOTAL DE ERRORES: 000
+-> TIPDOC: DU                                         
+-> NRODOC: 00186567890                                
+-> NROCLI: 565                                        
+-> NOMAPE: CAROLINA, DANVERS                          
+-> FECNAC: 1975-12-05                                 
+-> SEXO:   F                                          
+REGISTRO GRABADO: 01                                  
+                                                      
+-> TIPDOC: LE                                         
+-> NRODOC: 00174567892                                
+-> NROCLI: 026                                        
+-> NOMAPE: ESTEBAN, ROGERS                            
+-> FECNAC: 1990-05-14                                 
+-> SEXO:   M                                          
+REGISTRO GRABADO: 02                                  
+                                                      
+-> TIPDOC: PA                                         
+-> NRODOC: 00186569890                                
+-> NROCLI: 455                                        
+-> NOMAPE: SAMUEL, WILSON                             
+-> FECNAC: 1985-08-20                                 
+-> SEXO:   M                                          
+REGISTRO GRABADO: 03                                  
+TOTAL DE REGISTROS: 003                               
+TOTAL DE GRABADOS: 03                                 
+TOTAL DE ERRORES: 00                                  
 ```
-
+#### 🗄️ Respuesta DB2
+```TEXT
+---------+---------+---------+---------+---------+---------
+TIPDOC         NRODOC  NROCLI  NOMAPE                                           
+---------+---------+---------+---------+---------+---------
+DU              1111.      1.  PEREZ, JUAN                                       
+...      
+LE         174567892.     26.  ESTEBAN, ROGERS                                  
+PA         186569890.    455.  SAMUEL, WILSON                                   
+DU         186567890.    565.  CAROLINA, DANVERS                                
+DSNE610I NUMBER OF ROWS DISPLAYED IS 18                                         
+DSNE616I STATEMENT EXECUTION WAS SUCCESSFUL, SQLCODE IS 100                     
+---------+---------+---------+---------+---------+---------
+---------+---------+---------+---------+---------+---------
+DSNE617I COMMIT PERFORMED, SQLCODE IS 0                                         
+DSNE616I STATEMENT EXECUTION WAS SUCCESSFUL, SQLCODE IS 0                       
+---------+---------+---------+---------+---------+---------
+DSNE601I SQL STATEMENTS ASSUMED TO BE BETWEEN COLUMNS 1 AND 72                  
+DSNE620I NUMBER OF SQL STATEMENTS PROCESSED IS 1                                
+DSNE621I NUMBER OF INPUT RECORDS READ IS 62                                     
+DSNE622I NUMBER OF OUTPUT RECORDS WRITTEN IS 95                                 
+```
 <br/>
-
-## 📄 Autor
-
-Este programa fue desarrollado en el marco del curso de COBOL/DB2. Su estructura sirve también como modelo base para programas batch con acceso a DB2 mediante SQL embebido.
-
 
 
 <div style="text-align: right;">

@@ -42,11 +42,11 @@
        77  WS-TOTAL-PRINT          PIC ZZZ9.
  
       *----------- SQL ----------------------------------------------
-       77  WS-SQLCODE     PIC +++999 USAGE DISPLAY VALUE ZEROS. 
-       77  REG-SALDO      PIC -Z(09).99     VALUE ZEROES.
-       77  REG-TIPCUEN    PIC Z9            VALUE ZEROES.
-       77  REG-NROCUEN    PIC 9(05)         VALUE ZEROES.
-       77  REG-SUCUEN     PIC 99            VALUE ZEROES.
+       77  WS-SQLCODE       PIC +++999 USAGE DISPLAY VALUE ZEROS. 
+       77  REG-SALDO               PIC -Z(09).99     VALUE ZEROES.
+       77  REG-TIPCUEN             PIC Z9            VALUE ZEROES.
+       77  REG-NROCUEN             PIC 9(05)         VALUE ZEROES.
+       77  REG-SUCUEN              PIC 99            VALUE ZEROES.
  
            EXEC SQL INCLUDE SQLCA    END-EXEC. 
            EXEC SQL INCLUDE TBCURCTA END-EXEC. 

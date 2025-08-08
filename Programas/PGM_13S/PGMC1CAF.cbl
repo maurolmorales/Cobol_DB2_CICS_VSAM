@@ -19,6 +19,7 @@
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        ENVIRONMENT DIVISION. 
        CONFIGURATION SECTION. 
+
        SPECIAL-NAMES. 
            DECIMAL-POINT IS COMMA. 
  
@@ -37,7 +38,8 @@
        01  REG-ENTRADA PIC X(93). 
  
  
-       WORKING-STORAGE SECTION. 
+       WORKING-STORAGE SECTION.
+      *========================*  
  
       *----  ARCHIVOS  --------------------------------------------- 
        77  FS-ENT                PIC XX            VALUE SPACES. 
@@ -82,10 +84,12 @@
 
        MAIN-PROGRAM-FINAL. GOBACK. 
  
+
       *--------------------------------------------------------------- 
        1000-INICIO-I. 
 
            SET WS-NO-FIN-LECTURA TO TRUE. 
+
            OPEN INPUT  ENTRADA. 
            IF FS-ENT IS NOT EQUAL '00' THEN 
               DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-ENT 
@@ -94,6 +98,7 @@
  
       * LEER EL PRIMER REGISTRO FUERA DEL LOOP PRINCIPAL 
            PERFORM 2500-LEER-I THRU 2500-LEER-F. 
+           
            IF WS-FIN-LECTURA THEN 
               DISPLAY '* ARCHIVO ENTRADA VACÍO EN INICIO' FS-ENT 
            ELSE 
@@ -162,7 +167,7 @@
            DISPLAY 'TOTAL DE REGISTROS = '  WS-CANT-REG-PRINT 
 
            CLOSE ENTRADA 
-           IF FS-ENT IS NOT EQUAL '00' 
+           IF FS-ENT IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN CLOSE ENTRADA = ' FS-ENT 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 

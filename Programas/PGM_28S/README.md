@@ -4,7 +4,7 @@
 
 </div>
 
-# 🧾 Consulta con Cursor DB2 e Impresión
+# 🧾 Consulta DB2 con Cursor e Impresión
 Programa para generar un listado de impresión en base a una consulta específica. 
 
 ## 📚 Descripción del programa
@@ -147,38 +147,34 @@ División de procedimientos:
 
 ---
 
+## 📊 Diagrama de Flujo
+<image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa">
 
-## 🖨️ Formato del archivo de salida y Display
-El archivo de salida `LISTADO` contiene líneas formateadas con información agrupada. Ejemplo de líneas que se generan:
+---
+## 🎯 Resultado
 
-#### 🧾 Impresión Archivo QSAM LISTAD
+#### 🖨️ Impresión Archivo QSAM Listado
 ```texto
-        LISTADO DE CLIENTES CON SALDO MAYOR A CERO 19- 7-2025    NUMERO PAGINA: 1
---------------------------------------------------------------------------------------------------------------
- | TIPCUEN | NROCUEN | SUCUEN | NROCLI |              NOMAPE              |      SALDO       |    FECSAL    |              
---------------------------------------------------------------------------------------------------------------
- |       2 |     111 |      1 |     11 |   APELLIDO11                     |    $      115,00 |   2025-06-01 |              
- |       2 |     111 |      1 |     11 |   COMOMIRO ESTEBAN JOSE          |    $      115,00 |   2025-06-01 |              
- |       1 |     444 |      3 |     15 |   PAZ JUAN PEDRO                 |    $    1.190,50 |   2025-06-01 |              
- |       1 |     666 |      3 |     16 |   PERA FEDERICO                  |    $    1.290,50 |   2025-06-01 |              
- |       1 |     345 |      4 |     17 |   PACIENCIA NOEMI                |    $      300,50 |   2025-06-01 |              
- |       1 |     678 |      4 |     18 |   PRIETO JOSE                    |    $      231,50 |   2025-06-01 |              
- |       1 |     222 |      5 |     20 |   PEREZ MARCELA                  |    $      444,50 |   2025-06-01 |              
- |       1 |     899 |      5 |     21 |   PRUDENCIO MARIA JOSE           |    $      234,50 |   2025-06-01 |              
- |       1 |     778 |      6 |     22 |   EQUINOCCIO JACINTO             |    $      111,50 |   2025-06-01 |              
- |       1 |     777 |      7 |     23 |   PEREYRA LUCENA MARTIN          |    $    1.111,50 |   2025-06-01 |              
- |       2 |   12346 |      1 |    124 |   AGUSTIN                        |    $   10.500,50 |   2025-06-06 |              
- |       2 |   12346 |      1 |    124 |   BENICIO                        |    $   10.500,50 |   2025-06-06 |              
- |       2 |   12346 |      1 |    124 |   ITUZAINGO                      |    $   10.500,50 |   2025-06-06 |     
-                                           
-              
+
+        LISTADO DE CLIENTES CON SALDO MAYOR A CERO  7- 8-2025    NUMERO PAGINA: 1
+-------------------------------------------------------------------------------------------------------------
+ | TIPCUEN | NROCUEN | SUCUEN | NROCLI |              NOMAPE              |      SALDO       |    FECSAL    |
+-------------------------------------------------------------------------------------------------------------
+ |       1 |     123 |      1 |     10 |   AMASO FLORES JUANA INES        |    $      135,40 |   2025-06-01 |
+ |       2 |     111 |      1 |     11 |   COMOMIRO ESTEBAN JOSE          |    $      115,00 |   2025-06-01 |
+...
+ |       1 |    3266 |      3 |     26 |   ESTEBAN, ROGERS                |    $      130,00 |   2025-08-07 |
+ |       3 |     563 |      5 |    455 |   SAMUEL, WILSON                 |    $       60,00 |   2025-07-05 |
+ |       2 |     777 |      2 |    565 |   CAROLINA, DANVERS              |    $      120,00 |   2025-05-02 |
+
+
 ```
 </br>
 
 #### 💬 DISPLAY 
 ```TEXT
-LEIDOS:     0025
-IMPRESOS:   0025
+CANTIDAD LEIDOS:        15   
+CANTIDAD IMPRESOS:      15   
 ```
 
 <div style="text-align: right;">
