@@ -1,13 +1,28 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. MLMB2CAF. 
   
-      **************************************************************** 
-      *    CLASE SINCRÓNICA 28 
-      *    ====================
-      *    - SELECT DB2 CURSOR
-      *    - IMPRESIÓN
-      *    - SALIDA QSAM
-      **************************************************************** 
+      ***************************************************************
+      *                   CLASE SINCRÓNICA 28                       *
+      *                   ====================                      *
+      *  Construir un prog. para obtener datos desde una tabla DB2. *
+      *  Definir y usar un CURSOR basado en una query JOIN provista *
+      *  Leer los resultados del cursor mediante FETCH.             *
+      *  Imprimir en un archivo de salida LISTADO:                  *
+      *  - Título principal con fecha actual en formato DD-MM-AAAA. *
+      *  - Subtítulo con nombres de columnas.                       *
+      *  - Detalle de cada registro leído.                          *
+      *  - Controlar fin de página cada 15 líneas. Impr. títulos.   *
+      *  Por cada registro, imprimir:                               *
+      *  - Tipo y número de cuenta.                                 *
+      *  - Sucursal.                                                *
+      *  - Número de cliente.                                       *
+      *  - Nombre y apellido.                                       *
+      *  - Saldo.                                                   *
+      *  - Fecha de saldo.                                          *
+      *  Al finalizar el programa, mostrar por DISPLAY:             *
+      *  - Cantidad de registros leídos.                            *
+      *  - Cantidad de registros impresos.                          *
+      ***************************************************************
   
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        ENVIRONMENT DIVISION. 

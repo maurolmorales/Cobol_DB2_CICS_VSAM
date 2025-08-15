@@ -4,7 +4,7 @@
 
 </div>
 
-# 🧾 Consulta DB2 con Doble Corte de Control
+# 🧾 Corte de Control - Consulta DB2 - Cursor
   - Entrada: DB2
 ## 📚 Descripción del programa
 
@@ -98,6 +98,11 @@ División de procedimientos:
     - Cierra el cursor `ITEM_CURSOR`.
     - Si hubo error al cerrar, lo informa.
     - Muestra en pantalla el total general de cuentas procesadas.
+---
+
+## 📊 Diagrama de Flujo
+<image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa">
+
 ---
 
 ## 🎯 Resultado

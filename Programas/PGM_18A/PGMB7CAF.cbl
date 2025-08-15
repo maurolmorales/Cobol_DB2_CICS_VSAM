@@ -1,12 +1,29 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PGMB7CAF. 
  
-      ****************************************************************
-      *    CLASE ASINCRÓNICA 18                                      *
-      *    ====================                                      *
-      *    - DB2 CURSORES                                            *
-      *    - APAREAMIENTO DE TBCURCLI CON TBCURCTA                   *
-      ****************************************************************
+      ***************************************************************
+      *                   CLASE ASINCRÓNICA 18                      *
+      *                   ====================                      *
+      *  Construir un prog.que utilice SQL embebido con múltiples   *
+      *  cursores, accediendo a dos tablas DB2:                     *
+      *  - TBCURCLI: contiene datos de clientes.                    *
+      *  - TBCURCTA: contiene datos de cuentas.                     *
+      *  Declarar dos cursores independientes, cada uno con su      *
+      *  propia ORDER BY NROCLI, para poder realizar apareo manual  *
+      *  por NROCLI, sin utilizar JOIN.                             *
+      *  Realizar el apareo por NROCLI:                             *
+      *  - Si hay coincidencia en ambas tablas: listar NROCLI,      *
+      *    TIPDOC, NRODOC, NOMAPE, SUCUEN.                          *
+      *  - Si existe un NROCLI en TBCURCTA pero no está en TBCURCLI,*
+      *    mostrar mensaje: "CUENTA SIN CLIENTE EN TBCURCLI".       *
+      *  Imprimir un título principal:"CLIENTES ENCONTRADOS EN TABLA*
+      *  CLIENTES"                                                  *
+      *  Al finalizar, mostrar por DISPLAY:                         *
+      *  - Total de registros leídos en TBCURCLI.                   *
+      *  - Total de registros leídos en TBCURCTA.                   *
+      *  - Total de registros encontrados (apareados).              *
+      *  - Total de registros no encontrados (cuentas sin cliente). *
+      ***************************************************************
  
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        ENVIRONMENT DIVISION. 

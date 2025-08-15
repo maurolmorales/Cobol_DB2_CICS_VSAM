@@ -1,15 +1,25 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PGMBMLM. 
-      ************************************************************ 
-      *    CLASE ASINCRÓNICA 16                                  *
-      *    ====================                                  *
-      *    -  CORTE DE CONTROL                                   * 
-      *    -  CONSULTA DB2                                       *
-      ************************************************************ 
+
+      *************************************************************** 
+      *                CLASE ASINCRÓNICA 16                         *
+      *                ====================                         *
+      *  Construir un programa mediante SQL embebido con CURSOR para*
+      *  recorrer datos extraídos de una tabla DB2.                 *
+      *  Incorporar un ORDER BY SUCUEN en la query, para permitir   *
+      *  Leer registros del cursor mediante FETCH.                  * 
+      *  Por cada cambio de sucursal (SUCUEN), realizar un corte de *
+      *  control, mostrando por DISPLAY:                            *
+      *  - Número de sucursal.                                      *
+      *  - Cantidad de cuentas que pertenecen a esa sucursal.       *
+      *  Al finalizar el recorrido del cursor (SQLCODE = +100),     *
+      *  mostrar: Total general de cuentas procesadas.              *
+      *************************************************************** 
  
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
        ENVIRONMENT DIVISION. 
        CONFIGURATION SECTION. 
+
        SPECIAL-NAMES. 
            DECIMAL-POINT IS COMMA. 
  
@@ -42,12 +52,12 @@
 
       *//////////// COPY  ///////////////////////////////////////////
        01  DCLTBCURCLI.                                          
-           10 WSC-TIPDOC           PIC X(2).                     
-           10 WSC-NRODOC           PIC S9(11)V USAGE COMP-3.     
-           10 WSC-NROCLI           PIC S9(3)V USAGE COMP-3.      
-           10 WSC-NOMAPE           PIC X(30).                    
-           10 WSC-FECNAC           PIC X(10).                    
-           10 WSC-SEXO             PIC X(1).                     
+           10 CLI-TIPDOC           PIC X(2).                     
+           10 CLI-NRODOC           PIC S9(11)V USAGE COMP-3.     
+           10 CLI-NROCLI           PIC S9(3)V USAGE COMP-3.      
+           10 CLI-NOMAPE           PIC X(30).                    
+           10 CLI-FECNAC           PIC X(10).                    
+           10 CLI-SEXO             PIC X(1).                     
 
        01  DCLTBCURCTA.                                                  
            10 CTA-TIPCUEN          PIC X(2).                             
@@ -80,9 +90,9 @@
                      B.NOMAPE, 
                      A.SALDO, 
                      A.FECSAL 
-              FROM  KC02787.TBCURCTA A 
+              FROM  KC02803.TBCURCTA A 
               INNER JOIN 
-                    KC02787.TBCURCLI B 
+                    KC02803.TBCURCLI B 
               ON  A.NROCLI = B.NROCLI 
               WHERE A.SALDO > 0 
               ORDER BY A.SUCUEN ASC
@@ -157,7 +167,7 @@
                     :DCLTBCURCTA.CTA-NROCUEN,
                     :DCLTBCURCTA.CTA-SUCUEN,
                     :DCLTBCURCTA.CTA-NROCLI,
-                    :DCLTBCURCLI.WSC-NOMAPE,
+                    :DCLTBCURCLI.CLI-NOMAPE,
                     :DCLTBCURCTA.CTA-SALDO,
                     :DCLTBCURCTA.CTA-FECSAL
            END-EXEC. 

@@ -129,26 +129,33 @@ SUCUEN: 01
 --------------------------------------    
 
 ...
-
--------------------                                   
->>> CUENTA SIN CLIENTE EN TBCURCLI                    
---------------------------------------                
-CLIENTES ENCONTRADOS EN TABLA CLIENTES                
-TIPDOC: PE                                            
-NRODOC: 00000000999                                   
-NROCLI: 023                                           
-NOMAPE: PEREYRA LUCENA MARTIN                         
-SUCUEN: 07                                            
--------------------                                   
->>> CUENTA SIN CLIENTE EN TBCURCLI                    
->>> CUENTA SIN NOVEDAD                                
->>> CUENTA SIN NOVEDAD                                
->>> CUENTA SIN NOVEDAD                                
-==============================================        
-ENCONTRADOS:      011                                 
-LEIDOS TBCURCLI:  015                                 
-LEIDOS TBCURCTA:  014                                 
-NO ENCONTRADOS:   003                                 
+>>> CUENTA SIN NOVEDAD                  
+>>> CUENTA SIN NOVEDAD                  
+>>> CUENTA SIN NOVEDAD                  
+>>> CUENTA SIN NOVEDAD                  
+--------------------------------------  
+CLIENTES ENCONTRADOS EN TABLA CLIENTES  
+TIPDOC: PA                              
+NRODOC: 00186569890                     
+NROCLI: 455                             
+NOMAPE: SAMUEL, WILSON                  
+SUCUEN: 05                              
+-------------------                     
+>>> CUENTA SIN CLIENTE EN TBCURCLI      
+--------------------------------------  
+CLIENTES ENCONTRADOS EN TABLA CLIENTES               
+TIPDOC: DU                                           
+NRODOC: 00186567890                                  
+NROCLI: 565                                          
+NOMAPE: CAROLINA, DANVERS                            
+SUCUEN: 02                                           
+-------------------                                  
+>>> CUENTA SIN CLIENTE EN TBCURCLI                   
+==============================================       
+ENCONTRADOS:      015                                
+LEIDOS TBCURCLI:  018                                
+LEIDOS TBCURCTA:  025                                
+NO ENCONTRADOS:   010                                 
 ```
 
 
