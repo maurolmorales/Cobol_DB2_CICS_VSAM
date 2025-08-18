@@ -1,5 +1,12 @@
-       IDENTIFICATION DIVISION. 
+       IDENTIFICATION DIVISION. *> alta
        PROGRAM-ID. PGMALCAF. 
+      
+      *****************************************************************
+      *                   CLASE SINCRÓNICA 36                         *
+      *                   ===================                         *
+      *    ALTA DE CLIENTES                                           *
+      *                                                               *
+      *****************************************************************
       
       *|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        DATA DIVISION. 
@@ -111,11 +118,11 @@
       
        77  WS-FECHA-VALIDA         PIC X. 
            88 FECHAOK                                  VALUE 'Y'. 
-           88 FECHAOK-NO                                VALUE 'N'. 
+           88 FECHAOK-NO                               VALUE 'N'. 
       
        77  WS-CLIENTE-VALIDO       PIC X. 
            88 CLIENTEOK                                VALUE 'Y'. 
-           88 CLIENTEOK-NO                              VALUE 'N'. 
+           88 CLIENTEOK-NO                             VALUE 'N'. 
                              
       
        LINKAGE SECTION. 
@@ -175,7 +182,7 @@
       
            EVALUATE WS-RESP 
               WHEN DFHRESP(NORMAL) 
-      *           PERFORM 9999-FINAL-I  THRU 9999-FINAL-I
+                 CONTINUE
               WHEN DFHRESP(DUPREC) 
                  MOVE WS-RESP TO MSGO 
               WHEN OTHER 
@@ -201,9 +208,13 @@
       
               WHEN DFHPF3 
                  PERFORM 3200-PF3-I   THRU 3200-PF3-F 
-      
+
               WHEN DFHPF12 
+
                  PERFORM 3300-PF12-I  THRU 3300-PF12-F 
+
+              WHEN DFHPF5 
+                 PERFORM 3400-PF5-I   THRU 3400-PF5-F       
       
               WHEN OTHER 
                  MOVE CT-MNS-10 TO  MSGO 
@@ -280,6 +291,7 @@
       
       
        3150-VALIDAR-F. EXIT.       
+      
       
       *-------------------------------------------------------------
        3700-VERIF-FECHA-I. 
@@ -366,10 +378,19 @@
        3300-PF12-F. EXIT. 
       
       
+      *---------------------  (MENU)  ------------------------------
+       3400-PF5-I.
+      
+           EXEC CICS XCTL 
+              PROGRAM ('PGMMECAF') 
+           END-EXEC. 
+      
+       3400-PF5-F. EXIT.
+      
       
       *-------------------------------------------------------------
        5000-WRITE-I.
-
+      
            MOVE TIPDOCI TO WS-USER-TIPDOC
            MOVE NUMDOCI TO WS-USER-NRODOC
        
