@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. *> consulta
-       PROGRAM-ID. PGMPRCAF. 
+       PROGRAM-ID.  PGMPRCAF. 
       
       *****************************************************************
       *                   CLASE SINCRÓNICA 37                         *
@@ -119,16 +119,6 @@
               PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F
               PERFORM 9999-FINAL-I THRU 9999-FINAL-F 
       
-           ELSE  
-      
-              MOVE LENGTH OF MAP1CAFO TO WS-LONG 
-              EXEC CICS RECEIVE 
-                 MAP    (WS-MAP) 
-                 MAPSET (WS-MAPSET) 
-                 INTO   (MAP1CAFI) 
-                 RESP   (WS-RESP) 
-              END-EXEC 
-      
            END-IF. 
       
        1000-INICIO-F. EXIT. 
@@ -137,24 +127,32 @@
       *------------------------------------------------------------- 
        2000-PROCESO-I. 
       
+           MOVE LENGTH OF MAP1CAFO TO WS-LONG 
+      
+           EXEC CICS RECEIVE 
+              MAP    (WS-MAP) 
+              MAPSET (WS-MAPSET) 
+              INTO   (MAP1CAFI) 
+              RESP   (WS-RESP) 
+           END-EXEC 
+      
            EVALUATE WS-RESP 
       
-              WHEN DFHRESP(NORMAL) 
-                 PERFORM 3000-TECLAS-I 
-                    THRU 3000-TECLAS-F
+              WHEN DFHRESP(NORMAL)
                  MOVE TIPDOCI TO WS-USER-TIPDOC 
                  MOVE NUMDOCI TO WS-USER-NRODOC 
-      
+                 PERFORM 3000-TECLAS-I THRU 3000-TECLAS-F
+
               WHEN DFHRESP (MAPFAIL) 
-                 MOVE LOW-VALUES TO MAP1CAFO 
                  MOVE CT-MNS-01  TO MSGO 
-                 PERFORM 8000-SEND-MAPA-I 
-                    THRU 8000-SEND-MAPA-F  
+                 PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F  
       
               WHEN OTHER 
                  MOVE CT-MNS-08  TO MSGO 
+                 PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F  
       
            END-EVALUATE.
+
       
        2000-PROCESO-F. EXIT. 
       
@@ -170,18 +168,15 @@
               WHEN DFHPF3 
                  PERFORM 3200-PF3-I   THRU 3200-PF3-F 
                                                                         
-              WHEN DFHPF9 
-                 PERFORM 3400-PF9-I THRU 3400-PF9-F 
-                                                                        
               WHEN DFHPF12 
                  PERFORM 3300-PF12-I  THRU 3300-PF12-F 
                                                                         
               WHEN OTHER 
                  MOVE CT-MNS-09 TO  MSGO 
-                 PERFORM 8000-SEND-MAPA-I 
-                    THRU 8000-SEND-MAPA-F 
       
-           END-EVALUATE. 
+           END-EVALUATE
+
+           PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F.
       
        3000-TECLAS-F. EXIT. 
        
@@ -192,14 +187,9 @@
            PERFORM 3150-VALIDAR-I THRU 3150-VALIDAR-F 
       
            IF CLIENTEOK THEN 
-      
               PERFORM 5000-READ-I THRU 5000-READ-F 
-      
            ELSE 
-                 MOVE CT-MNS-02 TO MSGO
-                 PERFORM 8000-SEND-MAPA-I 
-                    THRU 8000-SEND-MAPA-F 
-      
+              MOVE CT-MNS-02 TO MSGO
            END-IF. 
       
        3100-ENTER-F. EXIT. 
@@ -237,9 +227,8 @@
        3200-PF3-I. 
       
            MOVE LOW-VALUES TO MAP1CAFO
-           MOVE CT-MNS-01 TO MSGO 
-           PERFORM 8000-SEND-MAPA-I 
-              THRU 8000-SEND-MAPA-F.
+           MOVE CT-MNS-01 TO MSGO. 
+      *     PERFORM 8000-SEND-MAPA-I  THRU 8000-SEND-MAPA-F.
       
        3200-PF3-F. EXIT. 
       
@@ -247,33 +236,11 @@
       *------------------------------------------------------------- 
        3300-PF12-I. 
       
-           EXEC CICS SEND CONTROL 
-              ERASE 
-           END-EXEC 
-      
-      *     EXEC CICS XCTL 
-      *        PROGRAM ('PGMMED1F') 
-      *     END-EXEC. 
-      
-           EXEC CICS SEND 
-              TEXT FROM (CT-MNS-EXIT) 
-           END-EXEC 
-      
-           EXEC CICS 
-              RETURN 
-           END-EXEC. 
-      
-       3300-PF12-F. EXIT. 
-      
-      
-      *------------------------------------------------------------- 
-       3400-PF9-I. 
-      
            EXEC CICS XCTL 
               PROGRAM ('PGMMECAF') 
            END-EXEC. 
       
-       3400-PF9-F. EXIT. 
+       3300-PF12-F. EXIT. 
       
       
       *------------------------------------------------------------- 
@@ -312,9 +279,9 @@
               WHEN OTHER 
                  MOVE CT-MNS-08  TO MSGO 
       
-           END-EVALUATE 
+           END-EVALUATE. 
       
-           PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F.
+      *     PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F.
       
        5000-READ-F. EXIT. 
       

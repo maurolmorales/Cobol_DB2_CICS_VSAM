@@ -105,7 +105,7 @@
            PERFORM 2000-PROCESO-I  THRU 2000-PROCESO-F 
            PERFORM 9999-FINAL-I    THRU 9999-FINAL-F. 
       
-       MAIN-PROGRAM-FINAL. GOBACK. 
+       MAIN-PROGRAM-FINAL. EXIT. 
       
       *------------------------------------------------------------- 
        1000-INICIO-I. 
@@ -117,17 +117,7 @@
       
               MOVE LENGTH OF MAP4CAFO TO WS-LONG 
               MOVE CT-MNS-01 TO MSGO 
-              PERFORM 7000-TIME-I THRU 7000-TIME-F 
-      
-              EXEC CICS SEND 
-                   MAP    (WS-MAP-00) 
-                   MAPSET (WS-MAPSET-00) 
-                   FROM   (MAP4CAFO) 
-                   LENGTH (WS-LONG) 
-                   ERASE 
-                   FREEKB 
-              END-EXEC 
-      
+              PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F 
               PERFORM 9999-FINAL-I THRU 9999-FINAL-F 
       
            END-IF. 
@@ -148,10 +138,13 @@
            END-EXEC 
       
            EVALUATE WS-RESP 
+      
               WHEN DFHRESP(NORMAL) 
                  CONTINUE 
+      
               WHEN OTHER 
                  MOVE CT-MNS-08  TO MSGO 
+      
            END-EVALUATE 
       
            MOVE TIPDOCI TO WS-USER-TIPDOC. 
@@ -166,6 +159,7 @@
        3000-TECLAS-I. 
       
            EVALUATE EIBAID 
+      
               WHEN DFHENTER 
                  PERFORM 3100-ENTER-I THRU 3100-ENTER-F 
       
@@ -173,22 +167,17 @@
                  PERFORM 3200-PF3-I   THRU 3200-PF3-F 
       
               WHEN DFHPF4 
-                 PERFORM 3400-PF4-I THRU 3400-PF4-I 
+                 PERFORM 3400-PF4-I THRU 3400-PF4-F 
       
               WHEN DFHPF12 
                  PERFORM 3300-PF12-I  THRU 3300-PF12-F 
       
               WHEN OTHER 
                  MOVE CT-MNS-09 TO  MSGO 
-                 PERFORM 7000-TIME-I  THRU 7000-TIME-F 
-                 EXEC CICS SEND 
-                    MAP    (WS-MAP-00) 
-                    MAPSET (WS-MAPSET-00) 
-                    FROM   (MAP4CAFO) 
-                    LENGTH (WS-LONG) 
-                    ERASE 
-                 END-EXEC 
-           END-EVALUATE. 
+      
+           END-EVALUATE
+      
+           PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F.
       
        3000-TECLAS-F. EXIT. 
       
@@ -200,15 +189,7 @@
            IF CLIENTEOK THEN 
               PERFORM 5000-READ-I THRU 5000-READ-F 
            ELSE 
-              PERFORM 7000-TIME-I THRU 7000-TIME-F 
-              MOVE CT-MNS-02 TO MSGO
-              EXEC CICS SEND 
-                 MAP    (WS-MAP-00) 
-                 MAPSET (WS-MAPSET-00) 
-                 FROM   (MAP4CAFO) 
-                 LENGTH (WS-LONG) 
-                 ERASE 
-              END-EXEC 
+              PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F
            END-IF. 
       
        3100-ENTER-F. EXIT. 
@@ -224,12 +205,15 @@
               WHEN NOT WS-TIP-DOC-BOOLEAN 
                    SET CLIENTEOK-NO TO TRUE 
                    MOVE CT-MNS-04  TO MSGO 
+      
               WHEN NUMDOCI IS NOT NUMERIC 
                    SET CLIENTEOK-NO TO TRUE 
                    MOVE CT-MNS-05  TO MSGO 
+      
               WHEN NUMDOCI IS EQUAL ZEROS 
                    SET CLIENTEOK-NO TO TRUE 
                    MOVE CT-MNS-05  TO MSGO 
+      
               WHEN OTHER 
                    CONTINUE 
       
@@ -241,18 +225,9 @@
       *------------------------------------------------------------- 
        3200-PF3-I. 
       
-           MOVE LOW-VALUES TO MAP4CAFO. 
-           PERFORM 7000-TIME-I THRU 7000-TIME-F 
+           MOVE LOW-VALUES TO MAP4CAFO.
            MOVE CT-MNS-01 TO MSGO 
-      
-           EXEC CICS SEND 
-               MAP    (WS-MAP-00) 
-               MAPSET (WS-MAPSET-00) 
-               FROM   (MAP4CAFO) 
-               LENGTH (WS-LONG) 
-               ERASE 
-               FREEKB 
-           END-EXEC. 
+           PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F.
       
        3200-PF3-F. EXIT. 
       
@@ -260,20 +235,8 @@
       *------------------------------------------------------------- 
        3300-PF12-I. 
       
-           EXEC CICS SEND CONTROL 
-              ERASE 
-           END-EXEC 
-      
-      *     EXEC CICS XCTL 
-      *        PROGRAM ('PGMMED1F') 
-      *     END-EXEC. 
-      
-           EXEC CICS SEND 
-              TEXT FROM (CT-MNS-EXIT) 
-           END-EXEC 
-      
-           EXEC CICS 
-              RETURN 
+           EXEC CICS XCTL 
+              PROGRAM ('PGMMECAF') 
            END-EXEC. 
       
        3300-PF12-F. EXIT. 
@@ -281,6 +244,9 @@
       
       *------------------------------------------------------------- 
        3400-PF4-I. 
+      
+           MOVE TIPDOCI TO WS-USER-TIPDOC 
+           MOVE NUMDOCI TO WS-USER-NRODOC 
       
            EXEC CICS DELETE 
               DATASET (CT-DATASET)
@@ -291,21 +257,14 @@
            EVALUATE WS-RESP
               WHEN DFHRESP(NORMAL)
                  MOVE CT-MNS-06 TO MSGO
+      
               WHEN DFHRESP(NOTFND)
                  MOVE CT-MNS-03 TO MSGO
+      
               WHEN OTHER
                  MOVE CT-MNS-08 TO MSGO
+      
            END-EVALUATE.           
-      
-              PERFORM 7000-TIME-I THRU 7000-TIME-F 
-      
-           EXEC CICS SEND 
-              MAP    (WS-MAP-00) 
-              MAPSET (WS-MAPSET-00) 
-              FROM   (MAP4CAFO) 
-              LENGTH (WS-LONG) 
-              ERASE 
-           END-EXEC. 
       
        3400-PF4-F. EXIT. 
       
@@ -317,36 +276,32 @@
            MOVE NUMDOCI TO WS-USER-NRODOC 
       
            EXEC CICS READ 
-                DATASET (CT-DATASET) 
-                RIDFLD  (WS-USER-DATA) 
-                INTO    (REG-PERSONA) 
-                LENGTH  (CT-DATASET-LEN) 
-                EQUAL 
-                RESP    (WS-RESP) 
+              DATASET (CT-DATASET) 
+              RIDFLD  (WS-USER-DATA) 
+              INTO    (REG-PERSONA) 
+              LENGTH  (CT-DATASET-LEN) 
+              EQUAL 
+              RESP    (WS-RESP) 
            END-EXEC 
       
            EVALUATE WS-RESP 
+      
               WHEN DFHRESP(NOTFND) 
                  MOVE CT-MNS-03        TO MSGO 
                  MOVE WS-USER-TIPDOC   TO TIPDOCO 
                  MOVE WS-USER-NRODOC   TO NUMDOCO 
+      
               WHEN DFHRESP(NORMAL) 
                  MOVE CT-MNS-10        TO MSGO 
                  MOVE PER-TIP-DOC      TO TIPDOCO 
                  MOVE PER-NRO-DOC      TO NUMDOCO 
+      
               WHEN OTHER 
                  MOVE CT-MNS-08  TO MSGO 
+      
            END-EVALUATE 
       
-           PERFORM 7000-TIME-I THRU 7000-TIME-F 
-      
-           EXEC CICS SEND 
-              MAP    (WS-MAP-00) 
-              MAPSET (WS-MAPSET-00) 
-              FROM   (MAP4CAFO) 
-              LENGTH (WS-LONG) 
-              ERASE 
-           END-EXEC. 
+           PERFORM 7000-TIME-I THRU 7000-TIME-F.
       
        5000-READ-F. EXIT. 
       
@@ -368,6 +323,20 @@
       
        7000-TIME-F. EXIT. 
       
+      *------------------------------------------------------------- 
+       8000-SEND-MAPA-I.
+      
+           PERFORM 7000-TIME-I THRU 7000-TIME-F 
+           EXEC CICS SEND 
+              MAP    (WS-MAP-00) 
+              MAPSET (WS-MAPSET-00) 
+              FROM   (MAP4CAFO) 
+              LENGTH (WS-LONG) 
+              ERASE 
+              FREEKB 
+           END-EXEC. 
+      
+       8000-SEND-MAPA-F. EXIT.      
       
       *------------------------------------------------------------- 
        9999-FINAL-I. 

@@ -67,7 +67,7 @@
            PERFORM 2000-PROCESO-I  THRU 2000-PROCESO-F
            PERFORM 9999-FINAL-I    THRU 9999-FINAL-F.
       
-       MAIN-PROGRAM-F. GOBACK.
+       MAIN-PROGRAM-F. EXIT.
       
       
       *----------------------------------------------------------- 
@@ -84,6 +84,7 @@
               PERFORM 9999-FINAL-I THRU 9999-FINAL-F
       
            ELSE  
+
               MOVE LENGTH OF MAP2CAFO TO WS-LONG 
               EXEC CICS RECEIVE 
                   MAP    (WS-MAP) 
@@ -91,6 +92,7 @@
                   INTO   (MAP2CAFI) 
                   RESP   (WS-RESP) 
               END-EXEC 
+              
            END-IF. 
       
        1000-INICIO-F. EXIT. 
@@ -171,9 +173,13 @@
       
       *---------------------  (MODIFICAR)  ------------------------ 
        4000-PF3-I. 
-      
+       
+           MOVE TIPDOCI TO WS-USER-TIPDOC
+           MOVE NUMDOCI TO WS-USER-NUMDOC
+
            EXEC CICS XCTL 
                PROGRAM ('PGMMOCAF') 
+               COMMAREA (WS-COMMAREA)
            END-EXEC. 
       
        4000-PF3-F. EXIT. 
@@ -182,7 +188,7 @@
        4500-PF4-I. 
       
            EXEC CICS XCTL 
-               PROGRAM ('PGMPRCAF') 
+               PROGRAM ('PGMPRCAF')                           
            END-EXEC. 
       
        4500-PF4-F. EXIT. 
@@ -200,25 +206,7 @@
       *----------------  (CONSULTA GENERAL)  -------------------- 
        4700-PF6-I. 
            MOVE 'FUNCIÓN DE CONSULTA GENERAL' TO MSGO.
-           
-      *     MOVE TIPDOCI TO WS-TIP-DOC. 
-      *     IF NOT WS-TIP-DOC-BOOLEAN 
-      *        INITIALIZE MAP2CAFO 
-      *        MOVE CT-MNS-08 TO MSGO 
-      *     ELSE 
-      *        IF NUMDOCI NOT NUMERIC 
-      *           INITIALIZE MAP2CAFO 
-      *           MOVE CT-MNS-08 TO MSGO 
-      *        ELSE 
-      *           MOVE TIPDOCI TO WS-USER-TIPDOC 
-      *           MOVE NUMDOCI TO WS-USER-NUMDOC 
-      *           EXEC CICS XCTL
-      *               PROGRAM ('PGMACCAF') 
-      *               COMMAREA (WS-COMMAREA) 
-      *           END-EXEC 
-      *        END-IF 
-      *     END-IF. 
-      
+         
        4700-PF6-F. EXIT. 
       
       *-------------------  (SALIR)  ------------------------------- 
