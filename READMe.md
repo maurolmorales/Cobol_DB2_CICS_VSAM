@@ -34,28 +34,31 @@ Cada carpeta contiene programas representativos de cada etapa de la cursada:
 
 |LINK |NOMBRE | ENTRADA | SALIDA | IMPRESION | DB2 |
 |:---:|:------|:-------:|:------:|:------:|:------:|
-|[PGM_08A](/Programas/PGM_08A/)|Validación de Registros|QSAM|QSAM| | |
-|[PGM_11S](/Programas/PGM_11S/)|Sumatoria por Filtro de Campo|QSAM| |
-|[PGM_13S](/Programas/PGM_13S/)|Validación.| QSAM| |
-|[PGM_06A](/Programas/PGM_06A/)|Corte de Control| QSAM| |
-|[PGM_07A](/Programas/PGM_07A/)|Doble Corte de Control |QSAM| |
-|[PGM_21S](/Programas/PGM_21S/)|Corte de Control y Listado Formateado.
-|[PGM_11A](/Programas/PGM_11A/)|Corte de Control con Impresión |QSAM|QSAM|☑️| |
-|[PGM_12A](/Programas/PGM_12A/)|Doble Corte de control más Impresión |QSAM|QSAM|☑️| |
-|[PGM_23S](/Programas/PGM_23S/)|Doble Corte de Control |VSAM|DISPLAY|
-|[PGM_27S](/Programas/PGM_27S/)|DB2 de carga de datos |VSAM|DISPLAY||✅|
-|[PGM_16S](/Programas/PGM_16S/)|Apareamiento |DB2|DISPLAY| | ✅|
-|[PGM_16A](/Programas/PGM_16A/)|Consulta DB2 con Doble Corte de Control |QSAM| | |✅|
-|[PGM_18A](/Programas/PGM_18A/)|Apareamiento - Consulta DB2 con Cursores |QSAM| | |✅|
-|[PGM_28S](/Programas/PGM_28S/)|Consulta con Cursor DB2 e Impresión |DB2|QSAM|☑️| ✅|
-|[PGM_30S](/Programas/PGM_30S/)|Actualizador de Clientes DB2 CALL| |||✅ |
-|[PGM_35S](/Programas/PGM_35S/)|Menú de Clientes CICS| |VSAM|| |
-|[PGM_36S](/Programas/PGM_36S/)|Alta de Clientes CICS| |VSAM|| |
-|[PGM_37S](/Programas/PGM_37S/)|Consulta de Clientes CICS| |VSAM|| |
-|[PGM_38S](/Programas/PGM_38S/)|Baja de Clientes CICS| |VSAM|| |
-|[PGM_39S](/Programas/PGM_39S/)|Modificación de Clientes CICS| |VSAM|| |
-|[PGM_40S](/Programas/PGM_40S/)|Actualizador de novedades|QSAM |QSAM |☑️|✅ |
-|[PGM_41S](/Programas/PGM_41S/)|Modificación de Clientes CICS| |VSAM|| |
+|[PGM_08A](/Programas/PGM_08A/)|Validación de Registros                   |QSAM |QSAM |   |   |
+|[PGM_11S](/Programas/PGM_11S/)|Sumatoria por Filtro de Campo             |QSAM |     |   |   |
+|[PGM_13S](/Programas/PGM_13S/)|Validación.                               |QSAM |     |   |   |
+|[PGM_06A](/Programas/PGM_06A/)|Corte de Control                          |QSAM |     |   |   |
+|[PGM_07A](/Programas/PGM_07A/)|Doble Corte de Control                    |QSAM |     |   |   |
+|[PGM_21S](/Programas/PGM_21S/)|Corte de Control y Listado Formateado.    |QSAM |     |   |   |
+|[PGM_11A](/Programas/PGM_11A/)|Corte de Control con Impresión            |QSAM |QSAM |☑️ |   |
+|[PGM_12A](/Programas/PGM_12A/)|Doble Corte de control más Impresión      |QSAM |QSAM |☑️ |   |
+|[PGM_23S](/Programas/PGM_23S/)|Doble Corte de Control                    |VSAM |     |   |   |
+|[PGM_27S](/Programas/PGM_27S/)|DB2 de carga de datos                     |VSAM |     |   |✅ |
+|[PGM_16S](/Programas/PGM_16S/)|Apareamiento                              |DB2  |     |   |✅ |
+|[PGM_16A](/Programas/PGM_16A/)|Consulta DB2 con Doble Corte de Control   |QSAM |     |   |✅ |
+|[PGM_18A](/Programas/PGM_18A/)|Apareamiento - Consulta DB2 con Cursores  |QSAM |     |   |✅ |
+|[PGM_28S](/Programas/PGM_28S/)|Consulta con Cursor DB2 e Impresión       |DB2  |QSAM |☑️ |✅ |
+|[PGM_30S](/Programas/PGM_30S/)|Actualizador de Clientes DB2 CALL         |     |     |   |✅ |
+|[PGM_35S](/Programas/PGM_35S/)|Menú de Clientes CICS                     |     |VSAM |   |   |
+|[PGM_36S](/Programas/PGM_36S/)|Alta de Clientes CICS                     |     |VSAM |   |   |
+|[PGM_37S](/Programas/PGM_37S/)|Consulta de Clientes CICS                 |     |VSAM |   |   |
+|[PGM_38S](/Programas/PGM_38S/)|Baja de Clientes CICS                     |     |VSAM |   |   |
+|[PGM_39S](/Programas/PGM_39S/)|Modificación de Clientes CICS             |     |VSAM |   |   |
+|[PGM_40S](/Programas/PGM_40S/)|Actualizador de novedades                 |QSAM |QSAM |☑️ |✅ |
+|[PGM_41S](/Programas/PGM_41S/)|Modificación de Clientes por Novedades    |     |QSAM |   |   |
+|[PGM_42S](/Programas/PGM_42S/)|Altas de Clientes por Novedades           |     |QSAM |   |   |
+
+
 
 Ejemplos típicos de lo que encontrarás:
 - Apertura, lectura y cierre de archivos secuenciales.

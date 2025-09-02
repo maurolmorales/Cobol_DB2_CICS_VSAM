@@ -1,19 +1,19 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMD1CAF. 
+       PROGRAM-ID. PGMD2CAF. 
  
       ******************************************************************
-      *    CLASE ASINCRONICA 41                                        *
-      *    ====================                                        *
+      *                   CLASE ASINCRONICA 41                         *
+      *                   ====================                         *
+      *                                                                *
       *  FUNCIONAMIENTO                                                *
-      *  * Leer las novedades de clientes (modificaciones).            *
-      *  * Validar los datos según el tipo de novedad (ej.: si solo    *
-      *  cambia NROCLI  → solo validar ese campo).                     *
-      *  * Si la validación es correcta → hacer UPDATE en la tabla     *
-      *  TBCURCLI.                                                     *
+      *  > Leer las novedades de clientes (Altas de clientes).         *
+      *  > Validar todos los campos del registro                       *
+      *  > Si la validación es correcta → hacer INSERT en la tabla     *
+      *    TBCURCLI.                                                   *
       *                                                                *
       *  Si hay error generar un listado (FBA 132 bytes) con detalle:  *
-      *  - Título: MODIFICACIONES LEÍDAS – Detalle de errores          *
-      *  - Subtítulo con columnas: TIPO DOC, NUM DOC, NROCLI, APELLIDO,*
+      *  > Título: ALTAS LEÍDAS – Detalle de errores                   *
+      *  > Subtítulo con columnas: TIPO DOC, NUM DOC, NROCLI, APELLIDO,*
       *    SEXO, FECHA NAC.                                            *
       *                                                                *
       *  ESTADÍSTICAS AL FINAL                                         *
@@ -66,13 +66,13 @@
            88  WS-FIN-LECTURA         VALUE 'Y'. 
            88  WS-NO-FIN-LECTURA      VALUE 'N'. 
       
-       77  WS-STATUS-NOV          PIC X. 
-           88  WS-FIN-NOV             VALUE 'Y'. 
-           88  WS-NO-FIN-NOV          VALUE 'N'. 
-      
-       77  WS-STATUS-ENT          PIC X. 
-           88  WS-FIN-ENT             VALUE 'Y'. 
-           88  WS-NO-FIN-ENT          VALUE 'N'.            
+      * 77  WS-STATUS-NOV          PIC X. 
+      *     88  WS-FIN-NOV             VALUE 'Y'. 
+      *     88  WS-NO-FIN-NOV          VALUE 'N'. 
+      *
+      * 77  WS-STATUS-ENT          PIC X. 
+      *     88  WS-FIN-ENT             VALUE 'Y'. 
+      *     88  WS-NO-FIN-ENT          VALUE 'N'.            
       
       *-----------  CONTADORES  -------------------------------------
        77  TOT-MOD-LEIDAS         PIC 999        VALUE ZEROES.
@@ -81,16 +81,29 @@
        77  WS-FORMATO-PRINT       PIC ZZ9        VALUE ZEROES. 
       
       *-------------  VARIABLES -------------------------------------
-       77  WS-PRIMER-ERROR        PIC X(02)      VALUE 'SI'. 
-       77  WS-MESSAGE-ERROR       PIC X(32)      VALUE SPACES. 
+       77  WS-PRIMER-ERROR      PIC X(02)      VALUE 'SI'. 
+       77  WS-MESSAGE-ERROR     PIC X(32)      VALUE SPACES. 
       
        77  REG-TIPDOC           PIC X(02)        VALUE SPACES.
        77  REG-NRODOC           PIC S9(11)V USAGE COMP-3 VALUE ZEROES.
        77  REG-NROCLI           PIC S9(03)V USAGE COMP-3 VALUE ZEROES.
        77  REG-NOMAPE           PIC X(30)        VALUE SPACES.
        77  REG-SEXO             PIC X(01)        VALUE SPACES.
-       77  REG-FECNAC           PIC X(08)        VALUE SPACES.
-      
+
+       77  REG-FECNAC           PIC X(10)        VALUE SPACES. 
+       01  REG-FECHA.
+           10 REG-YYYY          PIC X(04)        VALUE SPACES.
+           10 REG-MM            PIC X(02)        VALUE SPACES.
+           10 REG-DD            PIC X(02)        VALUE SPACES.
+
+       01  IMP-FECHA.
+           10 IMP-YYYY          PIC X(04)        VALUE SPACES.
+           10 FILLER            PIC X            VALUE '-'.
+           10 IMP-MM            PIC X(02)        VALUE SPACES.
+           10 FILLER            PIC X            VALUE '-'.
+           10 IMP-DD            PIC X(02)        VALUE SPACES.  
+           
+                 
       *-----------  SQL  -------------------------------------- 
        77  WS-SQLCODE     PIC +++999 USAGE DISPLAY VALUE ZEROS. 
        77  NOT-FOUND              PIC S9(9) COMP VALUE  +100.  
@@ -100,9 +113,10 @@
        77  WS-PIPE                PIC XXX        VALUE '|'.      
        77  WS-LINE                PIC X(132)     VALUE ALL '='.  
        77  WS-LINE2               PIC X(132)     VALUE ALL '-'. 
-       77  WS-SEPARATE             PIC X(132)    VALUE SPACES.
-       77  IMP-TITULO             PIC X(42)      VALUE 
-                          'MODIFICACIONES LEÍDAS - Detalle de errores'.
+       77  WS-SEPARATE            PIC X(132)     VALUE SPACES.
+       77  IMP-TITULO             PIC X(33)      VALUE 
+                                   'ALTAS LEÍDAS – Detalle de errores'.
+                  
        
        01  IMP-MJE-ERROR.
            03  FILLER            PIC X(18) VALUE 'MOTIVO DEL ERROR: '.
@@ -123,7 +137,7 @@
            03  FILLER              PIC X(03)        VALUE ' | '.
            03  IMP-CLI-SEXO        PIC X(04)    VALUE 'SEXO'. 
            03  FILLER              PIC X(03)        VALUE ' | '.
-           03  IMP-CLI-FENAC       PIC X(09)    VALUE 'FECHA NAC'. 
+           03  IMP-CLI-FENAC       PIC X(10)    VALUE 'FECHA NAC'. 
            03  FILLER              PIC X(03)        VALUE ' | '.
       
        01  IMP-REG-ERRONEO.
@@ -141,8 +155,7 @@
            03  FILLER              PIC X(03)    VALUE SPACES.  
            03  IMP-SEXO            PIC X(01).
            03  FILLER              PIC X(03)        VALUE ' | '.
-           03  FILLER              PIC X(01)    VALUE SPACES.  
-           03  IMP-FECNAC          PIC X(08).
+           03  IMP-FECNAC          PIC X(10).
            03  FILLER              PIC X(03)        VALUE ' | '.
       
       *//////////////// COPYS //////////////////////////////////////
@@ -195,23 +208,23 @@
            03  FILLER              PIC X(23)    VALUE SPACES. 
       
       *//////////////////////////////////////////////////////////////
-      
+
       *     COPY NOVECLIE. 
       
       *---- SQLCA COMMUNICATION AREA CON EL DB2  --------------- 
            EXEC SQL INCLUDE SQLCA END-EXEC.                      
            EXEC SQL INCLUDE TBCURCLI END-EXEC.                   
-      
+
       
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        PROCEDURE DIVISION. 
       
        MAIN-PROGRAM-I. 
       
-           PERFORM 1000-INICIO-I  THRU  1000-INICIO-F. 
-           PERFORM 2000-PROCESO-I THRU  2000-PROCESO-F 
-                                  UNTIL WS-FIN-LECTURA. 
-           PERFORM 9999-FINAL-I   THRU  9999-FINAL-F. 
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F. 
+           PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
+                                       UNTIL WS-FIN-LECTURA.
+           PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
                
        MAIN-PROGRAM-F. GOBACK. 
       
@@ -225,16 +238,14 @@
            IF FS-NOVEDADES IS NOT EQUAL '00' THEN                
               DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-NOVEDADES
               SET  WS-FIN-LECTURA TO TRUE                        
-           END-IF                                               
+           END-IF
       
            OPEN OUTPUT SALIDA                                    
            IF FS-SALIDA IS NOT EQUAL '00' THEN                  
               DISPLAY '* ERROR EN OPEN SALIDA = ' FS-SALIDA      
               MOVE 9999 TO RETURN-CODE                           
               SET  WS-FIN-LECTURA TO TRUE                        
-           END-IF                                               
-      
-           PERFORM 2100-LEER-I THRU 2100-LEER-F. 
+           END-IF.
       
        1000-INICIO-F. EXIT. 
       
@@ -242,8 +253,8 @@
       *-------------------------------------------------------------- 
        2000-PROCESO-I. 
       
-           PERFORM 2200-VERIFICAR-I THRU 2200-VERIFICAR-F 
-           PERFORM 2100-LEER-I THRU 2100-LEER-F.
+           PERFORM 2100-LEER-I THRU 2100-LEER-F
+           PERFORM 2200-VERIFICAR-I THRU 2200-VERIFICAR-F.
       
        2000-PROCESO-F. EXIT. 
       
@@ -272,49 +283,55 @@
       
       *--------------------------------------------------------------
        2200-VERIFICAR-I.
-      
-           EVALUATE NOV-TIP-NOV
-      
-               WHEN 'CL'
-                 IF NOV-CLI-NRO IS NUMERIC THEN
-                    PERFORM 2400-GRABAR-REG-I 
-                       THRU 2400-GRABAR-REG-F
-                 ELSE 
-                    MOVE 'EL NÚMERO DE CLIENTE NO ES NUMÉRICO' 
-                      TO WS-MESSAGE-ERROR
-                    PERFORM 2300-HANDLE-ERROR-I
-                       THRU 2300-HANDLE-ERROR-F
-                 END-IF 
-      
-               WHEN 'CN'
-                 IF NOV-CLI-NOMBRE IS NOT EQUAL TO SPACES THEN
-                    PERFORM 2400-GRABAR-REG-I 
-                       THRU 2400-GRABAR-REG-F
-                 ELSE 
-                    MOVE 'NOMBRE NO DEBE ESTAR VACÍO'
-                      TO WS-MESSAGE-ERROR
-                    PERFORM 2300-HANDLE-ERROR-I
-                       THRU 2300-HANDLE-ERROR-F
-                 END-IF               
-      
-               WHEN 'CX'
-                 IF NOV-CLI-SEXO = 'F' OR
-                    NOV-CLI-SEXO = 'M' OR
-                    NOV-CLI-SEXO = 'O' THEN
-                       PERFORM 2400-GRABAR-REG-I
-                          THRU 2400-GRABAR-REG-F
-                 ELSE 
-                    MOVE 'SEXO INVÁLIDO' TO WS-MESSAGE-ERROR
-                    PERFORM 2300-HANDLE-ERROR-I
-                       THRU 2300-HANDLE-ERROR-F
-                 END-IF                
-                  
-               WHEN OTHER
+
+           IF WS-NO-FIN-LECTURA THEN
+              IF NOV-TIP-NOV = 'AL' THEN
+         
+                 EVALUATE TRUE 
+                        WHEN NOV-TIP-DOC IS NOT EQUAL 'DU' AND
+                         NOV-TIP-DOC IS NOT EQUAL 'PA' AND
+                         NOV-TIP-DOC IS NOT EQUAL 'PE'
+                       MOVE 'EL TIPO DE DOCUMENTO ES INVALIDO' 
+                         TO WS-MESSAGE-ERROR
+                       PERFORM 2300-HANDLE-ERROR-I
+                          THRU 2300-HANDLE-ERROR-F
+         
+                    WHEN NOV-CLI-NRO IS NOT NUMERIC
+                       MOVE 'EL NÚMERO DE CLIENTE NO ES NUMÉRICO' 
+                         TO WS-MESSAGE-ERROR
+                       PERFORM 2300-HANDLE-ERROR-I
+                          THRU 2300-HANDLE-ERROR-F
+         
+                    WHEN NOV-NRO-DOC IS NOT NUMERIC
+                       MOVE 'EL NÚMERO DE CLIENTE NO ES NUMÉRICO' 
+                         TO WS-MESSAGE-ERROR
+                       PERFORM 2300-HANDLE-ERROR-I
+                          THRU 2300-HANDLE-ERROR-F     
+         
+                    WHEN NOV-CLI-NOMBRE IS EQUAL TO SPACES
+                       MOVE 'NOMBRE NO DEBE ESTAR VACÍO'
+                         TO WS-MESSAGE-ERROR
+                       PERFORM 2300-HANDLE-ERROR-I
+                          THRU 2300-HANDLE-ERROR-F
+         
+                    WHEN NOV-CLI-SEXO IS NOT EQUAL 'F' AND
+                         NOV-CLI-SEXO IS NOT EQUAL 'M' AND
+                         NOV-CLI-SEXO IS NOT EQUAL 'O'
+                       MOVE 'SEXO INVÁLIDO' TO WS-MESSAGE-ERROR
+                       PERFORM 2300-HANDLE-ERROR-I
+                          THRU 2300-HANDLE-ERROR-F
+                     
+                    WHEN OTHER
+                       PERFORM 2400-GRABAR-REG-I 
+                          THRU 2400-GRABAR-REG-F 
+                          
+                 END-EVALUATE
+              ELSE
                  MOVE 'TIPO DE NOVEDAD NO VÁLIDO' TO WS-MESSAGE-ERROR
-                 PERFORM 2300-HANDLE-ERROR-I
-                    THRU 2300-HANDLE-ERROR-F
-      
-           END-EVALUATE.
+                 PERFORM 2300-HANDLE-ERROR-I THRU 2300-HANDLE-ERROR-F
+                 
+              END-IF
+           END-IF.
       
        2200-VERIFICAR-F. EXIT.
       
@@ -329,18 +346,18 @@
               WRITE REG-SALIDA FROM WS-SEPARATE
            END-IF
       
-           MOVE NOV-TIP-DOC       TO REG-TIPDOC 
-           MOVE NOV-NRO-DOC       TO REG-NRODOC 
-           MOVE NOV-CLI-NRO       TO REG-NROCLI 
-           MOVE NOV-CLI-NOMBRE    TO REG-NOMAPE 
-           MOVE NOV-CLI-FENAC     TO REG-FECNAC 
-           MOVE NOV-CLI-SEXO      TO REG-SEXO 
+           MOVE NOV-TIP-DOC       TO REG-TIPDOC IMP-TIPDOC
+           MOVE NOV-NRO-DOC       TO REG-NRODOC IMP-NRODOC
+           MOVE NOV-CLI-NRO       TO REG-NROCLI IMP-NROCLI
+           MOVE NOV-CLI-NOMBRE    TO REG-NOMAPE IMP-NOMAPE
+           MOVE NOV-CLI-FENAC     TO REG-FECNAC IMP-FECNAC
+           MOVE NOV-CLI-SEXO      TO REG-SEXO   IMP-SEXO
            MOVE WS-MESSAGE-ERROR TO MJE-ERROR
               
            WRITE REG-SALIDA FROM IMP-MJE-ERROR
            WRITE REG-SALIDA FROM IMP-REG-ERRONEO
 
-           ADD 1 TO TOT-MOD-ERRORES. 
+           ADD 1 TO TOT-MOD-ERRORES.
       
        2300-HANDLE-ERROR-F. EXIT.
       
@@ -350,29 +367,36 @@
            
            IF FS-NOVEDADES IS EQUAL '00' THEN
            
-              MOVE NOV-TIP-DOC       TO REG-TIPDOC IMP-TIPDOC
-              MOVE NOV-NRO-DOC       TO REG-NRODOC IMP-NRODOC
-              MOVE NOV-CLI-NRO       TO REG-NROCLI IMP-NROCLI
-              MOVE NOV-CLI-NOMBRE    TO REG-NOMAPE IMP-NOMAPE
-              MOVE NOV-CLI-FENAC     TO REG-FECNAC IMP-FECNAC
-              MOVE NOV-CLI-SEXO      TO REG-SEXO   IMP-SEXO
+              MOVE NOV-TIP-DOC        TO REG-TIPDOC 
+              MOVE NOV-NRO-DOC        TO REG-NRODOC 
+              MOVE NOV-CLI-NRO        TO REG-NROCLI 
+              MOVE NOV-CLI-NOMBRE     TO REG-NOMAPE 
+              MOVE NOV-CLI-FENAC      TO REG-FECHA
+              MOVE REG-YYYY           TO IMP-YYYY
+              MOVE REG-MM             TO IMP-MM  
+              MOVE REG-DD             TO IMP-DD  
+              MOVE IMP-FECHA          TO REG-FECNAC
+              MOVE NOV-CLI-SEXO       TO REG-SEXO 
       
-              EVALUATE NOV-TIP-NOV
-                 WHEN 'CL'
-                    PERFORM 2410-UPDATE-CL-I THRU 2410-UPDATE-CL-F
-      
-                 WHEN 'CN'
-                    PERFORM 2420-UPDATE-CN-I THRU 2420-UPDATE-CN-F  
-      
-                 WHEN 'CX'   
-                    PERFORM 2430-UPDATE-CX-I THRU 2430-UPDATE-CX-F  
-      
-                 WHEN OTHER
-                    MOVE 'TIPO DE NOVEDAD NO VÁLIDO' 
-                      TO WS-MESSAGE-ERROR
-                    PERFORM 2300-HANDLE-ERROR-I
-                       THRU 2300-HANDLE-ERROR-F
-              END-EVALUATE 
+      *        DELETE FROM KC02803.TBCURCLI
+      *        WHERE NRODOC = 984556390 AND NROCLI = 503;
+
+              EXEC SQL
+                 INSERT INTO KC02803.TBCURCLI 
+                  ( TIPDOC, 
+                    NRODOC, 
+                    NROCLI, 
+                    NOMAPE, 
+                    FECNAC, 
+                    SEXO ) 
+                 VALUES ( 
+                    :REG-TIPDOC, 
+                    :REG-NRODOC, 
+                    :REG-NROCLI, 
+                    :REG-NOMAPE, 
+                    :IMP-FECHA, 
+                    :REG-SEXO ) 
+              END-EXEC
       
               IF SQLCODE = NOT-FOUND THEN
                  MOVE SQLCODE TO NOTFOUND-FORMAT
@@ -386,42 +410,9 @@
                     DISPLAY 'ERROR DB2: ' NOTFOUND-FORMAT 
                  END-IF 
               END-IF 
-           END-IF. 
-      
+           END-IF.            
+              
        2400-GRABAR-REG-F. EXIT.
-      
-      *--------------------------------------------------------------
-       2410-UPDATE-CL-I.
-      
-           EXEC SQL UPDATE KC02803.TBCURCLI
-              SET NROCLI   = :REG-NROCLI
-              WHERE TIPDOC = :REG-TIPDOC 
-                AND NRODOC = :REG-NRODOC
-           END-EXEC.
-      
-       2410-UPDATE-CL-F. EXIT.
-      
-      *--------------------------------------------------------------
-       2420-UPDATE-CN-I.
-           
-           EXEC SQL UPDATE KC02803.TBCURCLI
-              SET NOMAPE   = :REG-NOMAPE
-              WHERE TIPDOC = :REG-TIPDOC
-              AND   NRODOC = :REG-NRODOC
-           END-EXEC.
-      
-       2420-UPDATE-CN-F. EXIT.
-      
-      *--------------------------------------------------------------
-       2430-UPDATE-CX-I.
-      
-           EXEC SQL UPDATE KC02803.TBCURCLI
-              SET SEXO     = :REG-SEXO
-              WHERE TIPDOC = :REG-TIPDOC
-                AND NRODOC = :REG-NRODOC
-           END-EXEC.
-      
-       2430-UPDATE-CX-F. EXIT.
       
       
       *--------------------------------------------------------------
@@ -435,7 +426,7 @@
            DISPLAY 'TOTAL MODIFICACIONES CON ERROR: ' WS-FORMATO-PRINT
       
            MOVE TOT-MOD-GRABADAS TO WS-FORMATO-PRINT
-           DISPLAY 'TOTAL MODIFICACIONES GRABADAS EN TABLA​: '
+           DISPLAY 'TOTAL MODIFICACIONES GRABADAS EN TABLA: '
                                                       WS-FORMATO-PRINT
       
            CLOSE ENTRADA                                         
@@ -450,6 +441,8 @@
               DISPLAY '* ERROR EN CLOSE = ' FS-SALIDA            
               MOVE 9999 TO RETURN-CODE                           
               SET WS-FIN-LECTURA TO TRUE                         
-           END-IF.                                               
+           END-IF.
+           
+      *     EXEC SQL ROLLBACK END-EXEC.
       
        9999-FINAL-F. EXIT. 
