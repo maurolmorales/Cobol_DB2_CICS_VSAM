@@ -20,6 +20,8 @@
            03 CT-MSGO. 
              05 CT-MNS-01         PIC X(72) VALUE 
                                   'INGRESE LOS DATOS Y PRESIONE ENTER'. 
+             05 CT-MNS-02         PIC X(72) VALUE                                   
+                                         "NOMBRE/APELLIDO OBLIGATORIO".
              05 CT-MNS-03         PIC X(72) VALUE 
                     'TIPO Y NÚMERO DOCUMENTO INEXISTENTES - REINGRESE'. 
              05 CT-MNS-04         PIC X(72) VALUE 
@@ -35,7 +37,8 @@
              05 CT-MNS-09         PIC X(72) VALUE     'TECLA INVALIDA'. 
              05 CT-MNS-EXIT       PIC X(72) VALUE 
                                                 'FIN TRANSACCION T199'. 
-             05 CT-MNS-10         PIC X(72) VALUE 'ERROR SEND    '.                                                 
+             05 CT-MNS-10         PIC X(72) VALUE     'ERROR SEND    '.  
+             05 CT-MNS-11         PIC X(72) VALUE     'FECHA INVÁLIDA'.
         
            03 CT-DATASET          PIC X(08)           VALUE 'PERSOCAF'. 
            03 CT-DATASET-LEN      PIC S9(04) COMP     VALUE 160. 
@@ -43,8 +46,8 @@
            
       *-------------------------------------------------------------- 
        01  WS-VARIABLES. 
-           03 WS-MAP-00            PIC X(07)          VALUE 'MAP5CAF'. 
-           03 WS-MAPSET-00         PIC X(07)          VALUE 'MAP5CAF'. 
+           03 WS-MAP            PIC X(07)          VALUE 'MAP5CAF'. 
+           03 WS-MAPSET         PIC X(07)          VALUE 'MAP5CAF'. 
            03 WS-TRANSACTION       PIC X(04)          VALUE 'FCAF'. 
            03 WS-LONG              PIC S9(04) COMP. 
            03 WS-COMLONG           PIC S9(04) COMP. 
@@ -134,8 +137,8 @@
            MOVE LENGTH OF MAP5CAFO TO WS-LONG 
       
            EXEC CICS RECEIVE 
-              MAP    (WS-MAP-00) 
-              MAPSET (WS-MAPSET-00) 
+              MAP    (WS-MAP) 
+              MAPSET (WS-MAPSET) 
               INTO   (MAP5CAFI) 
               RESP   (WS-RESP) 
            END-EXEC 
@@ -149,10 +152,12 @@
                  MOVE LOW-VALUES TO MAP5CAFO 
                  MOVE CT-MNS-01  TO MSGO 
                  PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F
+                 PERFORM 9999-FINAL-I THRU 9999-FINAL-F 
       
               WHEN OTHER 
                  MOVE CT-MNS-08  TO MSGO 
-                 PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F    
+                 PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F
+                 PERFORM 9999-FINAL-I THRU 9999-FINAL-F
       
            END-EVALUATE
       
@@ -176,15 +181,15 @@
         
               WHEN DFHPF4 
                  PERFORM 3400-PF4-I THRU 3400-PF4-F 
-
+      
               WHEN DFHPF12 
                  PERFORM 3300-PF12-I  THRU 3300-PF12-F 
-
+      
               WHEN OTHER 
                  MOVE CT-MNS-09 TO  MSGO 
-
+      
            END-EVALUATE
-
+      
            PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F.
         
        3000-TECLAS-F. EXIT. 
@@ -197,14 +202,11 @@
         
            IF CLIENTEOK THEN 
               PERFORM 5000-READ-I THRU 5000-READ-F
-              PERFORM 5000-REWRITE-I THRU 5000-REWRITE-F 
-           ELSE 
-              PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F
            END-IF. 
         
        3100-ENTER-F. EXIT. 
         
-
+      
       *------------------------------------------------------------- 
        3150-VALIDAR-I. 
       
@@ -224,14 +226,14 @@
               WHEN NUMDOCI IS EQUAL ZEROS 
                    SET CLIENTEOK-NO TO TRUE 
                    MOVE CT-MNS-05  TO MSGO 
-              WHEN NOMAPEI IS EQUAL TO (SPACES OR LOW-VALUES)
+              WHEN NOMAPEI = SPACES OR NOMAPEI = LOW-VALUES
                    MOVE -1 TO NOMAPEL 
                    SET CLIENTEOK-NO TO TRUE 
-                   MOVE CT-MNS-05  TO MSGO 
+                   MOVE CT-MNS-02  TO MSGO 
               WHEN FECHAOK-NO 
                    SET CLIENTEOK-NO TO TRUE 
-                   MOVE CT-MNS-06  TO MSGO     
-              WHEN NOT (SEXOI = 'F' OR SEXOI = 'M' OR SEXOI = 'O')
+                   MOVE CT-MNS-11  TO MSGO     
+              WHEN NOT (SEXOI = 'F' OR  SEXOI = 'M' OR SEXOI = 'O') 
                    MOVE -1 TO SEXOL 
                    SET CLIENTEOK-NO TO TRUE 
                    MOVE CT-MNS-07  TO MSGO                     
@@ -263,7 +265,7 @@
                  SET FECHAOK-NO TO TRUE 
               END-IF 
       
-              IF WS-MES < 00 OR WS-MES > 13 THEN
+              IF WS-MES < 01 OR WS-MES > 12 THEN
                  SET FECHAOK-NO TO TRUE 
               END-IF 
       
@@ -273,7 +275,10 @@
                  END-IF 
               END-IF 
       
-              IF WS-MES IS EQUAL TO (4 OR 6 OR 9 OR 11) AND 
+              IF WS-MES IS EQUAL TO 4  OR 
+                 WS-MES IS EQUAL TO 6  OR 
+                 WS-MES IS EQUAL TO 9  OR 
+                 WS-MES IS EQUAL TO 11 AND 
                  WS-DIA > 30 THEN
                     SET FECHAOK-NO TO TRUE 
               END-IF 
@@ -287,13 +292,12 @@
       
        3700-VERIF-FECHA-F. EXIT.       
       
-
+      
       *------------------------------------------------------------- 
        3200-PF3-I. 
       
            MOVE LOW-VALUES TO MAP5CAFO. 
-           MOVE CT-MNS-01 TO MSGO 
-           PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F.
+           MOVE CT-MNS-01 TO MSGO.
         
        3200-PF3-F. EXIT. 
         
@@ -307,24 +311,24 @@
            END-EXEC. 
         
        3400-PF4-F. EXIT. 
-
-
+      
+      
       *------------------------------------------------------------- 
        3300-PF12-I. 
-
+      
            EXEC CICS XCTL 
               PROGRAM ('PGMMECAF') 
            END-EXEC. 
         
        3300-PF12-F. EXIT. 
         
-
+      
       *------------------------------------------------------------- 
        5000-READ-I. 
-
+      
            MOVE TIPDOCI TO WS-USER-TIPDOC 
            MOVE NUMDOCI TO WS-USER-NRODOC 
-
+      
            EXEC CICS READ 
               DATASET (CT-DATASET) 
               UPDATE
@@ -338,31 +342,21 @@
            EVALUATE WS-RESP 
       
               WHEN DFHRESP(NORMAL) 
-                 MOVE CT-MNS-06        TO MSGO 
-                 MOVE PER-TIP-DOC      TO TIPDOCO 
-                 MOVE PER-NRO-DOC      TO NUMDOCO 
-                 MOVE PER-NOMAPE       TO NOMAPEO 
-                 MOVE PER-CLI-AAAAMMDD TO WS-FECHA-VAL 
-                 MOVE WS-DIA           TO DIAO 
-                 MOVE WS-MES           TO MESO 
-                 MOVE WS-ANIO          TO ANIOO 
-                 MOVE PER-SEXO         TO SEXOO 
-
+                 PERFORM 5000-REWRITE-I THRU 5000-REWRITE-F 
+      
               WHEN DFHRESP(NOTFND) 
                  MOVE CT-MNS-03        TO MSGO 
                  MOVE WS-USER-TIPDOC   TO TIPDOCO 
                  MOVE WS-USER-NRODOC   TO NUMDOCO 
-
+      
               WHEN OTHER 
                  MOVE CT-MNS-08  TO MSGO 
       
-           END-EVALUATE 
-      
-           PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F.
+           END-EVALUATE.
       
        5000-READ-F. EXIT. 
-
-
+      
+      
       *------------------------------------------------------------- 
        5000-REWRITE-I. 
         
@@ -383,7 +377,7 @@
       
            EXEC CICS REWRITE 
                 DATASET (CT-DATASET) 
-                FROM    (WS-USER-DATA) 
+                FROM    (REG-PERSONA) 
                 LENGTH  (CT-DATASET-LEN)
                 RESP    (WS-RESP)  
            END-EXEC 
@@ -400,10 +394,10 @@
                  MOVE WS-MES           TO MESO 
                  MOVE WS-ANIO          TO ANIOO 
                  MOVE PER-SEXO         TO SEXOO 
-
+      
               WHEN DFHRESP(NOTFND) 
                  MOVE CT-MNS-03        TO MSGO 
-
+      
               WHEN OTHER 
                  MOVE CT-MNS-08  TO MSGO 
            END-EVALUATE 
@@ -433,18 +427,18 @@
       
       *---------------------------------------------------------- 
        8000-SEND-MAPA-I.
-
+      
            PERFORM 7000-TIME-I THRU 7000-TIME-F 
-
+      
            EXEC CICS SEND 
-               MAP    (WS-MAP-00) 
-               MAPSET (WS-MAPSET-00) 
+               MAP    (WS-MAP) 
+               MAPSET (WS-MAPSET) 
                FROM   (MAP5CAFO) 
                LENGTH (WS-LONG) 
                ERASE 
                RESP   (WS-RESP) 
            END-EXEC.
-
+      
        8000-SEND-MAPA-F. EXIT.
        
        

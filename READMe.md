@@ -49,7 +49,13 @@ Cada carpeta contiene programas representativos de cada etapa de la cursada:
 |[PGM_18A](/Programas/PGM_18A/)|Apareamiento - Consulta DB2 con Cursores |QSAM| | |✅|
 |[PGM_28S](/Programas/PGM_28S/)|Consulta con Cursor DB2 e Impresión |DB2|QSAM|☑️| ✅|
 |[PGM_30S](/Programas/PGM_30S/)|Actualizador de Clientes DB2 CALL| |||✅ |
+|[PGM_35S](/Programas/PGM_35S/)|Menú de Clientes CICS| |VSAM|| |
 |[PGM_36S](/Programas/PGM_36S/)|Alta de Clientes CICS| |VSAM|| |
+|[PGM_37S](/Programas/PGM_37S/)|Consulta de Clientes CICS| |VSAM|| |
+|[PGM_38S](/Programas/PGM_38S/)|Baja de Clientes CICS| |VSAM|| |
+|[PGM_39S](/Programas/PGM_39S/)|Modificación de Clientes CICS| |VSAM|| |
+|[PGM_40S](/Programas/PGM_40S/)|Actualizador de novedades|QSAM |QSAM |☑️|✅ |
+|[PGM_41S](/Programas/PGM_41S/)|Modificación de Clientes CICS| |VSAM|| |
 
 Ejemplos típicos de lo que encontrarás:
 - Apertura, lectura y cierre de archivos secuenciales.

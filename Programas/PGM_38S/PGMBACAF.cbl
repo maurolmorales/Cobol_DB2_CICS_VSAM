@@ -20,7 +20,7 @@
            03 CT-MSGO. 
              05 CT-MNS-01         PIC X(72) VALUE 
                                   'INGRESE LOS DATOS Y PRESIONE ENTER'. 
-             05 CT-MNS-02         PIC X(72) VALUE 
+             05 CT-MNS-02         PIC X(72) VALUE *>*/*/**/** */ */
                             'DATOS INGRESADOS INCORRECTOS - REINGRESE'. 
              05 CT-MNS-03         PIC X(72) VALUE 
                     'TIPO Y NÚMERO DOCUMENTO INEXISTENTES - REINGRESE'. 
@@ -33,8 +33,6 @@
                                         'PROBLEMA CON ARCHIVO PERSONA'. 
              05 CT-MNS-09         PIC X(72) VALUE     'TECLA INVALIDA'. 
              05 CT-MNS-10         PIC X(72) VALUE 'CLIENTE ENCONTRADO'. 
-             05 CT-MNS-EXIT       PIC X(72) VALUE 
-                                                'FIN TRANSACCION T199'. 
       
            03 CT-DATASET          PIC X(08)           VALUE 'PERSOCAF'. 
            03 CT-DATASET-LEN      PIC S9(04) COMP     VALUE 160. 
@@ -52,11 +50,7 @@
            03 WS-HORA              PIC X(08)          VALUE SPACES. 
            03 WS-SEP-HOUR          PIC X              VALUE ':'. 
            03 WS-RESP              PIC S9(04) COMP. 
-           03 SW-CONFIRMAR         PIC X              VALUE 'Y'. 
-           03 WS-NORMAL            PIC X              VALUE '*'. 
-           03 WS-ENTER             PIC X              VALUE ' '. 
-      
-      
+ 
       *------------------------------------------------------------- 
            COPY MAP4CAF. 
            COPY DFHBMSCA. 
@@ -129,7 +123,7 @@
        2000-PROCESO-I. 
       
            MOVE LENGTH OF MAP4CAFO TO WS-LONG 
-      
+
            EXEC CICS RECEIVE 
               MAP    (WS-MAP-00) 
               MAPSET (WS-MAPSET-00) 
@@ -140,15 +134,16 @@
            EVALUATE WS-RESP 
       
               WHEN DFHRESP(NORMAL) 
-                 CONTINUE 
-      
+                 MOVE TIPDOCI TO WS-USER-TIPDOC 
+                 MOVE NUMDOCI TO WS-USER-NRODOC 
+
+              WHEN DFHRESP(MAPFAIL)
+                 MOVE CT-MNS-01 TO MSGO
+
               WHEN OTHER 
-                 MOVE CT-MNS-08  TO MSGO 
-      
+                 MOVE CT-MNS-01 TO MSGO
+
            END-EVALUATE 
-      
-           MOVE TIPDOCI TO WS-USER-TIPDOC. 
-           MOVE NUMDOCI TO WS-USER-NRODOC. 
       
            PERFORM 3000-TECLAS-I THRU 3000-TECLAS-F. 
       
@@ -188,8 +183,6 @@
       
            IF CLIENTEOK THEN 
               PERFORM 5000-READ-I THRU 5000-READ-F 
-           ELSE 
-              PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F
            END-IF. 
       
        3100-ENTER-F. EXIT. 
@@ -226,8 +219,7 @@
        3200-PF3-I. 
       
            MOVE LOW-VALUES TO MAP4CAFO.
-           MOVE CT-MNS-01 TO MSGO 
-           PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F.
+           MOVE CT-MNS-01 TO MSGO.
       
        3200-PF3-F. EXIT. 
       
@@ -245,26 +237,31 @@
       *------------------------------------------------------------- 
        3400-PF4-I. 
       
-           MOVE TIPDOCI TO WS-USER-TIPDOC 
-           MOVE NUMDOCI TO WS-USER-NRODOC 
-      
-           EXEC CICS DELETE 
-              DATASET (CT-DATASET)
-              RIDFLD  (WS-USER-DATA) 
-              RESP    (WS-RESP)
-           END-EXEC.
-      
-           EVALUATE WS-RESP
-              WHEN DFHRESP(NORMAL)
-                 MOVE CT-MNS-06 TO MSGO
-      
-              WHEN DFHRESP(NOTFND)
-                 MOVE CT-MNS-03 TO MSGO
-      
-              WHEN OTHER
-                 MOVE CT-MNS-08 TO MSGO
-      
-           END-EVALUATE.           
+           IF CLIENTEOK THEN
+              MOVE TIPDOCI TO WS-USER-TIPDOC 
+              MOVE NUMDOCI TO WS-USER-NRODOC 
+       
+              EXEC CICS DELETE 
+                 DATASET (CT-DATASET)
+                 RIDFLD  (WS-USER-DATA) 
+                 RESP    (WS-RESP)
+              END-EXEC
+       
+              EVALUATE WS-RESP
+                 WHEN DFHRESP(NORMAL)
+                    MOVE CT-MNS-06 TO MSGO
+       
+                 WHEN DFHRESP(NOTFND)
+                    MOVE CT-MNS-03 TO MSGO
+       
+                 WHEN OTHER
+                    MOVE CT-MNS-08 TO MSGO
+       
+              END-EVALUATE
+
+           ELSE 
+                 MOVE CT-MNS-02 TO MSGO   
+           END-IF. 
       
        3400-PF4-F. EXIT. 
       
@@ -299,9 +296,7 @@
               WHEN OTHER 
                  MOVE CT-MNS-08  TO MSGO 
       
-           END-EVALUATE 
-      
-           PERFORM 7000-TIME-I THRU 7000-TIME-F.
+           END-EVALUATE.
       
        5000-READ-F. EXIT. 
       
