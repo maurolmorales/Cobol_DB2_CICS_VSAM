@@ -43,16 +43,16 @@
            03 WS-USER-DATA. 
              05 WS-USER-TIPDOC    PIC X(02). 
              05 WS-USER-NUMDOC    PIC 9(11). 
-           03 WS-TIP-DOC           PIC X(02). 
+           03 WS-TIP-DOC          PIC X(02). 
              88 WS-TIP-DOC-BOOLEAN                     VALUE 'DU' 
                                                              'PA' 
                                                              'PE'. 
            03 FILLER               PIC X(5). 
       
       
-       COPY MAP2CAF. 
-       COPY DFHBMSCA. 
-       COPY DFHAID. 
+           COPY MAP2CAF. 
+           COPY DFHBMSCA. 
+           COPY DFHAID. 
       
        LINKAGE SECTION. 
       *================* 
@@ -77,14 +77,12 @@
            MOVE DFHCOMMAREA TO WS-COMMAREA 
       
            IF EIBCALEN = 0 THEN 
-      
               MOVE LENGTH OF MAP2CAFO TO WS-LONG 
               MOVE CT-MNS-01 TO MSGO 
               PERFORM 8000-SEND-MAPA-I THRU 8000-SEND-MAPA-F
               PERFORM 9999-FINAL-I THRU 9999-FINAL-F
       
            ELSE  
-
               MOVE LENGTH OF MAP2CAFO TO WS-LONG 
               EXEC CICS RECEIVE 
                   MAP    (WS-MAP) 
@@ -102,18 +100,21 @@
        2000-PROCESO-I. 
       
            EVALUATE WS-RESP 
+
               WHEN DFHRESP (NORMAL) 
                  PERFORM 2500-PULSAR-TECLA-I 
                     THRU 2500-PULSAR-TECLA-F
+
               WHEN DFHRESP (MAPFAIL) 
       *           MOVE LENGTH OF MAP2CAFO TO WS-LONG 
                  MOVE LOW-VALUES TO MAP2CAFO 
                  MOVE CT-MNS-01  TO MSGO 
-      
                  PERFORM 8000-SEND-MAPA-I 
                     THRU 8000-SEND-MAPA-F
+
               WHEN OTHER 
                  MOVE CT-MNS-02 TO MSGO 
+
            END-EVALUATE.
       
       
@@ -250,6 +251,7 @@
        8000-SEND-MAPA-I.
       
            PERFORM 7000-TIME-I THRU 7000-TIME-F 
+
            EXEC CICS SEND 
                MAP    (WS-MAP) 
                MAPSET (WS-MAPSET) 

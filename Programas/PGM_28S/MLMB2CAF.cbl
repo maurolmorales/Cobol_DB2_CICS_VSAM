@@ -43,7 +43,7 @@
        FD  LISTADO 
            BLOCK CONTAINS 0 RECORDS 
            RECORDING MODE IS F. 
-       01  REG-SALIDA     PIC X(123). 
+       01  REG-SALIDA  PIC X(123). 
   
        WORKING-STORAGE SECTION. 
       *========================* 

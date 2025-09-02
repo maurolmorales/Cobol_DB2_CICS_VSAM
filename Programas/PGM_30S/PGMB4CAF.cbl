@@ -1,16 +1,17 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PGMB4CAF. 
-      **************************************************************
-      *                                                            * 
-      *    PROGRAMA EJERCICIO CLASE 30                             *
-      *    - ABRE EL ARCHIVO DE NOVEDADES (VSAM)                   *
-      *    - CONSULTA SI YA EXISTE EN DB2                          *
-      *    - MODIFICA LA FECHA DE NACIMIENTO LLAMANDO MEDIANTE     *
-      *    UNA LLAMADA DINÁMICA CALL PRARA QUE DEVUELTA LA FECHA   *
-      *    CON UN MES MENOS.                                       *
-      *    - HACE EL INSERT EN DB2                                 *
-      *                                                            * 
-      **************************************************************
+      ******************************************************************
+      *                   CLASE SINCRÓNICA 30                          *
+      *                   ===================                          *
+      *                                                                *
+      *  - ABRE EL ARCHIVO DE NOVEDADES (VSAM)                         *
+      *  - CONSULTA SI YA EXISTE EN DB2                                *
+      *  - MODIFICA LA FECHA DE NACIMIENTO INVOCANDO UNA LLAMADA       *
+      *    DINÁMICA (CALL) PRARA QUE DEVUELTA LA FECHA CON UN MES      *
+      *    MENOS.                                                      *
+      *  - REALIZA EL INSERT EN DB2                                    *
+      *                                                                *
+      ******************************************************************
   
       *|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        ENVIRONMENT DIVISION. 
@@ -74,14 +75,14 @@
        77  REG-SUCUEN     PIC 99                  VALUE ZEROES. 
 
   
-      *      EXEC SQL INCLUDE SQLCA    END-EXEC. 
+            EXEC SQL INCLUDE SQLCA END-EXEC. 
       *      EXEC SQL INCLUDE TBCURCLI END-EXEC. 
       *      COPY TBVCLIEN. 
       
 
-      *##############################################################
+      *///////////////////////////////////////////////////////////////
       *     EXEC SQL INCLUDE TBCURCLI END-EXEC. 
-            EXEC SQL DECLARE KC02787.TBCURCLI TABLE 
+            EXEC SQL DECLARE KC02803.TBCURCLI TABLE 
            ( TIPDOC                         CHAR(2) NOT NULL, 
              NRODOC                         DECIMAL(11, 0) NOT NULL, 
              NROCLI                         DECIMAL(3, 0) NOT NULL, 
@@ -89,18 +90,15 @@
              FECNAC                         DATE NOT NULL, 
              SEXO                           CHAR(1) NOT NULL 
            ) END-EXEC. 
-      ******************************************************************
-      * COBOL DECLARATION FOR TABLE KC02787.TBCURCLI                   *
-      ******************************************************************
        01  DCLTBCURCLI. 
-           10 WSC-TIPDOC      PIC X(2).                 *> TIPDOC
-           10 WSC-NRODOC      PIC S9(11)V USAGE COMP-3. *> NRODOC
-           10 WSC-NROCLI      PIC S9(3)V USAGE COMP-3.  *> NROCLI
-           10 WSC-NOMAPE      PIC X(30).                *> NOMAPE
-           10 WSC-FECNAC      PIC X(10).                *> FECNAC
-           10 WSC-SEXO        PIC X(1).                 *> FECNAC
+           10 CLI-TIPDOC      PIC X(2).                 *> TIPDOC
+           10 CLI-NRODOC      PIC S9(11)V USAGE COMP-3. *> NRODOC
+           10 CLI-NROCLI      PIC S9(3)V USAGE COMP-3.  *> NROCLI
+           10 CLI-NOMAPE      PIC X(30).                *> NOMAPE
+           10 CLI-FECNAC      PIC X(10).                *> FECNAC
+           10 CLI-SEXO        PIC X(1).                 *> FECNAC
 
-      *           COPY TBVCLIEN. 
+      *    COPY TBVCLIEN. 
        01  WK-TBCLIE. 
            10 WK-CLI-TIPO-NOVEDAD        PIC X(2). 
            10 WK-CLI-TIPO-DOCUMENTO      PIC X(2). 
@@ -119,10 +117,12 @@
            10 WK-CLI-SEXO                PIC X(2). 
            10 WK-CLI-CORREO-ELECTRONICO  PIC X(30). 
            10 WK-CLI-FECHA-NACIMIENTO    PIC X(10). 
-      *##############################################################
+      *///////////////////////////////////////////////////////////////
   
       *--------------------------------------------------------------- 
        LINKAGE SECTION. 
+      *================*
+
        01  LK-COMUNICACION. 
            03 LK-SIGLO    PIC 99. 
            03 LK-ANIO     PIC 99. 
@@ -176,30 +176,30 @@
               WK-CLI-APELLIDO-CLIENTE DELIMITED BY SPACE 
               INTO WS-NOMAPE-COMPLETO 
   
-              MOVE WK-CLI-TIPO-DOCUMENTO     TO WSC-TIPDOC 
-              MOVE WK-CLI-NRO-DOCUMENTO      TO WSC-NRODOC 
-              MOVE WK-CLI-NRO-CLIENTE        TO WSC-NROCLI 
-              MOVE WS-NOMAPE-COMPLETO        TO WSC-NOMAPE 
-              MOVE WK-CLI-FECHA-NACIMIENTO   TO WSC-FECNAC 
-              MOVE WK-CLI-SEXO               TO WSC-SEXO 
+              MOVE WK-CLI-TIPO-DOCUMENTO     TO CLI-TIPDOC 
+              MOVE WK-CLI-NRO-DOCUMENTO      TO CLI-NRODOC 
+              MOVE WK-CLI-NRO-CLIENTE        TO CLI-NROCLI 
+              MOVE WS-NOMAPE-COMPLETO        TO CLI-NOMAPE 
+              MOVE WK-CLI-FECHA-NACIMIENTO   TO CLI-FECNAC 
+              MOVE WK-CLI-SEXO               TO CLI-SEXO 
   
-              DISPLAY "-> TIPDOC: " WSC-TIPDOC 
-              DISPLAY "-> NRODOC: " WSC-NRODOC 
-              DISPLAY "-> NROCLI: " WSC-NROCLI 
-              DISPLAY "-> NOMAPE: " WSC-NOMAPE 
-              DISPLAY "-> FECNAC: " WSC-FECNAC 
-              DISPLAY "-> SEXO:   " WSC-SEXO 
+              DISPLAY "-> TIPDOC: " CLI-TIPDOC 
+              DISPLAY "-> NRODOC: " CLI-NRODOC 
+              DISPLAY "-> NROCLI: " CLI-NROCLI 
+              DISPLAY "-> NOMAPE: " CLI-NOMAPE 
+              DISPLAY "-> FECNAC: " CLI-FECNAC 
+              DISPLAY "-> SEXO:   " CLI-SEXO 
   
               EXEC SQL 
-                 SELECT TIPDOC INTO :WSC-TIPDOC 
-                 FROM  KC02787.TBCURCLI 
-                 WHERE TIPDOC = :WSC-TIPDOC 
-                 AND   NRODOC = :WSC-NRODOC 
+                 SELECT TIPDOC INTO :CLI-TIPDOC 
+                 FROM  KC02803.TBCURCLI 
+                 WHERE TIPDOC = :CLI-TIPDOC 
+                 AND   NRODOC = :CLI-NRODOC 
               END-EXEC 
   
               IF SQLCODE = 0 THEN 
-                 DISPLAY 'REGISTRO YA EXISTENTE: ' WSC-TIPDOC 
-                                               ' ' WSC-NRODOC 
+                 DISPLAY 'REGISTRO YA EXISTENTE: ' CLI-TIPDOC 
+                                               ' ' CLI-NRODOC 
               ELSE 
                  IF SQLCODE = NOT-FOUND THEN 
   
@@ -212,7 +212,7 @@
                     THRU 2210-COMPONER-FECHA-F 
   
                     EXEC SQL 
-                       INSERT INTO KC02787.TBCURCLI 
+                       INSERT INTO KC02803.TBCURCLI 
                           ( TIPDOC, 
                             NRODOC, 
                             NROCLI, 
@@ -220,12 +220,12 @@
                             FECNAC, 
                             SEXO ) 
                        VALUES ( 
-                            :WSC-TIPDOC, 
-                            :WSC-NRODOC, 
-                            :WSC-NROCLI, 
-                            :WSC-NOMAPE, 
-                            :WSC-FECNAC, 
-                            :WSC-SEXO 
+                            :CLI-TIPDOC, 
+                            :CLI-NRODOC, 
+                            :CLI-NROCLI, 
+                            :CLI-NOMAPE, 
+                            :CLI-FECNAC, 
+                            :CLI-SEXO 
                        ) 
                     END-EXEC 
   
@@ -267,13 +267,13 @@
       *-------------------------------------------------------------- 
        2200-DESCOM-FECHA-I. 
   
-           MOVE WSC-FECNAC     TO FECHA-MODIF. 
+           MOVE CLI-FECNAC     TO FECHA-MODIF. 
            MOVE FECHA-MODIF    TO LK-COMUNICACION. 
            MOVE FM-MES         TO LK-MES. 
            MOVE FM-DIA         TO LK-DIA. 
 
            DISPLAY " "    
-           DISPLAY "FECHA ENTRADA:   " WSC-FECNAC. 
+           DISPLAY "FECHA ENTRADA:   " CLI-FECNAC. 
   
        2200-DESCOM-FECHA-F. EXIT. 
 

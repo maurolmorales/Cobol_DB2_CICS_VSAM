@@ -125,10 +125,10 @@
       *-------------------------------------------------------------
        0000-MAIN-PROCESS-I. 
   
-           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F. 
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F 
            PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
-                                  UNTIL WS-FIN-LECTURA. 
-           PERFORM 9999-FINAL-I THRU 9999-FINAL-F. 
+                                  UNTIL WS-FIN-LECTURA 
+           PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
 
        0000-MAIN-PROCESS-F. GOBACK. 
   
@@ -136,13 +136,13 @@
       *-------------------------------------------------------------
        1000-INICIO-I. 
   
-           OPEN INPUT NOVEDADES. 
-           SET WS-NO-FIN-LECTURA TO TRUE. 
+           OPEN INPUT NOVEDADES 
+           SET WS-NO-FIN-LECTURA TO TRUE 
   
            IF FS-NOVEDADES IS NOT EQUAL '00' THEN 
               DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-NOVEDADES 
               MOVE 9999 TO RETURN-CODE 
-              SET  WS-FIN-LECTURA TO TRUE 
+              SET WS-FIN-LECTURA TO TRUE 
 
               PERFORM 9999-FINAL-I THRU 9999-FINAL-F 
            END-IF. 
@@ -153,7 +153,7 @@
       *-------------------------------------------------------------- 
        2000-PROCESO-I. 
   
-           PERFORM 2100-LEER-I THRU 2100-LEER-F. 
+           PERFORM 2100-LEER-I THRU 2100-LEER-F 
   
            IF FS-NOVEDADES IS EQUAL '00' THEN
            
@@ -234,7 +234,7 @@
                  SET WS-FIN-LECTURA TO TRUE 
               WHEN OTHER 
                  DISPLAY '*ERROR EN LECTURA ENTRADA INICIO : ' 
-                                                  FS-NOVEDADES 
+                                                           FS-NOVEDADES 
                  DISPLAY "ERROR: " WK-TBCLIE 
                  SET WS-FIN-LECTURA TO TRUE 
            END-EVALUATE. 
