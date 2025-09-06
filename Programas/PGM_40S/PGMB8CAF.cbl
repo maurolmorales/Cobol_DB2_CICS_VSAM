@@ -4,13 +4,10 @@
       ******************************************************************
       *                   CLASE SINCRÓNICA 40                          *
       *                   ===================                          *
-      *   OBJETIVO:                                                    *
-      *   ---------                                                    *
       *   Programa COBOL con SQL embebido que accede a las tablas      *
       *   TBCURCTA (mandatoria) y TBCURCLI,                            *
       *   realizando un LEFT OUTER JOIN por NROCLI.                    *
       *                                                                *
-      *   FUNCIONALIDAD:                                               *
       *   - Seleccionar datos de clientes y cuentas mediante cursores. *
       *   - Listar los registros apareados mostrando:                  *
       *       NROCLI, TIPDOC, NRODOC, NOMAPE y SUCUEN.                 *
@@ -165,9 +162,9 @@
                         B.NROCLI, 
                         B.NOMAPE,
                         A.SUCUEN
-                 FROM   KC02803.TBCURCTA A 
+                 FROM KC02803.TBCURCTA A 
                  LEFT OUTER JOIN KC02803.TBCURCLI B 
-                 ON     A.NROCLI = B.NROCLI 
+                 ON A.NROCLI = B.NROCLI 
                  ORDER BY A.NROCLI ASC
       
            END-EXEC
@@ -191,14 +188,14 @@
            SET WS-NO-FIN-LECTURA TO TRUE
       
            OPEN OUTPUT LISTADO 
-           IF FS-LISTADO IS NOT EQUAL '00' 
+           IF FS-LISTADO IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN OPEN LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET  WS-FIN-LECTURA TO TRUE 
            END-IF 
       
            EXEC SQL OPEN ITEM_CURSOR END-EXEC
-           IF SQLCODE NOT EQUAL ZEROS                            
+           IF SQLCODE NOT EQUAL ZEROS THEN
               MOVE SQLCODE TO WS-SQLCODE                         
               DISPLAY '* ERROR OPEN CURSOR = ' WS-SQLCODE        
               MOVE 9999 TO RETURN-CODE                           
@@ -243,7 +240,6 @@
                     :DCLTBCURCLI.CLI-NROCLI,
                     :DCLTBCURCLI.CLI-NOMAPE,
                     :DCLTBCURCTA.CTA-SUCUEN
-                                     
            END-EXEC 
       
            EVALUATE SQLCODE 
@@ -286,7 +282,7 @@
            MOVE REG-NOMAPE-CLI TO FILE-NOMAPE 
            WRITE REG-SALIDA FROM FILE-REGISTRO.
       
-       5000-PROCESAR-MAESTRO-F. EXIT.                            
+       5000-PROCESAR-MAESTRO-F. EXIT.
            
       
       *--------------------------------------------------------------
@@ -295,7 +291,7 @@
            EXEC SQL  CLOSE ITEM_CURSOR  END-EXEC 
       
            CLOSE LISTADO   
-           IF FS-LISTADO IS NOT EQUAL '00' 
+           IF FS-LISTADO IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN CLOSE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 

@@ -101,35 +101,36 @@ El programa `PGMCORT2` realiza un **doble corte de control** por tipo de documen
 
 ### 💬 Display 
 ```TEXT
-=================================                       
-TIPO-DOC = CI
----------------------------------                       
-TOTAL SEXO F   2
-TOTAL SEXO O   1
-TOTAL TIPO DOCU =   3                                   
-             
-=================================                       
-TIP-DOC = DU 
----------------------------------                       
-TOTAL SEXO F   2
-TOTAL SEXO M   6
-TOTAL TIPO DOCU =   8                                   
-             
-=================================                       
-TIP-DOC = PA 
----------------------------------                       
-TOTAL SEXO F   3
-TOTAL SEXO M   2
-TOTAL TIPO DOCU =   5                                   
-             
-=================================                       
-TIP-DOC = PE 
----------------------------------                       
-TOTAL SEXO F   3
-TOTAL SEXO M   5
-TOTAL TIPO DOCU =   8                                   
-**********************************************          
-TOTAL REGISTROS =  24                          
+=================================                                               
+TIP-DOC = CI                                                                    
+                                                                                
+TOTAL SEXO F   2                                                                
+TOTAL SEXO O   1                                                                
+TOTAL TIPO DOCU =   3                                                           
+                                                                                
+=================================                                               
+TIP-DOC = DU                                                                    
+                                                                                
+TOTAL SEXO F   2                                                                
+TOTAL SEXO M   6                                                                
+TOTAL TIPO DOCU =   8                                                           
+                                                                                
+=================================                                               
+TIP-DOC = PA                                                                    
+                                                                                
+TOTAL SEXO F   3                                                                
+TOTAL SEXO M   2                                                                
+TOTAL TIPO DOCU =   5                                                           
+                                                                                
+=================================                                               
+TIP-DOC = PE                                                                    
+                                                                                
+TOTAL SEXO F   3                                                                
+TOTAL SEXO M   5                                                                
+TOTAL TIPO DOCU =   8                                                           
+                                                                                
+**********************************************                                  
+TOTAL REGISTROS =  24
 ```
 
 <div style="text-align: right;">

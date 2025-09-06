@@ -4,85 +4,135 @@
 
 </div>
 
+# 📄 Listado de Cuentas con Clientes (LEFT JOIN DB2)  
 
-# 📄 Programa COBOL con Corte de Control y Listado Formateado
-
-## Descripción
-
-`PGMIMCAF` es un programa escrito en COBOL, desarrollado como parte de la **Clase Sincrónica 21**, cuyo objetivo es procesar un archivo de entrada de clientes **ordenado por Tipo de Documento**, generando un **listado impreso** con información detallada y organizada.
-
-El programa aplica la técnica de **corte de control** para agrupar registros por **Tipo de Documento**, calculando subtotales por grupo y controlando la paginación para un informe claro y profesional.
+- **Input:** Tablas DB2 `KC02803.TBCURCTA` y `KC02803.TBCURCLI`.  
+- **Output:** Archivo secuencial de salida `LISTADO` con formato de informe.  
+- **Output adicional:** Mensajes y estadísticas por consola (SYSOUT).  
 
 ---
 
-## 🎯 Funcionalidades principales
+## 📚 Descripción del Programa  
+Este programa COBOL **PGMB8CAF** accede a las tablas **TBCURCTA** (mandatoria) y **TBCURCLI**, realizando un **LEFT OUTER JOIN por NROCLI**.  
+- Selecciona y lista datos de clientes y cuentas mediante cursor SQL.  
+- Muestra en archivo de salida los campos: **TIPDOC, NRODOC, NROCLI, NOMAPE y SUCUEN**.  
+- Informa cuando existen cuentas sin cliente asociado (campo NOMAPE nulo).  
+- Genera estadísticas de registros:  
+  - Total leídos.  
+  - Total encontrados.  
+  - Total no encontrados.  
 
-✅ **Lectura de Archivo Secuencial**
-- Abre y valida el archivo de entrada `ENTRADA`.
-- Lee registros secuencialmente hasta finalizar.
+El proyecto incluye:  
+- Programa COBOL con SQL embebido (**PGMB8CAF**).  
+- Archivo secuencial de salida (`LISTADO`).  
+- JCLs de compilación, ejecución y BIND.  
+- Copybooks de SQL (SQLCA y DCLGEN de tablas).  
 
-✅ **Corte de Control**
-- Detecta cambios en el Tipo de Documento.
-- Muestra subtotales de registros para cada grupo.
-- Imprime separadores y totales parciales.
-
-✅ **Generación de Listado**
-- Crea un archivo de salida `LISTADO` en formato de reporte.
-- Incluye títulos, subtítulos, líneas de separación y datos detallados.
-- Controla la cantidad de líneas por página y reimprime títulos cuando es necesario.
-
-✅ **Estadísticas**
-- Muestra por consola la cantidad total de registros leídos y grabados.
-- Muestra mensajes de error si hay incidentes en apertura, lectura, escritura o cierre.
+</br>  
 
 ---
 
-## 📁 Archivos de Entrada y Salida
-
-### 📥 Archivo de Entrada (`ENTRADA`)
-- **Nombre lógico:** `DDENTRA`
-- **Formato:** Secuencial, registros de longitud fija (`X(50)`).
-- **Contenido:** Datos de clientes con campos como:
-  - `CLIS-TIP-DOC`: Tipo de Documento (`DU`, `PA`, `PE`).
-  - Número de Documento.
-  - Sucursal.
-  - Tipo de Cuenta (`01` = Cuenta Corriente, `02` = Caja de Ahorros, `03` = Plazo Fijo).
-  - Número de Cuenta.
-  - Importe.
-  - Fecha (AAAAMMDD).
-  - Localidad.
-
-> ⚠️ **Importante:** El archivo debe estar ordenado previamente por `CLIS-TIP-DOC` para que el corte de control funcione correctamente.
-
-### 📤 Archivo de Salida (`LISTADO`)
-- **Nombre lógico:** `DDLISTA`
-- **Formato:** Reporte impreso de ancho fijo (`X(132)`).
-- **Contenido:**
-  - Encabezados de página con fecha y número de página.
-  - Subtítulos de columnas.
-  - Registros de clientes detallados y formateados.
-  - Subtotales por Tipo de Documento.
-  - Total general.
+### 🚀 Estructura del Proyecto  
+```bash
+├── src/
+│   ├── PGMB8CAF.cbl     # Programa COBOL con SQL embebido y LEFT JOIN
+│   ├── COPY/
+│   │   ├── SQLCA.cpy    # Copybook estándar SQL
+│   │   ├── TBCURCLI.cpy # Copybook DCLGEN tabla clientes
+│   │   ├── TBCURCTA.cpy # Copybook DCLGEN tabla cuentas
+│
+├── jcl/
+│   ├── compile.jcl      # Precompilación, compilación y link-edit
+│   ├── bind.jcl         # Bind del DBRM al PLAN
+│   ├── run.jcl          # Ejecución del programa
+│
+├── README.md
+```
 
 ---
 
-## 🧩 Estructura del Código
-
-- **IDENTIFICATION DIVISION:** Identificación del programa.
-- **ENVIRONMENT DIVISION:** Configuración de archivos de entrada y salida.
-- **DATA DIVISION:**
-  - *FILE SECTION:* Descripción de `ENTRADA` y `LISTADO`.
-  - *WORKING-STORAGE SECTION:* Variables de control, contadores, títulos, subtítulos y líneas de separación.
-- **PROCEDURE DIVISION:**
-  - `1000-INICIO`: Inicialización, apertura de archivos, carga de fecha de proceso.
-  - `2000-PROCESO`: Lectura y procesamiento de registros, aplicación del corte de control.
-  - `2100-LEER`: Rutina de lectura.
-  - `2200-CORTE-MAYOR`: Emite subtotales al cambiar de Tipo de Documento.
-  - `6000-GRABAR-SALIDA`: Genera registros del listado y controla paginación.
-  - `6500-IMPRIMIR-TITULOS` y `6500-IMPRIMIR-SUBTITULOS`: Encabezados de página.
-  - `9999-FINAL`: Cierre de archivos y resumen final.
+### 📋 Archivos Involucrados 
+- **Programa**: `PGMB8CAF.cbl`: Realiza LEFT JOIN de clientes y cuentas, genera listado y estadísticas.
+- **JCL**: 
+  - COMPILA.jcl: Compila el programa con SQL embebido.
+  - BIND.jcl: Genera el plan asociado al DBRM de PGMB8CAF.
+  - EJECUTA.jcl: Ejecuta el programa contra DB2 y genera el archivo LISTADO.
+- **Archivos de datos**: 
+  - LISTADO: Archivo secuencial de salida con registros formateados.
+- **Copybooks utilizados**: 
+  - SQLCA.cpy: Manejo de SQLCODE.
+  - TBCURCLI.cpy: DCLGEN de la tabla clientes.
+  - TBCURCTA.cpy: DCLGEN de la tabla cuentas.
 
 ---
+## ▶️ Descipción del JCL 
+
+#### 🪛 COMPILA.jcl 
+  Precompila, compila y link-edit del programa PGMB8CAF.
+
+#### 🔗 BIND.jcl 
+  Genera el plan asociado al DBRM del programa PGMB8CAF.
+
+#### 🛠️ EJECUTA.jcl 
+  Ejecuta PGMB8CAF contra DB2.
+  - DDLISTA: define el archivo de salida LISTADO.
+  - Muestra mensajes y estadísticas por SYSOUT.
+
+---
+
+## 🏛️ Estructura del Programa 
+- **1000-INICIO**:  
+  - Inicializa variables.
+  - Abre el archivo de salida LISTADO.
+  - Abre el cursor SQL ITEM_CURSOR.
+  - Escribe título, separadores y encabezados en el archivo.
+  - Realiza primer FETCH.
+
+- **2000-PROCESO**
+  - Controla fin de datos (+100).
+  - Procesa registros encontrados (cliente + cuenta).
+  - Procesa registros no encontrados (cuenta sin cliente).
+  - Incrementa contadores.
+  - Repite FETCH.
+
+- **4000-LEER-FETCH**
+  - Realiza FETCH del cursor en DCLTBCURCLI y DCLTBCURCTA.
+  - Maneja casos: éxito (0), fin de datos (+100), cliente no encontrado (-305), otros errores.
+
+- **5000-PROCESAR-MAESTRO**
+  - Copia datos de cliente/cuenta al layout del archivo de salida.
+  - Graba línea en LISTADO.
+
+- **9999-FINAL**
+  - Cierra cursor y archivo.
+  - Muestra estadísticas:
+    - Leídos.
+    - Encontrados.
+    - No encontrados.
+
+---
+
+## ⚙️ Secuencia del Programa 
+1. **Inicio** 
+  - Abrir archivo LISTADO.
+  - Abrir cursor SQL.
+  - Escribir título y encabezados.
+  - Primer FETCH.
+2. **Proceso** 
+  - Por cada fila del JOIN:
+    - Si cliente existe: grabar en archivo.
+    - Si cliente no existe: mensaje "CUENTA SIN CLIENTE EN TBCURCLI".
+    - Actualizar contadores.
+3. **Final** 
+  - Cerrar cursor y archivo.
+  - Mostrar estadísticas en SYSOUT.
+
+---
+
+## 📊 Diagrama de Flujo <image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa"> 
+
+---
+
 
 ## 🎯 Formato del archivo de salida y Display
 El archivo de salida `LISTADO` contiene líneas formateadas con información agrupada. Ejemplo de líneas que se generan:

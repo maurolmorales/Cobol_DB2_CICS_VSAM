@@ -2,8 +2,8 @@
        PROGRAM-ID. MLM2CCAF. 
  
       ***************************************************************
-      *    CLASE ASINCRóNICA 6:                                     *
-      *    ===================                                      *
+      *                  CLASE ASINCRóNICA 6                        *
+      *                  ===================                        *
       *    - Construir un programa COBOL que implemente corte de    *
       *      control por SUCURSAL.                                  *
       *    - Practicar y validar el concepto de estructura de corte *
@@ -101,7 +101,7 @@
            SET WS-NO-FIN-LECTURA TO TRUE. 
  
            OPEN INPUT ENTRADA. 
-           IF FS-ENT IS NOT EQUAL '00' 
+           IF FS-ENT IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-ENT 
               SET  WS-FIN-LECTURA TO TRUE 
            END-IF. 
@@ -109,7 +109,7 @@
       * LEER EL PRIMER REGISTRO FUERA DEL LOOP PRINCIPAL 
            PERFORM 2100-LEER-I THRU 2100-LEER-F. 
  
-           IF WS-FIN-LECTURA 
+           IF WS-FIN-LECTURA THEN
               DISPLAY '* ARCHIVO ENTRADA VACÍO EN INICIO' FS-ENT 
            ELSE 
               MOVE WS-SUC-NRO     TO WS-SUC-NRO-ANT 
@@ -121,26 +121,26 @@
  
       *--------------------------------------------------------------- 
        2000-PROCESO-I. 
-
-           PERFORM 2100-LEER-I THRU 2100-LEER-F 
  
            IF WS-FIN-LECTURA THEN 
-              PERFORM 2200-CORTE-MAYOR-I THRU 2200-CORTE-MAYOR-F 
+              PERFORM 2200-CORTE-I THRU 2200-CORTE-F 
            ELSE 
               IF WS-SUC-NRO IS EQUAL WS-SUC-NRO-ANT THEN 
                  ADD WS-SUC-IMPORTE TO WS-IMPORTE-ACUM 
               ELSE 
-                 PERFORM 2200-CORTE-MAYOR-I THRU 2200-CORTE-MAYOR-F 
+                 PERFORM 2200-CORTE-I THRU 2200-CORTE-F 
                  MOVE WS-SUC-NRO TO WS-SUC-NRO-ANT 
                  ADD  WS-SUC-IMPORTE TO WS-IMPORTE-ACUM 
               END-IF 
-           END-IF. 
+           END-IF
+
+           PERFORM 2100-LEER-I THRU 2100-LEER-F.
 
        2000-PROCESO-F. EXIT. 
 
 
       *---- CORTE DE CONTROL POR NUM-SUC ----------------------------- 
-       2200-CORTE-MAYOR-I. 
+       2200-CORTE-I. 
 
            MOVE WS-IMPORTE-ACUM  TO WS-IMPORTE-PRINT 
            ADD WS-IMPORTE-ACUM TO WS-TOTAL 
@@ -154,7 +154,7 @@
  
            MOVE 0 TO WS-IMPORTE-ACUM. 
 
-       2200-CORTE-MAYOR-F. EXIT. 
+       2200-CORTE-F. EXIT. 
 
 
       *--------------------------------------------------------------- 
@@ -178,15 +178,16 @@
       *--------------------------------------------------------------- 
        9999-FINAL-I.
 
+           PERFORM 2200-CORTE-I THRU 2200-CORTE-F 
+
            MOVE WS-TOTAL TO WS-TOTAL-PRINT 
            DISPLAY ' ' 
            DISPLAY '**********************************************' 
            DISPLAY 'IMPORTE TOTAL = ' WS-TOTAL-PRINT. 
  
            CLOSE ENTRADA 
-           IF FS-ENT IS NOT EQUAL '00' 
+           IF FS-ENT IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN CLOSE ENTRADA = ' FS-ENT 
- 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
            END-IF. 

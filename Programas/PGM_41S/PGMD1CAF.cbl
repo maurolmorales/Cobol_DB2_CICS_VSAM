@@ -221,20 +221,20 @@
            
            SET WS-NO-FIN-LECTURA TO TRUE 
       
-           OPEN INPUT ENTRADA.                                   
-           IF FS-NOVEDADES IS NOT EQUAL '00' THEN                
+           OPEN INPUT ENTRADA
+           IF FS-NOVEDADES IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-NOVEDADES
-              SET  WS-FIN-LECTURA TO TRUE                        
-           END-IF                                               
+              SET  WS-FIN-LECTURA TO TRUE
+           END-IF
       
-           OPEN OUTPUT SALIDA                                    
-           IF FS-SALIDA IS NOT EQUAL '00' THEN                  
+           OPEN OUTPUT SALIDA
+           IF FS-SALIDA IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN OPEN SALIDA = ' FS-SALIDA      
-              MOVE 9999 TO RETURN-CODE                           
-              SET  WS-FIN-LECTURA TO TRUE                        
-           END-IF                                               
+              MOVE 9999 TO RETURN-CODE
+              SET  WS-FIN-LECTURA TO TRUE
+           END-IF
       
-           PERFORM 2100-LEER-I THRU 2100-LEER-F. 
+           PERFORM 2100-LEER-I THRU 2100-LEER-F.
       
        1000-INICIO-F. EXIT. 
       
@@ -263,7 +263,7 @@
       
               WHEN OTHER 
                  DISPLAY '*ERROR EN LECTURA ENTRADA INICIO : ' 
-                                                 FS-NOVEDADES 
+                                                           FS-NOVEDADES 
                  SET WS-FIN-LECTURA TO TRUE 
       
            END-EVALUATE. 

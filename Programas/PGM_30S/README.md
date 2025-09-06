@@ -44,6 +44,8 @@ El proyecto incluye:
    ├── README.md
 ```
 
+--- 
+
 ### 📋 Archivos Involucrados 
 - **Programa**: 
    - `PGMB4CAF.cbl`. Procesa archivo de novedades e inserta en DB2.
@@ -129,7 +131,9 @@ Ejecuta PGMB4CAF contra DB2.
 
 ---
 
-## 📊 Diagrama de Flujo <image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa"> 
+## 📊 Diagrama de Flujo 
+
+<image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa"> 
 
 ---
 

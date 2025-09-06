@@ -39,7 +39,7 @@ Cada carpeta contiene programas representativos de cada etapa de la cursada:
 |[PGM_13S](/Programas/PGM_13S/)|Validación.                               |QSAM |     |   |   |
 |[PGM_06A](/Programas/PGM_06A/)|Corte de Control                          |QSAM |     |   |   |
 |[PGM_07A](/Programas/PGM_07A/)|Doble Corte de Control                    |QSAM |     |   |   |
-|[PGM_21S](/Programas/PGM_21S/)|Corte de Control y Listado Formateado.    |QSAM |     |   |   |
+|[PGM_21S](/Programas/PGM_21S/)|Corte de Control y Listado Formateado.    |QSAM |QSAM |☑️ |   |
 |[PGM_11A](/Programas/PGM_11A/)|Corte de Control con Impresión            |QSAM |QSAM |☑️ |   |
 |[PGM_12A](/Programas/PGM_12A/)|Doble Corte de control más Impresión      |QSAM |QSAM |☑️ |   |
 |[PGM_23S](/Programas/PGM_23S/)|Doble Corte de Control                    |VSAM |     |   |   |
@@ -48,15 +48,15 @@ Cada carpeta contiene programas representativos de cada etapa de la cursada:
 |[PGM_16A](/Programas/PGM_16A/)|Consulta DB2 con Doble Corte de Control   |QSAM |     |   |✅ |
 |[PGM_18A](/Programas/PGM_18A/)|Apareamiento - Consulta DB2 con Cursores  |QSAM |     |   |✅ |
 |[PGM_28S](/Programas/PGM_28S/)|Consulta con Cursor DB2 e Impresión       |DB2  |QSAM |☑️ |✅ |
-|[PGM_30S](/Programas/PGM_30S/)|Actualizador de Clientes DB2 CALL         |     |     |   |✅ |
-|[PGM_35S](/Programas/PGM_35S/)|Menú de Clientes CICS                     |     |VSAM |   |   |
-|[PGM_36S](/Programas/PGM_36S/)|Alta de Clientes CICS                     |     |VSAM |   |   |
-|[PGM_37S](/Programas/PGM_37S/)|Consulta de Clientes CICS                 |     |VSAM |   |   |
-|[PGM_38S](/Programas/PGM_38S/)|Baja de Clientes CICS                     |     |VSAM |   |   |
-|[PGM_39S](/Programas/PGM_39S/)|Modificación de Clientes CICS             |     |VSAM |   |   |
+|[PGM_30S](/Programas/PGM_30S/)|Actualizador de Clientes DB2 CALL         |VSAM |     |   |✅ |
+|[PGM_35S](/Programas/PGM_35S/)|CICS Menú de Clientes                     |     |VSAM |   |   |
+|[PGM_36S](/Programas/PGM_36S/)|CICS Alta de Clientes                     |     |VSAM |   |   |
+|[PGM_37S](/Programas/PGM_37S/)|CICS Consulta de Clientes                 |     |VSAM |   |   |
+|[PGM_38S](/Programas/PGM_38S/)|CICS Baja de Clientes                     |     |VSAM |   |   |
+|[PGM_39S](/Programas/PGM_39S/)|CICS Modificación de Clientes             |     |VSAM |   |   |
 |[PGM_40S](/Programas/PGM_40S/)|Actualizador de novedades                 |QSAM |QSAM |☑️ |✅ |
-|[PGM_41S](/Programas/PGM_41S/)|Modificación de Clientes por Novedades    |     |QSAM |   |   |
-|[PGM_42S](/Programas/PGM_42S/)|Altas de Clientes por Novedades           |     |QSAM |   |   |
+|[PGM_41S](/Programas/PGM_41S/)|Modificación de Clientes por Novedades    |QSAM |QSAM |   |   |
+|[PGM_42S](/Programas/PGM_42S/)|Altas de Clientes por Novedades           |QSAM |QSAM |   |   |
 
 
 
