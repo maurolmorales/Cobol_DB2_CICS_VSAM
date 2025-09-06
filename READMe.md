@@ -49,6 +49,7 @@ Cada carpeta contiene programas representativos de cada etapa de la cursada:
 |[PGM_18A](/Programas/PGM_18A/)|Apareamiento - Consulta DB2 con Cursores  |QSAM |     |   |✅ |
 |[PGM_28S](/Programas/PGM_28S/)|Consulta con Cursor DB2 e Impresión       |DB2  |QSAM |☑️ |✅ |
 |[PGM_30S](/Programas/PGM_30S/)|Actualizador de Clientes DB2 CALL         |VSAM |     |   |✅ |
+|[PGM_32S](/Programas/PGM_30S/)|Apareo con Inner Join                     |QSAM |     |   |✅ |
 |[PGM_35S](/Programas/PGM_35S/)|CICS Menú de Clientes                     |     |VSAM |   |   |
 |[PGM_36S](/Programas/PGM_36S/)|CICS Alta de Clientes                     |     |VSAM |   |   |
 |[PGM_37S](/Programas/PGM_37S/)|CICS Consulta de Clientes                 |     |VSAM |   |   |
