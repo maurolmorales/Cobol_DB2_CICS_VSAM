@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMDCCAF. 
+       PROGRAM-ID. PROGM23S. 
        
       *************************************************** 
       *    CLASE SINCRÓNICA 23                          *
@@ -81,10 +81,10 @@
       *  CUERPO PRINCIPAL DEL PROGRAMA     * 
        
        MAIN-PROGRAM-I. 
-           PERFORM 1000-INICIO-I  THRU  1000-INICIO-F. 
-           PERFORM 2000-PROCESO-I THRU  2000-PROCESO-F 
-                                  UNTIL WS-FIN-LECTURA. 
-           PERFORM 9999-FINAL-I   THRU  9999-FINAL-F. 
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F. 
+           PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
+                                       UNTIL WS-FIN-LECTURA. 
+           PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
        MAIN-PROGRAM-F. GOBACK. 
 
 

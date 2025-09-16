@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMB8CAF. 
+       PROGRAM-ID. PROGM40S. 
       
       ******************************************************************
       *                   CLASE SINCRÓNICA 40                          *

@@ -8,7 +8,7 @@
   - ENTRADA: Archivo QSAM. 
   - SALIDA: Sysout Display
 ## 📚 Descripción del Programa
-`PGMPRUAR` es un programa COBOL que lee secuencialmente un archivo de clientes (`CLIENTES`), identifica los registros con tipo de documento **DU**, acumula sus saldos y muestra estadísticas básicas:  
+`PROGM11S` es un programa COBOL que lee secuencialmente un archivo de clientes (`CLIENTES`), identifica los registros con tipo de documento **DU**, acumula sus saldos y muestra estadísticas básicas:  
 - Total de registros leídos  
 - Cantidad de clientes con tipo DU  
 - Total de saldos de los clientes DU
@@ -17,7 +17,7 @@
 ### 🚀 Estructura del Proyecto
 ```
 ├── src/
-│ ├── PGMPRUAR.cbl # Programa COBOL 
+│ ├── PROGM11S.cbl # Programa COBOL 
 │ ├── COPY/
 │   ├── CPCLI  # Copybook (embebido para tener de referencia)
 │

@@ -32,7 +32,7 @@ El programa se conecta a DB2, abre un cursor para recorrer registros de cuentas,
 ## 🚀 Estructura del proyecto
 ```
 ├── src/
-│ ├── PGMBMLM.cbl # Programa COBOL con SQL embebido y JOIN
+│ ├── PROGM16S.cbl # Programa COBOL con SQL embebido y JOIN
 │ ├── COPY/
 │ │ ├── SQLCA.cpy # Copybook estándar para manejo de SQLCODE
 │ │ ├── TBCURCTA.cpy # Copybook DCLGEN tabla cuentas
@@ -62,7 +62,7 @@ El programa se conecta a DB2, abre un cursor para recorrer registros de cuentas,
 3. **Ejecución**
    - Usa `IKJEFT01` para abrir una sesión `TSO` en batch.
    - Corre `DSN` para conectar al sistema DB2.
-   - Ejecuta `RUN PROGRAM(PGMBMLM) PLAN(CURSOCAF)`.
+   - Ejecuta `RUN PROGRAM(PROGM16S) PLAN(CURSOCAF)`.
 
 ---
 ## ✅ Salida por SYSOUT:

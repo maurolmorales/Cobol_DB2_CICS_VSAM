@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMD2CAF. 
+       PROGRAM-ID. PROGM42S. 
  
       ******************************************************************
       *                   CLASE ASINCRONICA 41                         *

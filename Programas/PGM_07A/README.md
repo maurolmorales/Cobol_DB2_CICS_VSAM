@@ -8,7 +8,7 @@
 - Entrada: archivo QSAM
 - Salida: sysout display
 ## 📚 Descripción del Programa
-El programa `PGMCORT2` realiza un **doble corte de control** por tipo de documento y luego por sexo del cliente luego de haber validado el tipo de documento sea igual al especificado. Muestra la cantidad por cada corte de control y el total de registros. Se trata de un ejemplo típico de procesamiento secuencial y agrupamiento de registros en COBOL, utilizado en el contexto del curso de Programación en Mainframe.
+El programa `PROGM07A` realiza un **doble corte de control** por tipo de documento y luego por sexo del cliente luego de haber validado el tipo de documento sea igual al especificado. Muestra la cantidad por cada corte de control y el total de registros. Se trata de un ejemplo típico de procesamiento secuencial y agrupamiento de registros en COBOL, utilizado en el contexto del curso de Programación en Mainframe.
 
 </br>
 
@@ -16,7 +16,7 @@ El programa `PGMCORT2` realiza un **doble corte de control** por tipo de documen
 
 ```
 ├── src/
-│ ├── PGMCORT2.cbl # Programa COBOL 
+│ ├── PROGM07A.cbl # Programa COBOL 
 │ ├── COPY/
 │ │ ├── CLICOB # Copybook (embebido para tener de referencia)
 │
@@ -30,12 +30,12 @@ El programa `PGMCORT2` realiza un **doble corte de control** por tipo de documen
 
 ### 📋 Archivos Involucrados
 
-- **Programa**: `PGMCORT2.cbl` Programa fuente de corte de control.
+- **Programa**: `PROGM07A.cbl` Programa fuente de corte de control.
 - **JCL**: \
 `COMPILA.jcl`: Compila un programa COBOL batch.
   1. Usa una librería de PROCs (ORIGEN.CURSOS.PROCLIB).
   2. Ejecuta el PROC COMPCOTE, que compila un programa COBOL batch.
-  3. Compila el programa PGMCORT2 que debe estar en la librería USUARIO.CURSOS.
+  3. Compila el programa PROGM07A que debe estar en la librería USUARIO.CURSOS.
   4. (Opcional) Le pasa una librería de COPYBOOKs a través del DD COBOL.SYSLIB. 
 
   `EJECUTA.jcl`: Trata el archivo de entrada y ejecuta el programa.

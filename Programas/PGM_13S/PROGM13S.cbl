@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMC1CAF. 
+       PROGRAM-ID. PROGM13S. 
 
       *****************************************************************
       *    CLASE SINCRÓNICA 13                                        *

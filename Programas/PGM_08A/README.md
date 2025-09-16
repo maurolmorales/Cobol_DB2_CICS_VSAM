@@ -8,7 +8,7 @@
   - ENTRADA: Archivo QSAM. 
   - SALIDA: Archivo QSAM.
 ## 📚 Descripción del Programa
-**PGMVACAF** es un programa cuyo objetivo es procesar un archivo de entrada con novedades de clientes, validar la información (principalmente la fecha y el tipo de documento) y generar un archivo de salida con los registros válidos.  
+**PROGM08A** es un programa cuyo objetivo es procesar un archivo de entrada con novedades de clientes, validar la información (principalmente la fecha y el tipo de documento) y generar un archivo de salida con los registros válidos.  
 Los registros con datos inválidos se informan mediante mensajes en 
 consola y no se graban.
 
@@ -18,7 +18,7 @@ consola y no se graban.
 
 ```
 ├── src/
-│ ├── PGMVACAF.cbl # Programa COBOL 
+│ ├── PROGM08A.cbl # Programa COBOL 
 │ ├── COPY/
 │   ├── CPNOVCLI  # Copybook (embebido para tener de referencia)
 │   ├── CPNCLIV   # Copybook (embebido para tener de referencia)
@@ -37,7 +37,7 @@ consola y no se graban.
 
 ### 📋 Archivos Involucrados
 
-- **Programa**: `PGMVACAF.cbl` Programa fuente de validación.
+- **Programa**: `PROGM08A.cbl` Programa fuente de validación.
 - **JCL**: \
 `COMPILA.jcl`: Compila un programa COBOL batch.
   1. Usa una librería de PROCs (ORIGEN.CURSOS.PROCLIB).
@@ -48,7 +48,7 @@ consola y no se graban.
   `EJECUTA.jcl`: Trata el archivo de entrada y ejecuta el programa.
   1. Borra (si existe) el archivo USUARIO.ARCHIVO.SORT.
   2. Ordena USUARIO.ARCHIVOS por los primeros 2 bytes y genera USUARIO.ARCHIVO.SORT.
-  3. Ejecuta el programa PGMVACAF usando como entrada ARCHIVO.SORT y 
+  3. Ejecuta el programa PROGM08A usando como entrada ARCHIVO.SORT y 
   genera un archivo resultante. Graba salida en SYSOUT.
 
 - **Archivos de datos**:

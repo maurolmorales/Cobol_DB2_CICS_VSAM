@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMB4CAF. 
+       PROGRAM-ID. PROGM30S. 
       ******************************************************************
       *                   CLASE SINCRÓNICA 30                          *
       *                   ===================                          *

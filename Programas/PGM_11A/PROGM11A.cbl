@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMIMCAF. 
+       PROGRAM-ID. PROGM11A. 
  
       *************************************************************** 
       *    CLASE 11 ASÍNCRONA                                       * 

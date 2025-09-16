@@ -9,7 +9,7 @@ Programa para generar un listado de impresión en base a una consulta específic
 
 ## 📚 Descripción del programa
 
-Este programa COBOL (`MLMB2CAF`) realiza un procesamiento batch que:
+Este programa COBOL (`DPROGM28S`) realiza un procesamiento batch que:
 
 - Abre un cursor SQL en DB2 (`CURSOR_CLI`) para obtener información de cuentas con saldo mayor a cero.
 - Recupera datos desde las tablas `TBCURCTA` (cuentas) y `TBCURCLI` (clientes) con un `JOIN`.
@@ -21,11 +21,11 @@ Este programa COBOL (`MLMB2CAF`) realiza un procesamiento batch que:
 ## 🚀 Estructura del proyecto
 ```
 ├── programa/
-│   └── MLMB2CAF.cbl
+│   └── DPROGM28S.cbl
 │
 ├── jcl/
 │   ├── COMPILA.jcl   # Compilación con procedimiento COMPDB2
-│   ├── BIND.jcl      # Bind plan CURSOCAF, miembro MLMB2CAF
+│   ├── BIND.jcl      # Bind plan CURSOCAF, miembro DPROGM28S
 │   └── EJECUTA.jcl   # Ejecución del programa
 │
 ├── data/
@@ -36,7 +36,7 @@ Este programa COBOL (`MLMB2CAF`) realiza un procesamiento batch que:
 
 ### 📋 Archivos involucrados
 
-- **Programa**: `MLMB2CAF.cbl` (fuente principal en COBOL con SQL embebido).
+- **Programa**: `DPROGM28S.cbl` (fuente principal en COBOL con SQL embebido).
 - **JCL**:
   - `COMPILA.jcl`: Compila el programa usando `COMPDB2`.
   - `BIND.jcl`: Genera el plan `CURSOCAF` asociado al programa.
@@ -60,7 +60,7 @@ Compila el programa utilizando un procedure (COMPDB2) y define la librería de c
 ```jcl
 //STEP1      EXEC COMPDB2,
 //                ALUMLIB=USUARIO.CURSOS,
-//                GOPGM=MLMB2CAF
+//                GOPGM=DPROGM28S
 //PC.SYSLIB  DD   DSN=USUARIO.CURSOS.DCLGEN,DISP=SHR
 //COB.SYSLIB DD   DSN=ORIGEN.ALU9999.COPYLIB,DISP=SHR
 ```
@@ -72,7 +72,7 @@ Asocia el programa compilado a un `PLAN` en DB2:
 //DSN SYSTEM(DBDG)
 //RUN PROGRAM(DSNTIAD) PLAN(DSNTIA13) -
 //    LIB('DSND10.DBDG.RUNLIB.LOAD')
-//BIND PLAN(CURSOCAF) MEMBER(MLMB2CAF) +
+//BIND PLAN(CURSOCAF) MEMBER(DPROGM28S) +
 //    CURRENTDATA(NO) ACT(REP) ISO(CS) ENCODING(EBCDIC)
 //END
 ```
@@ -84,7 +84,7 @@ Ejecuta el programa, grabando la salida en `USUARIO.ARCHIVOS.LISTADO`:
 //EJECMLM EXEC PGM=IKJEFT01,DYNAMNBR=20
 //SYSTSIN DD *
   DSN SYSTEM(DBDG)
-  RUN PROGRAM(MLMB2CAF) PLAN(CURSOCAF) +
+  RUN PROGRAM(DPROGM28S) PLAN(CURSOCAF) +
       LIB('KC03CAF.CURSOS.PGMLIB')
   END
 //DDLISTA DD DSN=KC03CAF.ARCHIVOS.LISTADO, ...

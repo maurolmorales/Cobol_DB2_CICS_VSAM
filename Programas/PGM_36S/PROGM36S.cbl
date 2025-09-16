@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. *> ALTA 
-       PROGRAM-ID. PGMALCAF. 
+       PROGRAM-ID. PROGM36S. 
       
       ***************************************************************** 
       *                   CLASE SINCRÓNICA 36                         * 

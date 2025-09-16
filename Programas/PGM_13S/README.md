@@ -9,7 +9,7 @@
 - Salida: sysout display
 
 ## 📚 Descripción del Programa
-`PGMC1CAF` realiza un **corte de control** por estado civil. Muestra la cantidad por cada corte de control y el total de registros. 
+`PROGM13S` realiza un **corte de control** por estado civil. Muestra la cantidad por cada corte de control y el total de registros. 
 
 El objetivo principal es procesar un archivo de entrada con información de clientes para:
 - Leer todos los registros.
@@ -22,7 +22,7 @@ El objetivo principal es procesar un archivo de entrada con información de clie
 
 ```
 ├── src/
-│ ├── PGMC1CAF.cbl # Programa COBOL 
+│ ├── PROGM13S.cbl # Programa COBOL 
 │ ├── COPY/
 │ │ ├── CLICOB # Copybook (embebido para tener de referencia)
 │

@@ -9,14 +9,14 @@
   - Salida: Insert DB2
 
 ## 📚 Descripción del programa
-Este programa COBOL (`PGMB2CAF`) con SQL embebido realiza la carga de registros a una tabla de DB2 a partir de un archivo secuencial VSAM.
+Este programa COBOL (`PROGM27S`) con SQL embebido realiza la carga de registros a una tabla de DB2 a partir de un archivo secuencial VSAM.
 Se encarga de leer datos del archivo `NOVEDADES`, formatear la información y realizar las inserciones correspondientes en la tabla `TBCURCLI`. Además, controla errores durante la carga e informa totales de registros procesados.
 
 ---
 ## 🚀 Estructura del proyecto
 ```
 ├── programa/
-│ └── PGMB2CAF.cbl 
+│ └── PROGM27S.cbl 
 │
 ├── jcl/
 │ ├── COMPILA.jcl # JCL para compilar
@@ -51,7 +51,7 @@ Se encarga de leer datos del archivo `NOVEDADES`, formatear la información y re
 - El programa es bindeado mediante un JCL que ejecuta IKJEFT01 y comandos DB2 (BIND PLAN...)
 - El DBRM es asociado al PLAN de ejecución (CURSOCAF)
 ### EJECUCIÓN
-- Se ejecuta con un JCL que llama a IKJEFT01 con RUN PROGRAM(PGMB2CAF)
+- Se ejecuta con un JCL que llama a IKJEFT01 con RUN PROGRAM(PROGM27S)
 - El programa usa el plan CURSOCAF y carga registros desde KC03CAF.NOVECLI.KSDS.VSAM
 
 

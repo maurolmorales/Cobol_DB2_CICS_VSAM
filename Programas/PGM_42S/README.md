@@ -8,7 +8,7 @@
 - **Input**: `NOVEDADES` (QSAM, 80 bytes, archivo de entrada con novedades de clientes).
 - **Output**: `ERRORES` (QSAM, FBA 132 bytes, listado de errores).
 ## 📚 Descripcion del Programa
-Este programa COBOL (`PGMD1CAF`) procesa novedades de clientes para ingresar a la tabla `TBCURCLI` en DB2.  
+Este programa COBOL (`PROGM42S`) procesa novedades de clientes para ingresar a la tabla `TBCURCLI` en DB2.  
 - **Propósito**: Validar los campos del clientes e ingresar los registros correspondientes en la base de datos.  
 - **Complemento**: En caso de errores, genera un archivo de salida con un listado formateado y estadísticas al final.  
 - **Incluye**: Programa COBOL con SQL embebido, archivos QSAM de entrada/salida, JCLs para compilar/ejecutar, y copybooks (`SQLCA`, `TBCURCLI`).  
@@ -21,7 +21,7 @@ Este programa COBOL (`PGMD1CAF`) procesa novedades de clientes para ingresar a l
 
 ```
 ├── src/
-│ ├── PGMD1CAF.cbl # Programa COBOL con SQL embebido
+│ ├── PROGM42S.cbl # Programa COBOL con SQL embebido
 │ ├── COPY/
 │ │ ├── SQLCA.cpy # Copybook estándar para manejo de SQLCODE
 │ │ ├── TBCURCLI.cpy # Copybook DCLGEN tabla clientes
@@ -37,7 +37,7 @@ Este programa COBOL (`PGMD1CAF`) procesa novedades de clientes para ingresar a l
 
 ### 📋 Archivos Involucrados
 
-- **Programa**: `PGMD1CAF.cbl`  
+- **Programa**: `PROGM42S.cbl`  
   Procesa novedades de clientes, valida campos y realiza un insert a `TBCURCLI`.  
 
 - **JCL**:

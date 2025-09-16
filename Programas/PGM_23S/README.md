@@ -20,7 +20,7 @@ Al finalizar cada grupo (por tipo de cuenta y luego por sucursal), se imprime el
 ## 🚀 Estructura del proyecto
 ```
 ├── programa/
-│   └── PGMBMLM.cbl
+│   └── PROGM23S.cbl
 │
 ├── jcl/
 │   ├── COMPILA.jcl   # Compilación con procedimiento COMPDB2
@@ -35,7 +35,7 @@ Al finalizar cada grupo (por tipo de cuenta y luego por sucursal), se imprime el
 
 ### 📋 Archivos involucrados
 
-- **Programa**: `PGMBMLM.cbl` (fuente principal en COBOL con SQL embebido).
+- **Programa**: `PROGM23S.cbl` (fuente principal en COBOL con SQL embebido).
 - **JCL**:
   - `COMPILA.jcl`: Compila el programa usando `COMPDB2`.
   - `BIND.jcl`: Genera el plan `CURSOCAF` asociado al programa.

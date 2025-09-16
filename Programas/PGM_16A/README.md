@@ -8,7 +8,7 @@
   - Entrada: DB2
 ## 📚 Descripción del programa
 
-Este programa COBOL (`PGMBMLM`) realiza un procesamiento batch que:
+Este programa COBOL (`PROGM16A`) realiza un procesamiento batch que:
   - Utilizar SQL embebido en COBOL para acceder a datos de DB2.
   - Aplicar corte de control por campo `SUCUEN` (Sucursal-Cuenta).
   - Acumular cantidad de cuentas por sucursal y mostrar un total general al finalizar.
@@ -19,11 +19,11 @@ Este programa COBOL (`PGMBMLM`) realiza un procesamiento batch que:
 ## 🚀 Estructura del proyecto
 ```
 ├── programa/
-│   └── PGMBMLM.cbl
+│   └── PROGM16A.cbl
 │
 ├── jcl/
 │   ├── COMPILA.jcl   # Compilación con procedimiento COMPDB2
-│   ├── BIND.jcl      # Bind plan CURSOCAF, miembro PGMBMLM
+│   ├── BIND.jcl      # Bind plan CURSOCAF, miembro PROGM16A
 │   └── EJECUTA.jcl   # Ejecución del programa
 │
 ├── README.md
@@ -31,7 +31,7 @@ Este programa COBOL (`PGMBMLM`) realiza un procesamiento batch que:
 
 ### 📋 Archivos involucrados
 
-- **Programa**: `PGMBMLM.cbl` (fuente principal en COBOL con SQL embebido).
+- **Programa**: `PROGM16A.cbl` (fuente principal en COBOL con SQL embebido).
 - **JCL**:
   - `COMPILA.jcl`: Compila el programa usando `COMPDB2`.
   - `BIND.jcl`: Genera el plan `CURSOCAF` asociado al programa.

@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. *> baja
-       PROGRAM-ID. PGMBACAF. 
+       PROGRAM-ID. PROGM38S. 
       
       *****************************************************************
       *                   CLASE SINCRÓNICA 38                         *

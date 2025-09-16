@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. MLM2CCAF. 
+       PROGRAM-ID. PROGM06A. 
  
       ***************************************************************
       *                  CLASE ASINCRóNICA 6                        *

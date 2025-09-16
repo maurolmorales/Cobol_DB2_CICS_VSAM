@@ -8,7 +8,7 @@
 - **Input**: `NOVEDADES` (QSAM, 80 bytes, archivo de entrada con novedades de clientes).
 - **Output**: `ERRORES` (QSAM, FBA 132 bytes, listado de errores).
 ## 📚 Descripcion del Programa
-Este programa COBOL (`PGMD1CAF`) procesa novedades de clientes para actualizar la tabla `TBCURCLI` en DB2.  
+Este programa COBOL (`PROGM41S`) procesa novedades de clientes para actualizar la tabla `TBCURCLI` en DB2.  
 - **Propósito**: Validar modificaciones de clientes (cambio de número de cliente, nombre o sexo) y actualizar los registros correspondientes en la base de datos.  
 - **Complemento**: En caso de errores, genera un archivo de salida con un listado formateado y estadísticas al final.  
 - **Incluye**: Programa COBOL con SQL embebido, archivos QSAM de entrada/salida, JCLs para compilar/ejecutar, y copybooks (`SQLCA`, `TBCURCLI`).  
@@ -21,7 +21,7 @@ Este programa COBOL (`PGMD1CAF`) procesa novedades de clientes para actualizar l
 
 ```
 ├── src/
-│ ├── PGMD1CAF.cbl # Programa COBOL con SQL embebido
+│ ├── PROGM41S.cbl # Programa COBOL con SQL embebido
 │ ├── COPY/
 │ │ ├── SQLCA.cpy # Copybook estándar para manejo de SQLCODE
 │ │ ├── TBCURCLI.cpy # Copybook DCLGEN tabla clientes
@@ -37,7 +37,7 @@ Este programa COBOL (`PGMD1CAF`) procesa novedades de clientes para actualizar l
 
 ### 📋 Archivos Involucrados
 
-- **Programa**: `PGMD1CAF.cbl`  
+- **Programa**: `PROGM41S.cbl`  
   Procesa novedades de clientes, valida campos según el tipo de novedad y actualiza `TBCURCLI`.  
 
 - **JCL**:
@@ -110,10 +110,10 @@ NOV-TIP-NOV NOV-TIP-DOC  NOV-NRO-DOC NOV-CLI-NRO NOV-CLI-APELLIDO               
 AN 1:2      AN 3:2           ZD 5:11     ZD 16:3 AN 19:30                       AN 49:8       AN 57:1      AN 58:23  
 <>          <>          <---+----1->        <--> <---+----1----+----2----+----> <---+-->      -            <---+----1
 ****  Top of data  ****                          ****  Top of data  ****                                             
-CN          PA           00186569890         455 MORALES SAMUEL, WILSON         19850820      M                      
-CL          DU           00186567890         777 MORALES CAROLINA, DANVERS      19751205      F                      
-AL          DU           77321654000         707 MORALES PUENTES, GUILLERMO     19800505      M                      
-CN          PE           00982356440         502 MORALES ESTEBAN, TRABAJOS      19950211      M                      
+CN          PA           00186569890         455 SAMUEL, WILSON                 19850820      M                      
+CL          DU           00186567890         777 CAROLINA, DANVERS              19751205      F                      
+AL          DU           77321654000         707 PUENTES, GUILLERMO             19800505      M                      
+CN          PE           00982356440         502 ESTEBAN, TRABAJOS              19950211      M                      
 
 ```
 <br />
@@ -124,7 +124,7 @@ MODIFICACIONES LEÍDAS - DETALLE DE ERRORES
  | TIP-DOC |     NRO-DOC | NRO-CLI |             NOMAPE             | SEXO | FECHA NAC | 
                                                                             
 MOTIVO DEL ERROR: TIPO DE NOVEDAD NO VÁLIDO                                 
- |      DU | 00186567890 |     777 | MORALES CAROLINA, DANVERS      |    F |  19751205 | 
+ |      DU | 00186567890 |     777 | CAROLINA, DANVERS              |    F |  19751205 | 
 ```
 <br />
 

@@ -1,17 +1,25 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMBMLM. 
-       
-      ***************************************************************
-      * Este programa usa SQL embebido con un cursor que une        *
-      * las tablas TBCURCTA y TBCURCLI.                             *
-      * El DBRM generado se debe registrar en DB2 mediante un BIND, *
-      * que crea o actualiza el PACKAGE y el PLAN para ejecutar     *
-      * correctamente las sentencias SQL en runtime.                *
-      ***************************************************************
+       PROGRAM-ID. PROGM16A. 
 
+      *************************************************************** 
+      *                CLASE ASINCRÓNICA 16                         *
+      *                ====================                         *
+      *  Construir un programa mediante SQL embebido con CURSOR para*
+      *  recorrer datos extraídos de una tabla DB2.                 *
+      *  Incorporar un ORDER BY SUCUEN en la query, para permitir   *
+      *  Leer registros del cursor mediante FETCH.                  * 
+      *  Por cada cambio de sucursal (SUCUEN), realizar un corte de *
+      *  control, mostrando por DISPLAY:                            *
+      *  - Número de sucursal.                                      *
+      *  - Cantidad de cuentas que pertenecen a esa sucursal.       *
+      *  Al finalizar el recorrido del cursor (SQLCODE = +100),     *
+      *  mostrar: Total general de cuentas procesadas.              *
+      *************************************************************** 
+ 
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
        ENVIRONMENT DIVISION. 
        CONFIGURATION SECTION. 
+
        SPECIAL-NAMES. 
            DECIMAL-POINT IS COMMA. 
  
@@ -41,16 +49,36 @@
        77  WS-CUENTA-PRINT         PIC Z9.
        77  WS-TOTAL-PRINT          PIC ZZZ9.
  
+
+      *//////////// COPY  ///////////////////////////////////////////
+       01  DCLTBCURCLI.                                          
+           10 CLI-TIPDOC           PIC X(2).                     
+           10 CLI-NRODOC           PIC S9(11)V USAGE COMP-3.     
+           10 CLI-NROCLI           PIC S9(3)V USAGE COMP-3.      
+           10 CLI-NOMAPE           PIC X(30).                    
+           10 CLI-FECNAC           PIC X(10).                    
+           10 CLI-SEXO             PIC X(1).                     
+
+       01  DCLTBCURCTA.                                                  
+           10 CTA-TIPCUEN          PIC X(2).                             
+           10 CTA-NROCUEN          PIC S9(5)V USAGE COMP-3.              
+           10 CTA-SUCUEN           PIC S9(2)V USAGE COMP-3.              
+           10 CTA-NROCLI           PIC S9(3)V USAGE COMP-3.              
+           10 CTA-SALDO            PIC S9(5)V9(2) USAGE COMP-3.          
+           10 CTA-FECSAL           PIC X(10).                                  
+      *//////////////////////////////////////////////////////////////
+
+
       *----------- SQL ----------------------------------------------
-       77  WS-SQLCODE       PIC +++999 USAGE DISPLAY VALUE ZEROS. 
-       77  REG-SALDO               PIC -Z(09).99     VALUE ZEROES.
-       77  REG-TIPCUEN             PIC Z9            VALUE ZEROES.
-       77  REG-NROCUEN             PIC 9(05)         VALUE ZEROES.
-       77  REG-SUCUEN              PIC 99            VALUE ZEROES.
+       77  WS-SQLCODE     PIC +++999 USAGE DISPLAY VALUE ZEROS. 
+       77  REG-SALDO      PIC -Z(09).99     VALUE ZEROES.
+       77  REG-TIPCUEN    PIC Z9            VALUE ZEROES.
+       77  REG-NROCUEN    PIC 9(05)         VALUE ZEROES.
+       77  REG-SUCUEN     PIC 99            VALUE ZEROES.
  
-           EXEC SQL INCLUDE SQLCA    END-EXEC. 
-           EXEC SQL INCLUDE TBCURCTA END-EXEC. 
-           EXEC SQL INCLUDE TBCURCLI END-EXEC. 
+           EXEC SQL INCLUDE SQLCA END-EXEC. 
+      *     EXEC SQL INCLUDE TBCURCTA END-EXEC. 
+      *     EXEC SQL INCLUDE TBCURCLI END-EXEC. 
  
             EXEC SQL 
               DECLARE ITEM_CURSOR CURSOR
@@ -62,9 +90,9 @@
                      B.NOMAPE, 
                      A.SALDO, 
                      A.FECSAL 
-              FROM  KC02787.TBCURCTA A 
+              FROM  KC02803.TBCURCTA A 
               INNER JOIN 
-                    KC02787.TBCURCLI B 
+                    KC02803.TBCURCLI B 
               ON  A.NROCLI = B.NROCLI 
               WHERE A.SALDO > 0 
               ORDER BY A.SUCUEN ASC
@@ -81,7 +109,7 @@
   
            PERFORM 1000-INICIO-I  THRU 1000-INICIO-F. 
            PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F
-                                  UNTIL WS-FIN-LECTURA. 
+                                       UNTIL WS-FIN-LECTURA. 
            PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
  
        MAIN-PROGRAM-F. GOBACK. 
@@ -94,7 +122,7 @@
  
            EXEC SQL OPEN ITEM_CURSOR END-EXEC. 
  
-            IF SQLCODE NOT EQUAL ZEROS 
+           IF SQLCODE NOT EQUAL ZEROS 
               MOVE SQLCODE TO WS-SQLCODE 
               DISPLAY '* ERROR OPEN CURSOR = ' WS-SQLCODE 
               MOVE 9999 TO RETURN-CODE 
@@ -132,24 +160,22 @@
       *--------------------------------------------------------------
        2100-FETCH-I.
  
-           EXEC SQL 
-              FETCH ITEM_CURSOR 
-                 INTO 
-                    :DCLTBCURCTA.WS-TIPCUEN,
-                    :DCLTBCURCTA.WS-NROCUEN,
-                    :DCLTBCURCTA.WS-SUCUEN,
-                    :DCLTBCURCTA.WS-NROCLI,
-                    :DCLTBCURCLI.WSC-NOMAPE,
-                    :DCLTBCURCTA.WS-SALDO,
-                    :DCLTBCURCTA.WS-FECSAL
+           EXEC SQL FETCH ITEM_CURSOR INTO 
+                                      :DCLTBCURCTA.CTA-TIPCUEN,
+                                      :DCLTBCURCTA.CTA-NROCUEN,
+                                      :DCLTBCURCTA.CTA-SUCUEN,
+                                      :DCLTBCURCTA.CTA-NROCLI,
+                                      :DCLTBCURCLI.CLI-NOMAPE,
+                                      :DCLTBCURCTA.CTA-SALDO,
+                                      :DCLTBCURCTA.CTA-FECSAL
            END-EXEC. 
 
            EVALUATE TRUE 
               WHEN SQLCODE EQUAL ZEROS 
-                 MOVE WS-SALDO   TO REG-SALDO 
-                 MOVE WS-TIPCUEN TO REG-TIPCUEN 
-                 MOVE WS-NROCUEN TO REG-NROCUEN 
-                 MOVE WS-SUCUEN  TO REG-SUCUEN 
+                 MOVE CTA-SALDO   TO REG-SALDO 
+                 MOVE CTA-TIPCUEN TO REG-TIPCUEN 
+                 MOVE CTA-NROCUEN TO REG-NROCUEN 
+                 MOVE CTA-SUCUEN  TO REG-SUCUEN 
               WHEN SQLCODE EQUAL +100 
                  SET WS-FIN-LECTURA TO TRUE 
               WHEN OTHER 
@@ -192,7 +218,7 @@
            END-IF. 
 
            DISPLAY ' ' 
-           DISPLAY '=================================' 
-           DISPLAY 'TOTAL CUENTAS: ' WS-TOTAL-PRINT. 
+           DISPLAY '====================================' 
+           DISPLAY 'TOTAL GENERAL DE CUENTAS: ' WS-TOTAL-PRINT. 
  
        9999-FINAL-F. EXIT. 

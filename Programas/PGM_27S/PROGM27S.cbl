@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMB2CAF. 
+       PROGRAM-ID. PROGM27S. 
 
       ***************************************************************
       *                   CLASE SINCRÓNICA 27                       *

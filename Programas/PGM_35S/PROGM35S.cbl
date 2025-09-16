@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. *> menu
-       PROGRAM-ID. PGMMECAF. 
+       PROGRAM-ID. PROGM35S. 
       
       *****************************************************************
       *                   CLASE SINCRÓNICA 35                         *

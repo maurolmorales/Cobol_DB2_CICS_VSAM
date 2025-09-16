@@ -1,8 +1,8 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. MLMB2CAF. 
+       PROGRAM-ID. PROGM28S. 
   
       ***************************************************************
-      *                   CLASE SINCRÓNICA 28                       *
+      *      MLMB2CAF             CLASE SINCRÓNICA 28*
       *                   ====================                      *
       *  Construir un prog. para obtener datos desde una tabla DB2. *
       *  Definir y usar un CURSOR basado en una query JOIN provista *

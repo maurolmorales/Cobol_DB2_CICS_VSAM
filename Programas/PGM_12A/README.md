@@ -10,7 +10,7 @@
   - Salida: QSAM
 ## 📚 Descripción del programa
 
-Este programa COBOL (`PGM5CCAF`) realiza un procesamiento batch que:
+Este programa COBOL (`PROGM12A`) realiza un procesamiento batch que:
 
 - Lee un archivo secuencial de clientes.
 - Aplica cortes de control por **sucursal (`CLIS-SUC`)** y luego por **tipo de cliente (`CLIS-TIPO`)**.
@@ -22,7 +22,7 @@ Este programa COBOL (`PGM5CCAF`) realiza un procesamiento batch que:
 ## 🚀 Estructura del proyecto
 ```
 ├── programa/
-│ └── PGM5CCAF.cbl 
+│ └── PROGM12A.cbl 
 │
 ├── jcl/
 │ ├── COMPILA.jcl # JCL para compilar (usa PROCLIB)
@@ -38,7 +38,7 @@ Este programa COBOL (`PGM5CCAF`) realiza un procesamiento batch que:
 
 ### 📋 Archivos involucrados
 
-- **Programa**: `PGM5CCAF.cbl` (programa fuente principal).
+- **Programa**: `PROGM12A.cbl` (programa fuente principal).
 - **JCL**:
   - `COMPILA.jcl` (compilación del programa).
   - `EJECUTA.jcl` (ejecución del programa + preprocesamiento de datos).
@@ -60,7 +60,7 @@ Utiliza una *PROCEDURE* (`COMPCOTE`) con parámetros para compilar el programa C
 ```jcl
 //STEP1    EXEC COMPCOTE, 
 //         ALUMLIB=USUARIO.CURSOS, 
-//         GOPGM=PGM5CCAF
+//         GOPGM=PROGM12A
 ```
 
 Incluye definición de biblioteca de copys (SYSLIB) si se requiere.
@@ -74,7 +74,7 @@ Contiene tres pasos:
 
 2. `SORT (STEP2)`: ordena el archivo original por CLIS-SUC (pos 14,2) y CLIS-TIPO (pos 16,2).
 
-3. `PGM5CCAF (STEP3)`: ejecuta el programa con los archivos correctos:
+3. `PROGM12A (STEP3)`: ejecuta el programa con los archivos correctos:
 
 ```jcl
 //DDENTRA  DD DSN=USUARIO.ARCHIVOS.CLIENTES.SORT,DISP=SHR

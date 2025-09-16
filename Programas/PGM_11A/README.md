@@ -8,7 +8,7 @@
   - ENTRADA: Archivo QSAM. 
   - SALIDA: Archivo QSAM.
 ## 📚 Descripción del Programa
-El programa `PGMIMCAF` procesa un archivo de entrada (`ENTRADA`) de registros de clientes, genera un listado impreso (`LISTADO`) y realiza un corte de control cada vez que cambia el tipo de documento del cliente. Además, maneja impresión paginada.
+El programa `PROGM11A` procesa un archivo de entrada (`ENTRADA`) de registros de clientes, genera un listado impreso (`LISTADO`) y realiza un corte de control cada vez que cambia el tipo de documento del cliente. Además, maneja impresión paginada.
 
 ---
 
@@ -16,7 +16,7 @@ El programa `PGMIMCAF` procesa un archivo de entrada (`ENTRADA`) de registros de
 
 ```
 ├── src/
-│ ├── PGMIMCAF.cbl # Programa COBOL 
+│ ├── PROGM11A.cbl # Programa COBOL 
 │ ├── COPY/
 │   ├── CPCLIENS  # Copybook (embebido para tener de referencia)
 │
@@ -34,7 +34,7 @@ El programa `PGMIMCAF` procesa un archivo de entrada (`ENTRADA`) de registros de
 
 ### 📋 Archivos Involucrados
 
-- **Programa**: `PGMIMCAF.cbl` Programa fuente de validación.
+- **Programa**: `PROGM11A.cbl` Programa fuente de validación.
 - **JCL**: \
 `COMPILA.jcl`: Compila un programa COBOL batch.
   1. Usa una librería de PROCs (ORIGEN.CURSOS.PROCLIB).
@@ -45,7 +45,7 @@ El programa `PGMIMCAF` procesa un archivo de entrada (`ENTRADA`) de registros de
   `EJECUTA.jcl`: Trata el archivo de entrada y ejecuta el programa.
   1. Borra (si existe) el archivo USUARIO.ARCHIVO.CLIENTES.SORT.
   2. Ordena USUARIO.ARCHIVOS por los primeros 2 bytes y genera USUARIO.ARCHIVO.SORT.
-  3. Ejecuta el programa PGMIMCAF usando como entrada ARCHIVO.SORT y 
+  3. Ejecuta el programa PROGM11A usando como entrada ARCHIVO.SORT y 
   genera un archivo resultante. Graba salida en SYSOUT.
 
 - **Archivos de datos**:

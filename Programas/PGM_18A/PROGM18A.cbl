@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMB7CAF. 
+       PROGRAM-ID. PROGM18A. 
  
       ***************************************************************
       *                   CLASE ASINCRÓNICA 18                      *

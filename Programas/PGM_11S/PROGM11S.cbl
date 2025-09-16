@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMPRUAR. 
+       PROGRAM-ID. PROGM11S. 
    
       ***************************************************************
       *    CLASE SINCRÓNICA 11                                      *

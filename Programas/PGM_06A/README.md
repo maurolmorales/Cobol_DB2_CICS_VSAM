@@ -8,7 +8,7 @@
 - Entrada: archivo QSAM
 - Salida: sysout display
 ## 📚 Descripción del Programa
-El programa `MLM2CCAF` realiza un **corte de control por número de sucursal**, acumulando los importes de cada una. Se trata de un ejemplo típico de procesamiento secuencial y agrupamiento de registros en COBOL, utilizado en el contexto del curso de Programación en Mainframe.
+El programa `PROGM06A` realiza un **corte de control por número de sucursal**, acumulando los importes de cada una. Se trata de un ejemplo típico de procesamiento secuencial y agrupamiento de registros en COBOL, utilizado en el contexto del curso de Programación en Mainframe.
 
 </br>
 
@@ -16,7 +16,7 @@ El programa `MLM2CCAF` realiza un **corte de control por número de sucursal**, 
 
 ```
 ├── src/
-│ ├── MLM2CCAF.cbl # Programa COBOL 
+│ ├── PROGM06A.cbl # Programa COBOL 
 │ ├── COPY/
 │ │ ├── CORTE # Copybook (embebido para tener de referencia)
 │
@@ -30,12 +30,12 @@ El programa `MLM2CCAF` realiza un **corte de control por número de sucursal**, 
 
 ### 📋 Archivos Involucrados
 
-- **Programa**: `MLM2CCAF.cbl` Programa fuente de corte de control.
+- **Programa**: `PROGM06A.cbl` Programa fuente de corte de control.
 - **JCL**: \
 `COMPILA.jcl`: Compila un programa COBOL batch.
   1. Usa una librería de PROCs (ORIGEN.CURSOS.PROCLIB).
   2. Ejecuta el PROC COMPCOTE, que compila un programa COBOL batch.
-  3. Compila el programa MLM2CCAF que debe estar en la librería USUARIO.CURSOS.
+  3. Compila el programa PROGM06A que debe estar en la librería USUARIO.CURSOS.
   4. (Opcional) Le pasa una librería de COPYBOOKs a través del DD COBOL.SYSLIB. 
 
   `EJECUTA.jcl`: Trata el archivo de entrada y ejecuta el programa.

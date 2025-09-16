@@ -9,14 +9,14 @@
 ---
 
 ## 📚 Descripción del Programa  
-Este programa COBOL **PGMB4CAF** procesa un archivo de novedades de clientes (VSAM).  
+Este programa COBOL **PROGM30S** procesa un archivo de novedades de clientes (VSAM).  
 - Verifica si el cliente ya existe en DB2.  
 - Si no existe, ajusta su fecha de nacimiento mediante un **CALL dinámico** al programa **PGMRUCAF**, que devuelve la fecha con un mes menos.  
 - Inserta el registro en la tabla de clientes DB2.  
 - Lleva contadores de registros leídos, insertados y erróneos.  
 
 El proyecto incluye:  
-- Programa COBOL con SQL embebido (**PGMB4CAF**).  
+- Programa COBOL con SQL embebido (**PROGM30S**).  
 - Rutina llamada por CALL dinámico (**PGMRUCAF**).  
 - Archivo VSAM de novedades.  
 - JCLs de compilación, ejecución y BIND.  
@@ -29,7 +29,7 @@ El proyecto incluye:
 ### 🚀 Estructura del Proyecto  
 ```bash
    ├── src/
-   │   ├── PGMB4CAF.cbl     # Programa principal COBOL con SQL embebido
+   │   ├── PROGM30S.cbl     # Programa principal COBOL con SQL embebido
    │   ├── PGMRUCAF.cbl     # Rutina dinámica que ajusta la fecha de nacimiento
    │   ├── COPY/
    │   │   ├── SQLCA.cpy    # Copybook estándar SQL
@@ -48,11 +48,11 @@ El proyecto incluye:
 
 ### 📋 Archivos Involucrados 
 - **Programa**: 
-   - `PGMB4CAF.cbl`. Procesa archivo de novedades e inserta en DB2.
+   - `PROGM30S.cbl`. Procesa archivo de novedades e inserta en DB2.
    - `PGMRUCAF.cbl`: Rutina llamada dinámicamente para ajustar fecha de nacimiento.
 - **JCL**: 
-  - COMPILA.jcl: Compila PGMB4CAF y PGMRUCAF con SQL embebido.
-  - BIND.jcl: Genera el plan asociado a PGMB4CAF.
+  - COMPILA.jcl: Compila PROGM30S y PGMRUCAF con SQL embebido.
+  - BIND.jcl: Genera el plan asociado a PROGM30S.
   - EJECUTA.jcl: Ejecuta el programa contra DB2 con archivo VSAM como entrada.
 - **Archivos de datos**: 
   - KC03CAF.ARCHIVOS.NOVEDADES: Archivo VSAM Indexed de entrada, con datos de clientes.
@@ -66,13 +66,13 @@ El proyecto incluye:
 ## ▶️ Descipción del JCL 
 
 #### 🪛 COMPILA.jcl 
-Precompila, compila y link-edit del programa PGMB4CAF (con soporte DB2) y la rutina PGMRUCAF.
+Precompila, compila y link-edit del programa PROGM30S (con soporte DB2) y la rutina PGMRUCAF.
 
 #### 🔗 BIND.jcl 
-Genera el plan asociado al DBRM de PGMB4CAF.
+Genera el plan asociado al DBRM de PROGM30S.
 
 #### 🛠️ EJECUTA.jcl 
-Ejecuta PGMB4CAF contra DB2.
+Ejecuta PROGM30S contra DB2.
    - DDENTRA: apunta al archivo VSAM de novedades.
    - Muestra mensajes de debug por SYSOUT.
 

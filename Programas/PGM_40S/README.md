@@ -13,7 +13,7 @@
 ---
 
 ## 📚 Descripción del Programa  
-Este programa COBOL **PGMB8CAF** accede a las tablas **TBCURCTA** (mandatoria) y **TBCURCLI**, realizando un **LEFT OUTER JOIN por NROCLI**.  
+Este programa COBOL **PROGM40S** accede a las tablas **TBCURCTA** (mandatoria) y **TBCURCLI**, realizando un **LEFT OUTER JOIN por NROCLI**.  
 - Selecciona y lista datos de clientes y cuentas mediante cursor SQL.  
 - Muestra en archivo de salida los campos: **TIPDOC, NRODOC, NROCLI, NOMAPE y SUCUEN**.  
 - Informa cuando existen cuentas sin cliente asociado (campo NOMAPE nulo).  
@@ -23,7 +23,7 @@ Este programa COBOL **PGMB8CAF** accede a las tablas **TBCURCTA** (mandatoria) y
   - Total no encontrados.  
 
 El proyecto incluye:  
-- Programa COBOL con SQL embebido (**PGMB8CAF**).  
+- Programa COBOL con SQL embebido (**PROGM40S**).  
 - Archivo secuencial de salida (`LISTADO`).  
 - JCLs de compilación, ejecución y BIND.  
 - Copybooks de SQL (SQLCA y DCLGEN de tablas).  
@@ -35,7 +35,7 @@ El proyecto incluye:
 ### 🚀 Estructura del Proyecto  
 ```bash
 ├── src/
-│   ├── PGMB8CAF.cbl     # Programa COBOL con SQL embebido y LEFT JOIN
+│   ├── PROGM40S.cbl     # Programa COBOL con SQL embebido y LEFT JOIN
 │   ├── COPY/
 │   │   ├── SQLCA.cpy    # Copybook estándar SQL
 │   │   ├── TBCURCLI.cpy # Copybook DCLGEN tabla clientes
@@ -52,10 +52,10 @@ El proyecto incluye:
 ---
 
 ### 📋 Archivos Involucrados 
-- **Programa**: `PGMB8CAF.cbl`: Realiza LEFT JOIN de clientes y cuentas, genera listado y estadísticas.
+- **Programa**: `PROGM40S.cbl`: Realiza LEFT JOIN de clientes y cuentas, genera listado y estadísticas.
 - **JCL**: 
   - COMPILA.jcl: Compila el programa con SQL embebido.
-  - BIND.jcl: Genera el plan asociado al DBRM de PGMB8CAF.
+  - BIND.jcl: Genera el plan asociado al DBRM de PROGM40S.
   - EJECUTA.jcl: Ejecuta el programa contra DB2 y genera el archivo LISTADO.
 - **Archivos de datos**: 
   - LISTADO: Archivo secuencial de salida con registros formateados.
@@ -68,13 +68,13 @@ El proyecto incluye:
 ## ▶️ Descipción del JCL 
 
 #### 🪛 COMPILA.jcl 
-  Precompila, compila y link-edit del programa PGMB8CAF.
+  Precompila, compila y link-edit del programa PROGM40S.
 
 #### 🔗 BIND.jcl 
-  Genera el plan asociado al DBRM del programa PGMB8CAF.
+  Genera el plan asociado al DBRM del programa PROGM40S.
 
 #### 🛠️ EJECUTA.jcl 
-  Ejecuta PGMB8CAF contra DB2.
+  Ejecuta PROGM40S contra DB2.
   - DDLISTA: define el archivo de salida LISTADO.
   - Muestra mensajes y estadísticas por SYSOUT.
 

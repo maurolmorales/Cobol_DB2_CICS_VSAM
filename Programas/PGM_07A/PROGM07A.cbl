@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION. 
-       PROGRAM-ID. PGMCORT2. 
+       PROGRAM-ID. PROGM07A. 
       
       ***************************************************************
       *                   CLASE ASINCRONICA 7                       *
@@ -102,7 +102,7 @@
            OPEN INPUT  ENTRADA 
            IF FS-ENTRADA IS NOT EQUAL '00' THEN 
               DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-ENTRADA 
-              SET  WS-FIN-LECTURA TO TRUE 
+              SET WS-FIN-LECTURA TO TRUE 
            END-IF 
       
       * LEER EL PRIMER REGISTRO FUERA DEL LOOP PRINCIPAL 
@@ -147,6 +147,7 @@
                  END-IF 
               END-IF 
            END-IF. 
+
        2000-PROCESO-F. EXIT. 
       
       
@@ -159,9 +160,9 @@
            DISPLAY 'TOTAL TIPO DOCU = ' WS-TIP-DOC-PRINT 
            MOVE WS-SUC-TIP-DOC  TO WS-TIP-DOC-ANT 
       
-           IF NOT WS-FIN-LECTURA 
+           IF NOT WS-FIN-LECTURA   
               PERFORM 2700-PRINT-HEADER-I THRU 2700-PRINT-HEADER-F
-           END-IF. 
+           END-IF
       
            MOVE 1 TO WS-TIP-DOC-CANT 
            MOVE 1 TO WS-SEXO-CANT. 

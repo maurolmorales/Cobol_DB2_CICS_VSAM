@@ -26,14 +26,14 @@ Este programa COBOL batch realiza un **apareamiento entre clientes (TBCURCLI)** 
 
 ```
 ├── src/
-│ ├── PGMB7CAF.cbl # Programa COBOL 
+│ ├── PROGM18A.cbl # Programa COBOL 
 │ ├── COPY/
 │ │ ├── `SQLCA`: Comunicación con DB2.
 │ │ ├── `DCLTBCURCLI`, `DCLTBCURCTA`: Estructuras generadas con DCLGEN.
 │
 ├── jcl/
 │ ├── COMPILA.jcl   # JCL para precompilar
-| ├── BIND.jcl      # Bind plan CURSOCAF, miembro PGMB7CAF
+| ├── BIND.jcl      # Bind plan CURSOCAF, miembro PROGM18A
 │ ├── EJECUTA.jcl   # JCL para ejecutar
 │
 ├── README.md
@@ -42,15 +42,15 @@ Este programa COBOL batch realiza un **apareamiento entre clientes (TBCURCLI)** 
 
 ### 📋 Archivos Involucrados
 
-- **Programa**: `PGMB7CAF.cbl` Programa fuente.
+- **Programa**: `PROGM18A.cbl` Programa fuente.
 - **JCL**: \
 `COMPILA.jcl`:
   - Usa un procedimiento COMPDB2 para compilar programas con SQL embebido.
   - ALUMLIB apunta al lugar donde se genera el objeto compilado.
-  - GOPGM debe coincidir con el nombre del programa (PGMB7CAF).
+  - GOPGM debe coincidir con el nombre del programa (PROGM18A).
 
   `BIND.jcl`: 
-  - Hace el bind del módulo (PGMB7CAF) al plan CURSOCAF.
+  - Hace el bind del módulo (PROGM18A) al plan CURSOCAF.
   - Usa DSNTIAD bajo IKJEFT01 para enviar los comandos al entorno DB2.
   - Se asume que el DBRMLIB fue generado durante la compilación.
 
