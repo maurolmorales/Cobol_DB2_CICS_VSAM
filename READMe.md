@@ -58,7 +58,7 @@ Cada carpeta contiene programas representativos de cada etapa de la cursada:
 |[PGM_40S](/Programas/PGM_40S/)|Actualizador de novedades                 |QSAM |QSAM |☑️ |✅ |
 |[PGM_41S](/Programas/PGM_41S/)|Modificación de Clientes por Novedades    |QSAM |QSAM |   |   |
 |[PGM_42S](/Programas/PGM_42S/)|Altas de Clientes por Novedades           |QSAM |QSAM |   |   |
-|[PGM_44S](/Programas/PGM_44S/)|Doble Corte Control - Impresión - Cursor  |     |QSAM |☑️ |✅ |
+
 
 
 
