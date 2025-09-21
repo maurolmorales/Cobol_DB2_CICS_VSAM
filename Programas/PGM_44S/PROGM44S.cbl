@@ -273,6 +273,7 @@
            END-IF 
       
            PERFORM 4000-LEER-FETCH-I THRU 4000-LEER-FETCH-F 
+           
            IF WS-FIN-LECTURA THEN 
               DISPLAY '* TABLA VACÍA EN INICIO' 
            ELSE 
@@ -567,7 +568,7 @@
            EXEC SQL CLOSE CURSORCTA END-EXEC 
       
            CLOSE LISTADO 
-           IF FS-LISTADO IS NOT EQUAL '00' 
+           IF FS-LISTADO IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN WRITE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 

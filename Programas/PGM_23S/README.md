@@ -5,7 +5,7 @@
 </div>
 
 # 🧾 Doble Corte de Control con Entrada VSAM
-
+  - ENTRADA: Archivo QSAM. 
 ## 📚 Descripción del programa
 Este programa COBOL batch realiza un **doble corte de control** sobre un archivo VSAM (KSDS) de entrada que contiene registros de clientes. El objetivo es agrupar y acumular importes (`CLI-SALDO`) por:
 
@@ -178,6 +178,10 @@ División de procedimientos:
     - Se imprime el total general acumulado de saldos.
     - Se cierra el archivo `DDENTRA`.
     - Si el cierre da error (`FS-ENT ≠ '00'`), lo informa y retorna código 9999.
+
+---
+## 📊 Diagrama de Flujo
+<image src="./grafico.jpg" alt="Diagrama de Flujo del Programa">
 
 ---
 

@@ -15,11 +15,11 @@
       *  - MOSTRAR TOTAL POR ESTADO CIVIL Y TOTAL GENERAL.            *
       *  - MANEJAR ERRORES DE APERTURA, LECTURA Y CIERRE DEL ARCHIVO. *
       *****************************************************************
-
+      
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        ENVIRONMENT DIVISION. 
        CONFIGURATION SECTION. 
-
+      
        SPECIAL-NAMES. 
            DECIMAL-POINT IS COMMA. 
  
@@ -27,34 +27,34 @@
        FILE-CONTROL. 
            SELECT ENTRADA ASSIGN DDENTRA 
            FILE STATUS IS FS-ENT. 
- 
+      
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        DATA DIVISION. 
        FILE SECTION. 
- 
+      
        FD  ENTRADA 
            BLOCK CONTAINS 0 RECORDS 
            RECORDING MODE IS F. 
        01  REG-ENTRADA PIC X(93). 
- 
- 
+      
+      
        WORKING-STORAGE SECTION.
       *========================*  
- 
+      
       *----  ARCHIVOS  --------------------------------------------- 
        77  FS-ENT                PIC XX            VALUE SPACES. 
        77  WS-STATUS-FIN         PIC X. 
            88  WS-FIN-LECTURA                      VALUE 'Y'. 
            88  WS-NO-FIN-LECTURA                   VALUE 'N'. 
- 
+      
       *----   VARIABLES   ------------------------------------------ 
        77  WS-CANT-REG           PIC 999           VALUE ZEROES. 
-       77  WS-CANT-REG-PRINT     PIC ZZZZZ         VALUE ZEROS. 
+       77  WS-CANT-REG-PRINT     PIC ZZZZZ         VALUE ZEROES. 
        77  WS-EST-CIV-ANT        PIC X(10)         VALUE ZEROES. 
-       77  WS-EST-CIV-CANT       PIC 99            VALUE ZEROS. 
-       77  WS-EST-CIV-CANT-PRINT PIC ZZZ9          VALUE ZEROS. 
- 
- 
+       77  WS-EST-CIV-CANT       PIC 99            VALUE ZEROES. 
+       77  WS-EST-CIV-CANT-PRINT PIC ZZZ9          VALUE ZEROES. 
+      
+      
       *//////////////////////////////////////////////////////////////
       *     COPY CLICOB. 
        01  WS-REG-CLICOB. 
@@ -77,10 +77,10 @@
  
        MAIN-PROGRAM-INICIO. 
 
-           PERFORM 1000-INICIO-I  THRU  1000-INICIO-F. 
-           PERFORM 2000-PROCESO-I THRU  2000-PROCESO-F 
-                                  UNTIL WS-FIN-LECTURA. 
-           PERFORM 9999-FINAL-I   THRU  9999-FINAL-F. 
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F
+           PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
+                                       UNTIL WS-FIN-LECTURA
+           PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
 
        MAIN-PROGRAM-FINAL. GOBACK. 
  
@@ -97,7 +97,7 @@
            END-IF. 
  
       * LEER EL PRIMER REGISTRO FUERA DEL LOOP PRINCIPAL 
-           PERFORM 2500-LEER-I THRU 2500-LEER-F. 
+           PERFORM 2500-LEER-I THRU 2500-LEER-F
            
            IF WS-FIN-LECTURA THEN 
               DISPLAY '* ARCHIVO ENTRADA VACÍO EN INICIO' FS-ENT 
@@ -152,7 +152,7 @@
 
            MOVE WS-EST-CIV-CANT TO WS-EST-CIV-CANT-PRINT 
            DISPLAY 'TOTAL DE ' WS-EST-CIV-ANT 
-                                 ':  '  WS-EST-CIV-CANT-PRINT 
+                   ':  '  WS-EST-CIV-CANT-PRINT 
            MOVE WS-SUC-EST-CIV TO WS-EST-CIV-ANT 
            MOVE 1 TO WS-EST-CIV-CANT. 
 

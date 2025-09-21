@@ -1,5 +1,6 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PROGM21S. 
+
       ******************************************************************
       *                    CLASE SINCRÓNICA 21                         *
       *                    ===================                         *
@@ -277,7 +278,7 @@
       
            IF WS-FIN-LECTURA THEN 
               PERFORM 2200-CORTE-MAYOR-I 
-                THRU 2200-CORTE-MAYOR-F 
+                 THRU 2200-CORTE-MAYOR-F 
            ELSE 
               IF CLIS-TIP-DOC IS EQUAL WS-TIPO-DOC-ANT THEN 
                  ADD 1 TO WS-TIPO-DOC-CANT 
@@ -404,14 +405,14 @@
            DISPLAY 'TOTAL REGISTROS = ' IMP-REGISTROS-PRINT 
       
            CLOSE ENTRADA 
-           IF FS-ENT IS NOT EQUAL '00' 
+           IF FS-ENT IS NOT EQUAL '00' THEN 
               DISPLAY '* ERROR EN CLOSE ENTRADA = ' FS-ENT 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
            END-IF 
       
            CLOSE LISTADO 
-           IF FS-LISTADO IS NOT EQUAL '00' 
+           IF FS-LISTADO IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN CLOSE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 

@@ -1,6 +1,6 @@
 [( 🏠 )](/) </div>
 
-# 📄 PROGM21S - Corte de Control e Impresión de Listado
+# 📄 Corte de Control e Impresión de Listado
 
 * **Entrada**: `CLIENTES` (LRECL=50, RECFM=FB). Este archivo se ordena previamente y se usa la versión ordenada `CLIENTES.ORD` para procesar.
 * **Salida listada**: `LISTADO` (archivo de salida impresa, LRECL=133, RECFM=FB).

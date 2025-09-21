@@ -138,9 +138,9 @@
   
        MAIN-PROGRAM-I. 
   
-           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F. 
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F 
            PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
-                                  UNTIL WS-FIN-LECTURA. 
+                                       UNTIL WS-FIN-LECTURA
            PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
   
        MAIN-PROGRAM-F. GOBACK. 
@@ -149,11 +149,11 @@
       *-------------------------------------------------------------- 
        1000-INICIO-I. 
   
-           OPEN INPUT NOVEDADES. 
-           SET WS-NO-FIN-LECTURA TO TRUE. 
+           OPEN INPUT NOVEDADES 
+           SET WS-NO-FIN-LECTURA TO TRUE 
            DISPLAY "PRUEBA 1"
   
-           IF FS-NOVEDADES IS NOT EQUAL '00' 
+           IF FS-NOVEDADES IS NOT EQUAL '00' THEN
              DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-NOVEDADES 
              SET  WS-FIN-LECTURA TO TRUE 
              MOVE 3333 TO RETURN-CODE
@@ -166,7 +166,7 @@
       *------------------------------------------------------------- 
        2000-PROCESO-I. 
   
-           PERFORM 2100-LEER-I THRU 2100-LEER-F. 
+           PERFORM 2100-LEER-I THRU 2100-LEER-F 
   
            IF FS-NOVEDADES IS EQUAL '00' THEN 
               MOVE SPACES TO WS-NOMAPE-COMPLETO 
@@ -202,14 +202,13 @@
                                                ' ' CLI-NRODOC 
               ELSE 
                  IF SQLCODE = NOT-FOUND THEN 
-  
-                 PERFORM 2200-DESCOM-FECHA-I 
-                    THRU 2200-DESCOM-FECHA-F 
-  
-                 CALL WS-PGMRUT USING LK-COMUNICACION 
-  
-                 PERFORM 2210-COMPONER-FECHA-I 
-                    THRU 2210-COMPONER-FECHA-F 
+                    PERFORM 2200-DESCOM-FECHA-I 
+                       THRU 2200-DESCOM-FECHA-F 
+
+                    CALL WS-PGMRUT USING LK-COMUNICACION 
+                    
+                    PERFORM 2210-COMPONER-FECHA-I 
+                       THRU 2210-COMPONER-FECHA-F 
   
                     EXEC SQL 
                        INSERT INTO KC02803.TBCURCLI 
@@ -238,7 +237,7 @@
                        ADD 1 TO WS-NOVE-ERRONEA-CANT 
                     END-IF 
                     DISPLAY "---------------------------------"
-              END-IF 
+                END-IF 
            END-IF. 
   
        2000-PROCESO-F. EXIT. 
@@ -267,13 +266,13 @@
       *-------------------------------------------------------------- 
        2200-DESCOM-FECHA-I. 
   
-           MOVE CLI-FECNAC     TO FECHA-MODIF. 
-           MOVE FECHA-MODIF    TO LK-COMUNICACION. 
-           MOVE FM-MES         TO LK-MES. 
-           MOVE FM-DIA         TO LK-DIA. 
+           MOVE CLI-FECNAC  TO FECHA-MODIF 
+           MOVE FECHA-MODIF TO LK-COMUNICACION 
+           MOVE FM-MES      TO LK-MES 
+           MOVE FM-DIA      TO LK-DIA 
 
            DISPLAY " "    
-           DISPLAY "FECHA ENTRADA:   " CLI-FECNAC. 
+           DISPLAY "FECHA ENTRADA: " CLI-FECNAC. 
   
        2200-DESCOM-FECHA-F. EXIT. 
 
@@ -281,12 +280,12 @@
       *-------------------------------------------------------------- 
        2210-COMPONER-FECHA-I. 
   
-           MOVE LK-COMUNICACION TO FECHA-MODIF. 
-           MOVE LK-MES          TO FM-MES. 
-           MOVE LK-DIA          TO FM-DIA. 
-           MOVE '-'             TO FM-SEP1. 
-           MOVE '-'             TO FM-SEP2. 
-           MOVE FECHA-MODIF     TO WS-FECHA-COMPUESTA. 
+           MOVE LK-COMUNICACION TO FECHA-MODIF 
+           MOVE LK-MES          TO FM-MES 
+           MOVE LK-DIA          TO FM-DIA 
+           MOVE '-'             TO FM-SEP1 
+           MOVE '-'             TO FM-SEP2 
+           MOVE FECHA-MODIF     TO WS-FECHA-COMPUESTA 
 
            DISPLAY "FECHA COMPUESTA: " WS-FECHA-COMPUESTA. 
 
@@ -299,10 +298,10 @@
            DISPLAY "TOTAL DE REGISTROS: " WS-NOVE-LEIDAS-CANT 
            DISPLAY "TOTAL DE GRABADOS: " WS-NOVE-INSERT-CANT 
            DISPLAY "TOTAL DE ERRORES: " WS-NOVE-ERRONEA-CANT 
-           EXEC SQL ROLLBACK   END-EXEC. 
+           EXEC SQL ROLLBACK END-EXEC
   
            CLOSE NOVEDADES 
-           IF FS-NOVEDADES  IS NOT EQUAL '00' 
+           IF FS-NOVEDADES IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN CLOSE ENTRADA = ' FS-NOVEDADES 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 

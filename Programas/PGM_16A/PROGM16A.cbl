@@ -107,9 +107,9 @@
   
        MAIN-PROGRAM-I. 
   
-           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F. 
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F 
            PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F
-                                       UNTIL WS-FIN-LECTURA. 
+                                       UNTIL WS-FIN-LECTURA
            PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
  
        MAIN-PROGRAM-F. GOBACK. 
@@ -118,11 +118,10 @@
       *--------------------------------------------------------------
        1000-INICIO-I. 
  
-           SET WS-NO-FIN-LECTURA TO TRUE. 
+           SET WS-NO-FIN-LECTURA TO TRUE 
  
-           EXEC SQL OPEN ITEM_CURSOR END-EXEC. 
- 
-           IF SQLCODE NOT EQUAL ZEROS 
+           EXEC SQL OPEN ITEM_CURSOR END-EXEC 
+           IF SQLCODE NOT EQUAL ZEROS THEN
               MOVE SQLCODE TO WS-SQLCODE 
               DISPLAY '* ERROR OPEN CURSOR = ' WS-SQLCODE 
               MOVE 9999 TO RETURN-CODE 
@@ -140,7 +139,7 @@
            IF WS-FIN-LECTURA THEN 
               PERFORM 2200-CORTE-I THRU 2200-CORTE-F 
            ELSE 
-              IF WS-SUCUEN-ANT IS EQUAL TO ZERO 
+              IF WS-SUCUEN-ANT IS EQUAL TO ZERO THEN
                  MOVE REG-SUCUEN TO WS-SUCUEN-ANT
                  ADD 1 TO WS-CUENTAS-CANT
               ELSE
@@ -192,13 +191,13 @@
  
            MOVE WS-CUENTAS-CANT TO WS-CUENTA-PRINT
            ADD WS-CUENTAS-CANT TO WS-TOTAL 
+           MOVE 0 TO WS-CUENTAS-CANT 
  
            DISPLAY ' ' 
            DISPLAY '---------------------------------' 
            DISPLAY 'SUCURSAL: '  WS-SUCUEN-ANT 
-           DISPLAY 'CANTIDAD DE CUENTAS: ' WS-CUENTA-PRINT 
+           DISPLAY 'CANTIDAD DE CUENTAS: ' WS-CUENTA-PRINT.
  
-           MOVE 0 TO WS-CUENTAS-CANT. 
  
        2200-CORTE-F. EXIT. 
  
@@ -211,7 +210,7 @@
 
            MOVE WS-TOTAL TO WS-TOTAL-PRINT
  
-           IF SQLCODE NOT EQUAL ZEROS 
+           IF SQLCODE NOT EQUAL ZEROS THEN
               MOVE SQLCODE TO WS-SQLCODE 
               DISPLAY '* ERROR CLOSE CURSOR = ' WS-SQLCODE 
               MOVE 9999 TO RETURN-CODE 

@@ -1,6 +1,6 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PROGM11S. 
-   
+      
       ***************************************************************
       *    CLASE SINCRÓNICA 11                                      *
       *    ===================                                      *
@@ -13,13 +13,13 @@
       *    - Sumar los saldos (CLI-SALDO) de esos registros.        *
       *    - Mostrar el total acumulado por pantalla al finalizar.  *
       ***************************************************************
-
+      
       *|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        ENVIRONMENT DIVISION. 
        CONFIGURATION SECTION. 
        SPECIAL-NAMES. 
            DECIMAL-POINT IS COMMA. 
-   
+      
        INPUT-OUTPUT SECTION. 
        FILE-CONTROL. 
            SELECT CLIENTES ASSIGN DDENTRA 
@@ -29,7 +29,7 @@
       *|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        DATA DIVISION. 
        FILE SECTION. 
-
+      
        FD  CLIENTES 
            BLOCK CONTAINS 0 RECORDS 
            RECORDING MODE IS F. 
@@ -45,6 +45,7 @@
        77  WS-STATUS-CLI              PIC X. 
            88 WS-FIN-CLI                          VALUE 'Y'. 
            88 WS-NO-FIN-CLI                       VALUE 'N'. 
+      
       * ACUMULADOR DE SALDOS 
        77  WS-TOTALIZADOR    PIC S9(11)V99  COMP-3  VALUE ZEROS. 
        77  WS-DU             PIC XX                 VALUE 'DU'. 
@@ -55,7 +56,7 @@
   
       */////////////////////////////////////////////////////////////
       *     COPY CPCLI. 
-
+      
        01  REG-CLIENTE. 
            03  CLI-TIP-DOC        PIC X(02)          VALUE SPACES. 
            03  CLI-NRO-DOC        PIC 9(11)          VALUE ZEROES. 
@@ -75,7 +76,7 @@
   
            PERFORM 1000-INICIO-I  THRU 1000-INICIO-F. 
            PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
-                                 UNTIL WS-FIN-CLI. 
+                                       UNTIL WS-FIN-CLI. 
            PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
   
        MAIN-PROGRAM-F. GOBACK. 
@@ -86,7 +87,7 @@
            SET WS-NO-FIN-CLI TO TRUE. 
   
            OPEN INPUT  CLIENTES. 
-           IF WS-FILE-CLI IS NOT EQUAL '00' 
+           IF WS-FILE-CLI IS NOT EQUAL '00' THEN 
               DISPLAY '* ERROR EN OPEN SUCURSAL = ' WS-FILE-CLI 
               MOVE 9999 TO RETURN-CODE 
               SET  WS-FIN-CLI  TO TRUE 
@@ -127,7 +128,7 @@
        9999-FINAL-I. 
  
            CLOSE CLIENTES 
-           IF WS-FILE-CLI IS NOT EQUAL '00' 
+           IF WS-FILE-CLI IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN CLOSE CLIENTES = ' WS-FILE-CLI 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-CLI  TO TRUE 

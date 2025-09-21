@@ -1,7 +1,7 @@
 [( 🏠 )](/) </div> 
 
 
-# 📄 PROGM32S — Apareo de Novedades con Tablas DB2
+# 📄 Apareo de Novedades con Tablas DB2
 
 * **Entrada**: `NOVCTA` QSAM novedades de cuentas (LRECL=23, RECFM=FB).
 * **Tablas DB2**:
@@ -111,7 +111,7 @@ El programa COBOL `PROGM32S` realiza un **apareo** entre un archivo de novedades
    * Cerrar archivo y cursor.
 ---
 
-## 📊 Diagrama de Flujo <image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa"> 
+## 📊 Diagrama de Flujo <image src="./grafico.jpg" alt="Diagrama de Flujo del Programa"> 
 
 ---
 

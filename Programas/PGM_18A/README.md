@@ -101,6 +101,9 @@ Muestra por consola la información de un cliente que tiene cuenta asociada.
 
 ---
 
+## 📊 Diagrama de Flujo <image src="./grafico.jpg" alt="Diagrama de Flujo del Programa"> 
+
+---
 
 ## 🎯 Resultado
 

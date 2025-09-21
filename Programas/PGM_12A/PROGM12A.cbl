@@ -147,13 +147,13 @@
            SET WS-NO-FIN-LECTURA TO TRUE 
       
            OPEN INPUT  ENTRADA 
-           IF FS-ENT IS NOT EQUAL '00' 
+           IF FS-ENT IS NOT EQUAL '00' THEN 
               DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-ENT 
               SET  WS-FIN-LECTURA TO TRUE 
            END-IF 
       
            OPEN OUTPUT LISTADO 
-           IF FS-LISTADO IS NOT EQUAL '00' 
+           IF FS-LISTADO IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN OPEN LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET  WS-FIN-LECTURA TO TRUE 
@@ -161,7 +161,7 @@
       
            PERFORM 2500-LEER-I THRU 2500-LEER-F 
       
-           IF WS-FIN-LECTURA 
+           IF WS-FIN-LECTURA THEN
               DISPLAY '* ARCHIVO ENTRADA VACÍO EN INICIO' FS-ENT 
            ELSE 
               MOVE CLIS-SUC  TO WS-SUC-ANT 
@@ -174,8 +174,8 @@
               DISPLAY '---------------------------------' 
               
       *       IMPRESION
-              MOVE "SUCURSAL: "      TO  WS-TEXT1-IMP 
-              MOVE CLIS-SUC          TO  WS-SUC-IMP 
+              MOVE "SUCURSAL: " TO  WS-TEXT1-IMP 
+              MOVE CLIS-SUC     TO  WS-SUC-IMP 
               WRITE REG-SALIDA FROM WS-SUC-LINEA-IMP AFTER 1 
            END-IF.
       
@@ -222,7 +222,7 @@
            ADD WS-IMP-SUC-SUM TO WS-TOTAL-SUM 
            MOVE ZERO TO WS-IMP-SUC-SUM 
       
-           IF NOT WS-FIN-LECTURA 
+           IF NOT WS-FIN-LECTURA THEN
              DISPLAY ' ' 
              DISPLAY '=================================' 
              DISPLAY 'SUCURSAL: ' WS-SUC-ANT 
@@ -237,7 +237,7 @@
              MOVE CLIS-SUC     TO WS-SUC-IMP 
              WRITE REG-SALIDA FROM WS-SUC-LINEA-IMP AFTER 1 
       
-           END-IF. 
+           END-IF
       
            MOVE 1 TO WS-SUC-CANT 
            MOVE 1 TO WS-TIPO-CANT. 
@@ -313,14 +313,14 @@
       
       
            CLOSE ENTRADA 
-           IF FS-ENT IS NOT EQUAL '00' 
+           IF FS-ENT IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN CLOSE ENTRADA = ' FS-ENT 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
            END-IF
       
            CLOSE LISTADO 
-           IF FS-LISTADO IS NOT EQUAL '00' 
+           IF FS-LISTADO IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN CLOSE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 

@@ -81,27 +81,29 @@
       *  CUERPO PRINCIPAL DEL PROGRAMA     * 
        
        MAIN-PROGRAM-I. 
-           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F. 
+       
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F
            PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
-                                       UNTIL WS-FIN-LECTURA. 
+                                       UNTIL WS-FIN-LECTURA 
            PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
+
        MAIN-PROGRAM-F. GOBACK. 
 
 
       *------------------------------------------------------------ 
        1000-INICIO-I. 
 
-           SET WS-NO-FIN-LECTURA TO TRUE. 
+           SET WS-NO-FIN-LECTURA TO TRUE 
        
-           OPEN INPUT ENTRADA. 
-           IF FS-ENT IS NOT EQUAL '00' 
+           OPEN INPUT ENTRADA 
+           IF FS-ENT IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-ENT 
               SET  WS-FIN-LECTURA TO TRUE 
-           END-IF. 
+           END-IF 
        
-           PERFORM 2100-LEER-I THRU 2100-LEER-F. 
+           PERFORM 2100-LEER-I THRU 2100-LEER-F 
        
-           IF WS-FIN-LECTURA 
+           IF WS-FIN-LECTURA THEN
               DISPLAY '* ARCHIVO ENTRADA VACÍO EN INICIO' FS-ENT 
            ELSE 
               MOVE CLI-NRO-SUC TO WS-NRO-SUC-ANT 
@@ -110,7 +112,7 @@
               DISPLAY '=================================' 
               DISPLAY 'NUM SUC: ' WS-NRO-SUC-ANT 
               DISPLAY '---------------------------------' 
-           END-IF. 
+           END-IF.
 
        1000-INICIO-F. EXIT. 
        
@@ -121,8 +123,7 @@
            PERFORM 2100-LEER-I THRU 2100-LEER-F 
        
            IF WS-FIN-LECTURA THEN 
-              PERFORM 2200-CORTE-MAYOR-I 
-                 THRU 2200-CORTE-MAYOR-F 
+              PERFORM 2200-CORTE-MAYOR-I THRU 2200-CORTE-MAYOR-F 
            ELSE 
               IF CLI-NRO-SUC IS EQUAL WS-NRO-SUC-ANT THEN 
                  IF CLI-TIP-CUE IS EQUAL WS-TIP-CUE-ANT THEN 
@@ -153,7 +154,7 @@
            DISPLAY 'TOTAL: ' WS-SALDO-PRINT 
            DISPLAY '=================================' 
            
-           IF NOT WS-FIN-LECTURA 
+           IF NOT WS-FIN-LECTURA THEN
               DISPLAY ' ' 
               DISPLAY ' ' 
               DISPLAY 'NUM SUC: ' WS-NRO-SUC-ANT 
@@ -210,7 +211,7 @@
            DISPLAY 'TOTAL IMPORTES  = ' WS-SALDO-PRINT. 
        
            CLOSE ENTRADA 
-           IF FS-ENT IS NOT EQUAL '00' 
+           IF FS-ENT IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN CLOSE ENTRADA = ' FS-ENT 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 

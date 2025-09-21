@@ -1,6 +1,6 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PROGM11A. 
- 
+      
       *************************************************************** 
       *    CLASE 11 ASÍNCRONA                                       * 
       *    ==================                                       * 
@@ -11,62 +11,62 @@
       *      Block Address) con registros de 132 bytes.             *
       *                                                             * 
       ***************************************************************
-
+      
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        ENVIRONMENT DIVISION. 
        CONFIGURATION SECTION. 
-                                                                        
+      
        SPECIAL-NAMES. 
            DECIMAL-POINT IS COMMA. 
-                                                                        
+      
        INPUT-OUTPUT SECTION. 
        FILE-CONTROL. 
-                                                                        
+      
            SELECT ENTRADA ASSIGN DDENTRA 
            FILE STATUS IS FS-ENTRADA. 
-                                                                        
+      
            SELECT LISTADO ASSIGN DDLISTA 
            FILE STATUS IS FS-LISTADO. 
-                                                                        
+      
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        DATA DIVISION. 
        FILE SECTION. 
-                                                                        
+      
        FD  ENTRADA 
            BLOCK CONTAINS 0 RECORDS 
            RECORDING MODE IS F. 
        01  REG-ENTRADA  PIC X(93). 
-                                                                        
+      
        FD  LISTADO 
            BLOCK CONTAINS 0 RECORDS 
            RECORDING MODE IS F. 
        01  REG-SALIDA   PIC X(132). 
-                                                                        
+      
        WORKING-STORAGE SECTION. 
       *========================* 
       *----------- ARCHIVOS ----------------------------------------- 
        77  FS-ENTRADA              PIC XX       VALUE SPACES. 
        77  FS-LISTADO              PIC XX       VALUE SPACES. 
-                                                                        
+      
        77  WS-STATUS-FIN           PIC X. 
            88  WS-FIN-LECTURA         VALUE 'Y'. 
            88  WS-NO-FIN-LECTURA      VALUE 'N'. 
-                                                                        
+      
        77  WS-STATUS-NOV           PIC X. 
            88  WS-FIN-NOV             VALUE 'Y'. 
            88  WS-NO-FIN-NOV          VALUE 'N'. 
-                                                                        
+      
        77  WS-STATUS-ENT           PIC X. 
            88  WS-FIN-ENT             VALUE 'Y'. 
            88  WS-NO-FIN-ENT          VALUE 'N'. 
  
       *-----------  VARIABLES  ------------------------------- 
        77  WS-TIPO-DOC-ANT         PIC XX               VALUE SPACES. 
-                                                                        
+      
       *----------- ACUMULADORES ------------------------------ 
        77  WS-TIPO-DOC-CANT        PIC 999               VALUE ZEROES. 
        77  WS-REGISTROS-CANT       PIC 999               VALUE ZEROES. 
-                                                                        
+      
       *-----------  IMPRESION  --------------------------------- 
        77  WS-TIPO-DOC-PRINT       PIC ZZ9. 
        77  WS-REGISTROS-PRINT      PIC ZZ9. 
@@ -82,12 +82,12 @@
            03  WS-FECHA-AA         PIC 99                VALUE ZEROS. 
            03  WS-FECHA-MM         PIC 99                VALUE ZEROS. 
            03  WS-FECHA-DD         PIC 99                VALUE ZEROS. 
-                                                                        
+      
        01  WS-FECHA-VAR. 
            03  WS-FECHA-VAR-AA     PIC 9999              VALUE ZEROES. 
            03  WS-FECHA-VAR-MM     PIC 99                VALUE ZEROES. 
            03  WS-FECHA-VAR-DD     PIC 99                VALUE ZEROES. 
-                                                                        
+      
        01  FECHA-MODIF. 
            03  FM-DIA              PIC 9(2). 
            03  FM-SEP1             PIC X                VALUE '-'. 
@@ -98,7 +98,7 @@
       *    CONTADOR DE LEIDOS Y GRABADOS 
        01  WS-LEIDOS               PIC 9(05)            VALUE ZEROS. 
        01  WS-IMPRESOS             PIC 9(05)            VALUE ZEROS. 
-                                                                        
+      
        01  IMP-REG-LISTADO. 
            03  IMP-COL1            PIC X(03). 
            03  FILLER              PIC X(04)           VALUE SPACES. 
@@ -209,46 +209,46 @@
            03  CLIS-LOCALIDAD      PIC X(15)            VALUE SPACES. 
            03  FILLER              PIC X(01)            VALUE SPACES. 
       *//////////////////////////////////////////////////////////////
-
+      
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        PROCEDURE DIVISION. 
-                                                                        
+      
        MAIN-PROGRAM-I. 
-                                                                        
-           PERFORM 1000-INICIO-I  THRU  1000-INICIO-F. 
-           PERFORM 2000-PROCESO-I THRU  2000-PROCESO-F 
-                                  UNTIL WS-FIN-LECTURA. 
-           PERFORM 9999-FINAL-I   THRU  9999-FINAL-F. 
-                                                                        
+      
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F
+           PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
+                                       UNTIL WS-FIN-LECTURA
+           PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
+      
        MAIN-PROGRAM-F. GOBACK. 
-                                                                        
-                                                                        
+      
+      
       *-------------------------------------------------------------- 
        1000-INICIO-I. 
-                                                                        
-           ACCEPT WS-FECHA FROM DATE. 
-           MOVE WS-FECHA-AA TO IMP-TIT-AA. 
-           MOVE WS-FECHA-MM TO IMP-TIT-MM. 
-           MOVE WS-FECHA-DD TO IMP-TIT-DD. 
-           MOVE 15 TO WS-CUENTA-LINEA. 
-           SET WS-NO-FIN-LECTURA TO TRUE. 
-                                                                        
-           OPEN INPUT ENTRADA. 
-           IF FS-ENTRADA IS NOT EQUAL '00' 
+      
+           ACCEPT WS-FECHA FROM DATE 
+           MOVE WS-FECHA-AA TO IMP-TIT-AA 
+           MOVE WS-FECHA-MM TO IMP-TIT-MM 
+           MOVE WS-FECHA-DD TO IMP-TIT-DD 
+           MOVE 15 TO WS-CUENTA-LINEA 
+           SET WS-NO-FIN-LECTURA TO TRUE 
+      
+           OPEN INPUT ENTRADA 
+           IF FS-ENTRADA IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-ENTRADA 
               SET  WS-FIN-LECTURA TO TRUE 
-           END-IF. 
-           OPEN OUTPUT LISTADO. 
-           IF FS-LISTADO IS NOT EQUAL '00' 
+           END-IF 
+           OPEN OUTPUT LISTADO 
+           IF FS-LISTADO IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN OPEN LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET  WS-FIN-LECTURA TO TRUE 
-           END-IF. 
-                                                                        
+           END-IF 
+      
       * LEER EL PRIMER REGISTRO FUERA DEL LOOP PRINCIPAL 
-           PERFORM 2100-LEER-I THRU 2100-LEER-F. 
-                                                                        
-           IF WS-FIN-LECTURA 
+           PERFORM 2100-LEER-I THRU 2100-LEER-F 
+      
+           IF WS-FIN-LECTURA THEN
               DISPLAY '* ARCHIVO ENTRADA VACÍO EN INICIO' FS-ENTRADA 
            ELSE 
               MOVE CLIS-TIP-DOC TO WS-TIPO-DOC-ANT 
@@ -258,12 +258,13 @@
       *       IMPRESION TITULOS 
               PERFORM 6500-IMPRIMIR-TITULOS-I 
                  THRU 6500-IMPRIMIR-TITULOS-F 
-           END-IF. 
+           END-IF.
+
        1000-INICIO-F. EXIT. 
-                                                                        
+      
       *-------------------------------------------------------------- 
        2000-PROCESO-I. 
-                                                                        
+      
            MOVE SPACES             TO  IMP-REG-LISTADO 
            MOVE  WS-PIPE           TO  IMP-COL1 
            MOVE  CLIS-TIP-DOC      TO  IMP-TIP-DOC 
@@ -286,10 +287,10 @@
            MOVE  WS-PIPE           TO  IMP-COL8 
            MOVE  CLIS-LOCALIDAD    TO  IMP-LOCALIDAD 
            MOVE  WS-PIPE           TO  IMP-COL9 
-                                                                       
+      
            PERFORM 6000-GRABAR-SALIDA-I THRU 6000-GRABAR-SALIDA-F 
            PERFORM 2100-LEER-I THRU 2100-LEER-F 
-                                                                       
+      
            IF WS-FIN-LECTURA THEN 
               PERFORM 2200-CORTE-MAYOR-I THRU 2200-CORTE-MAYOR-F 
            ELSE 
@@ -299,40 +300,40 @@
                  PERFORM 2200-CORTE-MAYOR-I THRU 2200-CORTE-MAYOR-F 
               END-IF 
            END-IF. 
-                                                                       
+      
        2000-PROCESO-F. EXIT. 
-                                                                       
-                                                                       
+      
+      
       *---- CORTE DE CONTROL MAYOR  --------------------------- 
        2200-CORTE-MAYOR-I. 
-                                                                       
+      
            MOVE WS-TIPO-DOC-ANT  TO IMP-TIPODOC-CORTE 
            MOVE WS-TIPO-DOC-CANT TO IMP-CANT-CORTE 
-
+      
            MOVE  WS-TIPO-DOC-CANT  TO WS-TIPO-DOC-PRINT 
            DISPLAY 'TOTAL TIPO DOCU = ' WS-TIPO-DOC-PRINT 
            MOVE CLIS-TIP-DOC  TO WS-TIPO-DOC-ANT 
-                                                                        
+      
            PERFORM 6700-CORTE-IMPRIME-I THRU 6700-CORTE-IMPRIME-F 
-                                                                        
-           IF NOT WS-FIN-LECTURA 
+      
+           IF NOT WS-FIN-LECTURA THEN
              DISPLAY ' ' 
              DISPLAY '=================================' 
              DISPLAY 'TIP-DOC = ' WS-TIPO-DOC-ANT 
-           END-IF. 
-                                                                        
+           END-IF 
+      
            MOVE 1 TO  WS-TIPO-DOC-CANT. 
-                                                                        
+      
        2200-CORTE-MAYOR-F. EXIT. 
-                                                                        
-                                                                        
+      
+      
       *-------------------------------------------------------------- 
        2100-LEER-I. 
-                                                                        
+      
            READ ENTRADA INTO REG-CLIENTES 
                           AT END SET WS-FIN-LECTURA TO TRUE 
                           MOVE HIGH-VALUE TO REG-CLIENTES. 
-                                                                        
+      
            EVALUATE FS-ENTRADA 
               WHEN '00' 
                  ADD 1 TO WS-REGISTROS-CANT 
@@ -345,94 +346,94 @@
                                                      FS-ENTRADA 
                  SET WS-FIN-LECTURA TO TRUE 
            END-EVALUATE. 
-                                                                        
+      
        2100-LEER-F. EXIT. 
-                                                                        
-                                                                        
+      
+      
       *--------------------------------------------------------- 
        6000-GRABAR-SALIDA-I. 
-                                                                        
+      
            IF WS-CUENTA-LINEA GREATER 15 THEN 
               WRITE REG-SALIDA FROM WS-SEPARATE AFTER 1 
               PERFORM 6500-IMPRIMIR-TITULOS-I 
                  THRU 6500-IMPRIMIR-TITULOS-F 
-           END-IF. 
-           WRITE REG-SALIDA FROM IMP-REG-LISTADO AFTER 1. 
-                                                                        
+           END-IF 
+      
+           WRITE REG-SALIDA FROM IMP-REG-LISTADO AFTER 1 
            IF FS-LISTADO IS NOT EQUAL '00' THEN 
               DISPLAY '* ERROR EN WRITE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
-           END-IF. 
-                                                                        
+           END-IF 
+      
            ADD 1 TO WS-IMPRESOS 
            ADD 1 TO WS-CUENTA-LINEA. 
-                                                                        
+      
        6000-GRABAR-SALIDA-F. EXIT. 
-                                                                        
+      
       *--------------------------------------------------------- 
        6500-IMPRIMIR-TITULOS-I. 
-                                                                        
+      
            MOVE WS-CUENTA-PAGINA TO IMP-TIT-PAGINA. 
            MOVE 1 TO WS-CUENTA-LINEA. 
            ADD  1 TO WS-CUENTA-PAGINA. 
            MOVE CLIS-TIP-DOC TO IMP-TIT-SUCURSAL. 
            WRITE REG-SALIDA FROM IMP-TITULO AFTER PAGE. 
-                                                                        
+      
            PERFORM 6600-IMPRIMIR-SUBTITULOS-I 
               THRU 6600-IMPRIMIR-SUBTITULOS-F 
-                                                                        
-           IF FS-LISTADO IS NOT EQUAL '00' 
+      
+           IF FS-LISTADO IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN WRITE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
            END-IF. 
-                                                                        
+      
        6500-IMPRIMIR-TITULOS-F. EXIT. 
-                                                                        
+      
       *-------------------------------------------------------- 
        6600-IMPRIMIR-SUBTITULOS-I. 
-                                                                        
-           MOVE 1 TO WS-CUENTA-LINEA. 
-           WRITE REG-SALIDA FROM WS-LINE2 AFTER 1. 
+      
+           MOVE 1 TO WS-CUENTA-LINEA 
+           WRITE REG-SALIDA FROM WS-LINE2 AFTER 1 
            WRITE REG-SALIDA FROM IMP-SUBTITULO AFTER 1 
-           WRITE REG-SALIDA FROM WS-LINE2 AFTER 1. 
-                                                                        
+           WRITE REG-SALIDA FROM WS-LINE2 AFTER 1.
+      
        6600-IMPRIMIR-SUBTITULOS-F. EXIT. 
-                                                                        
+      
       *-------------------------------------------------------- 
        6700-CORTE-IMPRIME-I. 
-                                                                        
+      
            WRITE REG-SALIDA FROM WS-LINE       AFTER 1 
            WRITE REG-SALIDA FROM IMP-CORTE-IMP AFTER 1 
            WRITE REG-SALIDA FROM WS-SEPARATE   AFTER 1 
            WRITE REG-SALIDA FROM WS-SEPARATE   AFTER 1. 
-                                                                        
+      
        6700-CORTE-IMPRIME-F. 
-                                                                        
+      
       *-------------------------------------------------------------- 
        9999-FINAL-I. 
-                                                                        
+      
            MOVE WS-REGISTROS-CANT TO WS-REGISTROS-PRINT 
            DISPLAY ' ' 
            DISPLAY '==============================================' 
-           DISPLAY 'TOTAL REGISTROS = ' WS-REGISTROS-PRINT. 
-
+           DISPLAY 'TOTAL REGISTROS = ' WS-REGISTROS-PRINT 
+      
            CLOSE ENTRADA 
            IF FS-ENTRADA IS NOT EQUAL '00' 
               DISPLAY '* ERROR EN CLOSE ENTRADA = ' FS-ENTRADA 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
-           END-IF. 
-                                                                        
+           END-IF 
+      
            CLOSE LISTADO 
            IF FS-LISTADO IS NOT EQUAL '00' 
               DISPLAY '* ERROR EN CLOSE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
-           END-IF. 
-                                                                        
-           DISPLAY 'LEIDOS:     ' WS-LEIDOS. 
+           END-IF 
+      
+           DISPLAY 'LEIDOS:     ' WS-LEIDOS 
            DISPLAY 'IMPRESOS:   ' WS-IMPRESOS. 
-                                                                        
-       9999-FINAL-F. EXIT.                                                                                                                                     
+      
+       9999-FINAL-F. EXIT.

@@ -2,7 +2,7 @@
        PROGRAM-ID. PROGM28S. 
   
       ***************************************************************
-      *      MLMB2CAF             CLASE SINCRÓNICA 28*
+      *                   CLASE SINCRÓNICA 28                       *
       *                   ====================                      *
       *  Construir un prog. para obtener datos desde una tabla DB2. *
       *  Definir y usar un CURSOR basado en una query JOIN provista *
@@ -219,10 +219,10 @@
   
        MAIN-PROGRAM-I. 
   
-           PERFORM 1000-INICIO-I  THRU  1000-INICIO-F. 
-           PERFORM 2000-PROCESO-I THRU  2000-PROCESO-F 
-                                  UNTIL WS-FIN-LECTURA. 
-           PERFORM 9999-FINAL-I   THRU  9999-FINAL-F. 
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F
+           PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
+                                       UNTIL WS-FIN-LECTURA
+           PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
   
        MAIN-PROGRAM-F. GOBACK. 
   
@@ -230,32 +230,32 @@
       *-------------------------------------------------------------- 
        1000-INICIO-I. 
 
-           SET WS-NO-FIN-LECTURA TO TRUE. 
+           SET WS-NO-FIN-LECTURA TO TRUE 
   
-           ACCEPT WS-FECHA FROM DATE. 
-           MOVE WS-FECHA-AA TO IMP-TIT-AA. 
-           MOVE WS-FECHA-MM TO IMP-TIT-MM. 
-           MOVE WS-FECHA-DD TO IMP-TIT-DD. 
-      *    MOVE 10 TO WS-CUENTA-LINEA. 
+           ACCEPT WS-FECHA FROM DATE 
+           MOVE WS-FECHA-AA TO IMP-TIT-AA 
+           MOVE WS-FECHA-MM TO IMP-TIT-MM 
+           MOVE WS-FECHA-DD TO IMP-TIT-DD 
+      *    MOVE 10 TO WS-CUENTA-LINEA 
   
-           OPEN OUTPUT LISTADO. 
-           IF FS-LISTADO IS NOT EQUAL '00' 
+           OPEN OUTPUT LISTADO 
+           IF FS-LISTADO IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN OPEN LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET  WS-FIN-LECTURA TO TRUE 
-           END-IF. 
+           END-IF 
   
-           EXEC SQL OPEN CURSOR_CLI END-EXEC. 
-           IF SQLCODE NOT EQUAL ZEROS 
+           EXEC SQL OPEN CURSOR_CLI END-EXEC 
+           IF SQLCODE NOT EQUAL ZEROS THEN
               MOVE SQLCODE TO WS-SQLCODE 
               DISPLAY '* ERROR OPEN CURSOR = ' WS-SQLCODE 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
-           END-IF. 
+           END-IF 
 
-           PERFORM 4000-LEER-FETCH-I THRU 4000-LEER-FETCH-F. 
+           PERFORM 4000-LEER-FETCH-I THRU 4000-LEER-FETCH-F 
   
-           IF WS-FIN-LECTURA 
+           IF WS-FIN-LECTURA THEN
               DISPLAY '* ARCHIVO ENTRADA VACÍO EN INICIO' FS-LISTADO 
            ELSE 
               PERFORM 6500-IMPRIMIR-TITULOS-I 
@@ -315,7 +315,7 @@
                                     :DCLTBCURCLI.CLI-NOMAPE, 
                                     :DCLTBCURCTA.CTA-SALDO, 
                                     :DCLTBCURCTA.CTA-FECSAL 
-           END-EXEC. 
+           END-EXEC
   
            EVALUATE TRUE 
               WHEN SQLCODE EQUAL ZEROS 
@@ -347,18 +347,18 @@
               WRITE REG-SALIDA FROM WS-SEPARATE AFTER 1 
               PERFORM 6500-IMPRIMIR-TITULOS-I 
                  THRU 6500-IMPRIMIR-TITULOS-F 
-           END-IF. 
+           END-IF
   
-           WRITE REG-SALIDA FROM IMP-REG-LISTADO AFTER 1. 
+           WRITE REG-SALIDA FROM IMP-REG-LISTADO AFTER 1 
 
            IF FS-LISTADO IS NOT EQUAL '00' THEN 
               DISPLAY '* ERROR EN WRITE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
-           END-IF. 
+           END-IF 
   
            ADD 1 TO WS-IMPRESOS 
-           ADD 1 TO WS-CUENTA-LINEA. 
+           ADD 1 TO WS-CUENTA-LINEA.
   
        6000-GRABAR-SALIDA-F. EXIT. 
 
@@ -366,15 +366,15 @@
       *-------------------------------------------------------------- 
        6500-IMPRIMIR-TITULOS-I. 
   
-           MOVE WS-CUENTA-PAGINA TO IMP-TIT-PAGINA. 
-           MOVE 0 TO WS-CUENTA-LINEA. 
-           ADD  1 TO WS-CUENTA-PAGINA. 
-           WRITE REG-SALIDA FROM IMP-TITULO AFTER PAGE. 
+           MOVE WS-CUENTA-PAGINA TO IMP-TIT-PAGINA 
+           MOVE 0 TO WS-CUENTA-LINEA 
+           ADD  1 TO WS-CUENTA-PAGINA 
+           WRITE REG-SALIDA FROM IMP-TITULO AFTER PAGE 
   
            PERFORM 6600-IMPRIMIR-SUBTITULOS-I 
               THRU 6600-IMPRIMIR-SUBTITULOS-F 
   
-           IF FS-LISTADO IS NOT EQUAL '00' 
+           IF FS-LISTADO IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN WRITE LISTADO = ' FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
@@ -386,10 +386,10 @@
       *-------------------------------------------------------------- 
        6600-IMPRIMIR-SUBTITULOS-I. 
   
-           MOVE 1 TO WS-CUENTA-LINEA. 
-           WRITE REG-SALIDA FROM WS-LINE2 AFTER 1. 
+           MOVE 1 TO WS-CUENTA-LINEA 
+           WRITE REG-SALIDA FROM WS-LINE2 AFTER 1 
            WRITE REG-SALIDA FROM IMP-SUBTITULO AFTER 1 
-           WRITE REG-SALIDA FROM WS-LINE2 AFTER 1. 
+           WRITE REG-SALIDA FROM WS-LINE2 AFTER 1.
   
        6600-IMPRIMIR-SUBTITULOS-F. EXIT. 
   
@@ -397,17 +397,17 @@
       *-------------------------------------------------------------- 
        9999-FINAL-I. 
   
-           EXEC SQL CLOSE CURSOR_CLI END-EXEC. 
+           EXEC SQL CLOSE CURSOR_CLI END-EXEC
   
            CLOSE LISTADO 
-           IF FS-LISTADO IS NOT EQUAL '00' 
+           IF FS-LISTADO IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN CLOSE LISTADO = ' 
               FS-LISTADO 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
-           END-IF. 
+           END-IF
   
-           DISPLAY 'LEIDOS:     ' WS-LEIDOS. 
-           DISPLAY 'IMPRESOS:   ' WS-IMPRESOS. 
+           DISPLAY 'LEIDOS:   ' WS-LEIDOS 
+           DISPLAY 'IMPRESOS: ' WS-IMPRESOS. 
   
        9999-FINAL-F. EXIT.                 

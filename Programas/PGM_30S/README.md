@@ -1,6 +1,6 @@
 [( 🏠 )](/) </div>  
 
-# 📄 Alta de Clientes con Fecha de Nacimiento Modificada  
+# 📄 Alta de Clientes con llamada dinámica (CALL)
 
 - **Input:** Archivo de novedades (VSAM, secuencial por clave).  
 - **Output:** Inserción de clientes en tabla DB2 `KC02787.TBCURCLI`.  
@@ -133,7 +133,7 @@ Ejecuta PROGM30S contra DB2.
 
 ## 📊 Diagrama de Flujo 
 
-<image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa"> 
+<image src="./grafico.jpg" alt="Diagrama de Flujo del Programa"> 
 
 ---
 

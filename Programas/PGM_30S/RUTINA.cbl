@@ -56,11 +56,11 @@
   
        MAIN-PROGRAM. 
   
-           PERFORM 1000-INICIO THRU 1000-INICIO-F. 
+           PERFORM 1000-INICIO THRU 1000-INICIO-F 
   
            IF RETURN-CODE = ZEROS THEN
               PERFORM 2000-PROCESO THRU 2000-PROCESO-F 
-           END-IF. 
+           END-IF 
   
            PERFORM 9999-FINAL THRU 9999-FINAL-F. 
   
@@ -69,7 +69,7 @@
       *----  CUERPO INICIO INDICES -----------------------------------
        1000-INICIO. 
       
-           MOVE ZEROS           TO RETURN-CODE. 
+           MOVE ZEROS           TO RETURN-CODE 
            MOVE LK-COMUNICACION TO WS-RECIBIDO
            MOVE LK-SIGLO        TO WS-AREA-SIGLO 
            MOVE LK-ANIO         TO WS-AREA-ANIO 
@@ -84,9 +84,9 @@
       *---------------------------------------------------------------
        1100-VALIDAR-AREA. 
       
-           IF WS-AREA-MES = ZEROS  OR 
-              WS-AREA-MES > 12     OR
-              WS-AREA-ANIO = ZEROS 
+           IF WS-AREA-MES = ZEROS OR 
+              WS-AREA-MES > 12    OR
+              WS-AREA-ANIO = ZEROS THEN 
                  MOVE 05 TO RETURN-CODE 
            END-IF. 
   
@@ -108,10 +108,10 @@
       *----  CUERPO FINAL MUESTRA RESULTADO -------------------------
        9999-FINAL. 
   
-           MOVE WS-AREA TO LK-COMUNICACION. 
+           MOVE WS-AREA TO LK-COMUNICACION 
            DISPLAY "***PGMRUT - CóDIGO DE RETORNO ES   ****** " 
                                      RETURN-CODE 
-           DISPLAY "   FECHA RECIBIDA: "  WS-RECIBIDO. 
+           DISPLAY "   FECHA RECIBIDA: "  WS-RECIBIDO
            DISPLAY "   FECHA ENVIADA : "  WS-AREA. 
   
        9999-FINAL-F. EXIT. 

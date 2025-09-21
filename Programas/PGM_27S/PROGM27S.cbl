@@ -1,6 +1,6 @@
        IDENTIFICATION DIVISION. 
        PROGRAM-ID. PROGM27S. 
-
+      
       ***************************************************************
       *                   CLASE SINCRÓNICA 27                       *
       *                   ===================                       *
@@ -22,7 +22,7 @@
       *  - Total de novedades erróneas (por ejemplo, por clave      *
       *    duplicada).                                              *
       ***************************************************************
-
+      
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
   
        ENVIRONMENT DIVISION. 
@@ -53,7 +53,7 @@
        77  WS-STATUS-FIN           PIC X. 
            88  WS-FIN-LECTURA                   VALUE 'Y'. 
            88  WS-NO-FIN-LECTURA                VALUE 'N'. 
-
+      
        77  WS-REG-CANT             PIC 999      VALUE ZEROES. 
        77  WS-GRABADOS             PIC 99       VALUE ZEROES. 
        77  WS-ERRORES              PIC 99       VALUE ZEROES. 
@@ -62,12 +62,12 @@
        01  WS-NOMAPE-COMPLETO. 
            05 WS-NOMAPE-NOMBRE     PIC X(15). 
            05 WS-NOMAPE-APELLIDO   PIC X(15). 
-
+      
       *-----------  SQL  --------------------------------------------- 
        77  WS-SQLCODE         PIC +++999 USAGE DISPLAY  VALUE ZEROS. 
        77  NOT-FOUND               PIC S9(9) COMP       VALUE  +100. 
        77  NOTFOUND-FORMAT         PIC -ZZZZZZZZZZ. 
-
+      
       *-----------  VARIABLES  ---------------------------------------  
        77  REG-TIPDOC        PIC X(2)                   VALUE SPACES.
        77  REG-NRODOC        PIC S9(11)V USAGE COMP-3   VALUE ZEROES.
@@ -80,7 +80,7 @@
            EXEC SQL INCLUDE SQLCA    END-EXEC. 
       *     EXEC SQL INCLUDE TBCURCLI END-EXEC. 
       *     COPY TBVCLIEN. 
-
+      
       *///////////////////////////////////////////////////////////////
        01  DCLTBCURCLI. 
            10 CLI-TIPDOC      PIC X(2).                 *> TIPDOC
@@ -89,7 +89,7 @@
            10 CLI-NOMAPE      PIC X(30).                *> NOMAPE
            10 CLI-FECNAC      PIC X(10).                *> FECNAC
            10 CLI-SEXO        PIC X(1).                 *> FECNAC
-
+      
       *    TBVCLIEN (NOVEDADES)
       *    COPY DE ARCHIVO DE NOVEDADES VALIDADAS CLIENTES VSAM       
       *    LARGO REGISTRO 244 BYTES                                   
@@ -115,7 +115,7 @@
            10 WK-CLI-CORREO-ELECTRONICO  PIC X(30). 
            10 WK-CLI-FECHA-NACIMIENTO    PIC X(10). 
       *//////////////////////////////////////////////////////////////
-
+      
   
        77  FILLER        PIC X(26) VALUE '* FINAL  WORKING-STORAGE *'. 
   
@@ -127,9 +127,9 @@
   
            PERFORM 1000-INICIO-I  THRU 1000-INICIO-F 
            PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
-                                  UNTIL WS-FIN-LECTURA 
+                                       UNTIL WS-FIN-LECTURA 
            PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
-
+      
        0000-MAIN-PROCESS-F. GOBACK. 
   
   
@@ -143,7 +143,7 @@
               DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-NOVEDADES 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
-
+      
               PERFORM 9999-FINAL-I THRU 9999-FINAL-F 
            END-IF. 
   
@@ -157,7 +157,7 @@
   
            IF FS-NOVEDADES IS EQUAL '00' THEN
            
-      *       para unir el nombre con el apellido.                                                                  
+      *       para unir el nombre con el apellido.
               MOVE SPACES TO WS-NOMAPE-COMPLETO 
               STRING 
                WK-CLI-NOMBRE-CLIENTE DELIMITED BY SPACE 
@@ -197,12 +197,12 @@
                       :REG-SEXO 
                     ) 
               END-EXEC
-
+      
       *       EXEC SQL 
       *          DELETE FROM KC02803.TBCURCLI 
       *                 WHERE NRODOC = :REG-NRODOC 
       *       END-EXEC 
-  
+      
               IF SQLCODE = NOT-FOUND THEN
                  MOVE SQLCODE TO NOTFOUND-FORMAT
                  DISPLAY 'PROYECTO VACíO: ' NOTFOUND-FORMAT
@@ -219,8 +219,8 @@
            END-IF. 
   
        2000-PROCESO-F. EXIT. 
-
-
+      
+      
       *-------------------------------------------------------------- 
        2100-LEER-I. 
   
@@ -238,22 +238,22 @@
                  DISPLAY "ERROR: " WK-TBCLIE 
                  SET WS-FIN-LECTURA TO TRUE 
            END-EVALUATE. 
-
+      
        2100-LEER-F. EXIT. 
-
-
+       
+      
       *-------------------------------------------------------------- 
        9999-FINAL-I. 
-  
+      
            DISPLAY "TOTAL DE REGISTROS: " WS-REG-CANT 
            DISPLAY "TOTAL DE GRABADOS: " WS-GRABADOS 
            DISPLAY "TOTAL DE ERRORES: " WS-ERRORES 
-  
+      
            CLOSE NOVEDADES 
            IF FS-NOVEDADES IS NOT EQUAL '00' THEN
               DISPLAY '* ERROR EN CLOSE ENTRADA = ' FS-NOVEDADES 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
            END-IF. 
-  
+      
        9999-FINAL-F.  EXIT.                              

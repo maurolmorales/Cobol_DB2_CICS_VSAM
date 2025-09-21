@@ -165,18 +165,17 @@
            EXEC SQL 
       
               DECLARE INNERJOIN CURSOR FOR 
-      
-              SELECT A.TIPCUEN, 
-                     A.NROCUEN, 
-                     A.SUCUEN, 
-                     A.NROCLI, 
-                     A.SALDO, 
-                     B.NOMAPE 
-              FROM KC02803.TBCURCTA A 
-              LEFT JOIN KC02803.TBCURCLI B 
-              ON A.NROCLI = B.NROCLI 
-              WHERE A.SUCUEN = 1 
-              ORDER BY A.TIPCUEN ASC, A.NROCUEN ASC
+                 SELECT A.TIPCUEN, 
+                        A.NROCUEN, 
+                        A.SUCUEN, 
+                        A.NROCLI, 
+                        A.SALDO, 
+                        B.NOMAPE 
+                 FROM KC02803.TBCURCTA A 
+                 LEFT JOIN KC02803.TBCURCLI B 
+                 ON A.NROCLI = B.NROCLI 
+                 WHERE A.SUCUEN = 1 
+                 ORDER BY A.TIPCUEN ASC, A.NROCUEN ASC
                                         
            END-EXEC. 
                      
@@ -189,9 +188,9 @@
   
        MAIN-PROGRAM-I. 
   
-           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F. 
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F
            PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
-                                       UNTIL WS-FIN-LECTURA. 
+                                       UNTIL WS-FIN-LECTURA
            PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
   
        MAIN-PROGRAM-F. GOBACK. 
@@ -200,28 +199,28 @@
       *-------------------------------------------------------------- 
        1000-INICIO-I. 
   
-           SET WS-NO-FIN-LECTURA TO TRUE. 
+           SET WS-NO-FIN-LECTURA TO TRUE 
       
-           OPEN INPUT NOVEDADES. 
+           OPEN INPUT NOVEDADES 
            IF FS-NOVEDADES IS NOT EQUAL '00' THEN
              DISPLAY '* ERROR EN OPEN ENTRADA INICIO = ' FS-NOVEDADES 
              SET  WS-FIN-LECTURA TO TRUE 
              MOVE 9999 TO RETURN-CODE
              PERFORM 9999-FINAL-I THRU 9999-FINAL-F 
-           END-IF. 
+           END-IF 
            
-           EXEC SQL OPEN INNERJOIN END-EXEC. 
+           EXEC SQL OPEN INNERJOIN END-EXEC 
            IF SQLCODE NOT EQUAL ZEROS THEN
               MOVE SQLCODE TO WS-SQLCODE 
               DISPLAY '* ERROR OPEN CURSOR = ' WS-SQLCODE 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
-           END-IF. 
+           END-IF 
       
            IF WS-NO-FIN-LECTURA THEN
               PERFORM 4000-LEER-FETCH-I THRU 4000-LEER-FETCH-F 
               PERFORM 3000-LEER-NOVED-I THRU 3000-LEER-NOVED-F 
-           END-IF.   
+           END-IF.
            
        1000-INICIO-F. EXIT. 
       
