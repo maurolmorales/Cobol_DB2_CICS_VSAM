@@ -105,17 +105,17 @@
       
        MAIN-PROGRAM-INICIO. 
        
-           PERFORM 1000-INICIO-I   THRU 1000-INICIO-F 
-           PERFORM 2000-PROCESO-I  THRU 2000-PROCESO-F 
-           PERFORM 9999-FINAL-I    THRU 9999-FINAL-F. 
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F 
+           PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
+           PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
        
        MAIN-PROGRAM-FINAL. EXIT. 
        
       *------------------------------------------------------------- 
        1000-INICIO-I. 
        
-           MOVE LOW-VALUES TO MAP3CAFO. 
-           MOVE DFHCOMMAREA TO WS-COMMAREA. 
+           MOVE LOW-VALUES TO MAP3CAFO 
+           MOVE DFHCOMMAREA TO WS-COMMAREA 
        
            IF EIBCALEN = 0 THEN 
        
@@ -154,8 +154,8 @@
                  
            END-EVALUATE 
       
-           MOVE TIPDOCI TO WS-USER-TIPDOC. 
-           MOVE NUMDOCI TO WS-USER-NRODOC. 
+           MOVE TIPDOCI TO WS-USER-TIPDOC 
+           MOVE NUMDOCI TO WS-USER-NRODOC 
       
            PERFORM 3000-TECLAS-I THRU 3000-TECLAS-F. 
       
@@ -199,8 +199,8 @@
       *------------------------------------------------------------- 
        3150-VALIDAR-I. 
       
-           SET CLIENTEOK TO TRUE. 
-           MOVE TIPDOCI TO WS-TIP-DOC. 
+           SET CLIENTEOK TO TRUE
+           MOVE TIPDOCI TO WS-TIP-DOC
       
            PERFORM 3700-VERIF-FECHA-I THRU 3700-VERIF-FECHA-F 
       
@@ -240,7 +240,7 @@
       *------------------------------------------------------------- 
        3700-VERIF-FECHA-I. 
       
-           SET FECHAOK TO TRUE. 
+           SET FECHAOK TO TRUE 
       
            MOVE ANIOI TO WS-ANIO 
            MOVE MESI  TO WS-MES 
@@ -285,7 +285,7 @@
       *------------------------------------------------------------- 
        3200-PF3-I. 
       
-           MOVE LOW-VALUES TO MAP3CAFO. 
+           MOVE LOW-VALUES TO MAP3CAFO 
            PERFORM 7000-TIME-I THRU 7000-TIME-F 
            MOVE CT-MNS-01 TO MSGO 
       
@@ -310,17 +310,17 @@
            MOVE TIPDOCI TO WS-USER-TIPDOC 
            MOVE NUMDOCI TO WS-USER-NRODOC 
       
-           MOVE SPACES       TO REG-PERSONA. 
-           MOVE TIPDOCI      TO PER-TIP-DOC. 
-           MOVE NUMDOCI      TO PER-NRO-DOC. 
-           MOVE ZEROS        TO PER-CLI-NRO. 
-           MOVE NOMAPEI      TO PER-NOMAPE. 
-           MOVE WS-FECHA-VAL TO PER-CLI-AAAAMMDD. 
-           MOVE SPACES       TO PER-DIRECCION. 
-           MOVE SPACES       TO PER-LOCALIDAD. 
-           MOVE SPACES       TO PER-EMAIL. 
-           MOVE SPACES       TO PER-TELEFONO. 
-           MOVE SEXOI        TO PER-SEXO. 
+           MOVE SPACES       TO REG-PERSONA 
+           MOVE TIPDOCI      TO PER-TIP-DOC 
+           MOVE NUMDOCI      TO PER-NRO-DOC 
+           MOVE ZEROS        TO PER-CLI-NRO 
+           MOVE NOMAPEI      TO PER-NOMAPE 
+           MOVE WS-FECHA-VAL TO PER-CLI-AAAAMMDD 
+           MOVE SPACES       TO PER-DIRECCION 
+           MOVE SPACES       TO PER-LOCALIDAD 
+           MOVE SPACES       TO PER-EMAIL 
+           MOVE SPACES       TO PER-TELEFONO 
+           MOVE SEXOI        TO PER-SEXO 
       
            EXEC CICS WRITE 
               FILE      (CT-DATASET) 

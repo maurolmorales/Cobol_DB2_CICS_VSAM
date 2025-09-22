@@ -30,14 +30,14 @@
       
        INPUT-OUTPUT SECTION. 
        FILE-CONTROL. 
-           SELECT LISTADO ASSIGN DDLISTA 
-           FILE STATUS IS FS-LISTADO. 
+           SELECT IMPRIME ASSIGN DDLISTA 
+           FILE STATUS IS FS-IMPRIME. 
       
       *||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
        DATA DIVISION. 
        FILE SECTION. 
   
-       FD  LISTADO 
+       FD  IMPRIME 
            BLOCK CONTAINS 0 RECORDS 
            RECORDING MODE IS F. 
        01  REG-SALIDA     PIC X(124).        
@@ -46,7 +46,7 @@
       *========================* 
       
       *----------- ARCHIVOS ----------------------------------------- 
-       77  FS-LISTADO              PIC XX               VALUE SPACES. 
+       77  FS-IMPRIME              PIC XX               VALUE SPACES. 
       
        77  WS-STATUS-FIN           PIC X. 
            88  WS-FIN-LECTURA         VALUE 'Y'. 
@@ -73,7 +73,7 @@
            05  REG-NOMAPE-CLI   PIC X(30)                 VALUE SPACES. 
            05  REG-SUCUEN-CTA   PIC S9(02)V USAGE COMP-3  VALUE ZEROES. 
       
-      *-----------  LISTADO  ----------------------------------------
+      *-----------  IMPRIME  ----------------------------------------
        01  FILE-TITULO. 
            05 FILLER  PIC X(11) VALUE SPACES. 
            05 FILLER  PIC X(38) VALUE 
@@ -175,10 +175,10 @@
       
        MAIN-PROGRAM-I. 
       
-           PERFORM 1000-INICIO-I  THRU  1000-INICIO-F 
-           PERFORM 2000-PROCESO-I THRU  2000-PROCESO-F 
-                                  UNTIL WS-FIN-LECTURA 
-           PERFORM 9999-FINAL-I   THRU  9999-FINAL-F. 
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F 
+           PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
+                                       UNTIL WS-FIN-LECTURA 
+           PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
               
        MAIN-PROGRAM-F. GOBACK. 
       
@@ -187,9 +187,9 @@
            
            SET WS-NO-FIN-LECTURA TO TRUE
       
-           OPEN OUTPUT LISTADO 
-           IF FS-LISTADO IS NOT EQUAL '00' THEN
-              DISPLAY '* ERROR EN OPEN LISTADO = ' FS-LISTADO 
+           OPEN OUTPUT IMPRIME 
+           IF FS-IMPRIME IS NOT EQUAL '00' THEN
+              DISPLAY '* ERROR EN OPEN IMPRIME = ' FS-IMPRIME 
               MOVE 9999 TO RETURN-CODE 
               SET  WS-FIN-LECTURA TO TRUE 
            END-IF 
@@ -207,8 +207,6 @@
               WRITE REG-SALIDA FROM FILE-FILA 
               WRITE REG-SALIDA FROM FILE-SUBTITULO 
               WRITE REG-SALIDA FROM FILE-FILA 
-              PERFORM 4000-LEER-FETCH-I 
-                 THRU 4000-LEER-FETCH-F 
            END-IF. 
       
        1000-INICIO-F. EXIT. 
@@ -216,6 +214,8 @@
       
       *-------------------------------------------------------------- 
        2000-PROCESO-I. 
+
+           PERFORM 4000-LEER-FETCH-I THRU 4000-LEER-FETCH-F
       
            IF SQLCODE = NOT-FOUND THEN 
               DISPLAY 'FIN DE DATOS. NO HAY MÁS REGISTROS.' 
@@ -224,10 +224,8 @@
            IF WS-NO-FIN-LECTURA AND REG-NROCLI-CLI > 0  THEN 
               PERFORM 5000-PROCESAR-MAESTRO-I 
                  THRU 5000-PROCESAR-MAESTRO-F 
-           END-IF 
+           END-IF. 
                                                                      
-           PERFORM 4000-LEER-FETCH-I THRU 4000-LEER-FETCH-F. 
-      
        2000-PROCESO-F. EXIT. 
       
       *-------------------------------------------------------------- 
@@ -290,9 +288,9 @@
       
            EXEC SQL  CLOSE ITEM_CURSOR  END-EXEC 
       
-           CLOSE LISTADO   
-           IF FS-LISTADO IS NOT EQUAL '00' THEN
-              DISPLAY '* ERROR EN CLOSE LISTADO = ' FS-LISTADO 
+           CLOSE IMPRIME   
+           IF FS-IMPRIME IS NOT EQUAL '00' THEN
+              DISPLAY '* ERROR EN CLOSE IMPRIME = ' FS-IMPRIME 
               MOVE 9999 TO RETURN-CODE 
               SET WS-FIN-LECTURA TO TRUE 
            END-IF 

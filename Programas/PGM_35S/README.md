@@ -5,20 +5,19 @@
 </div>
 
 
-# 📄 CICS - Alta de Clientes
+# 📄 CICS - Menú de Clientes
 - Tipo: Cobol CICS online (BMS + VSAM)
 - Salida: VSAM
 ## 📚 Descripción del Programa
-`PGMALCAF` es un programa COBOL bajo CICS que permite dar de alta clientes desde un mapa BMS (MAP3CAF).
-Al presionar ENTER, valida los datos ingresados y realiza un WRITE sobre un `VSAM KSDS` maestro de personas (PERSOCAF).
-El registro maestro incluye clave primaria compuesta por Tipo de Documento (2) + Número de Documento (11) ⇒ 13 bytes.
+`PROGM35S` es un programa COBOL bajo CICS que implementa un menú de opciones de clientes.
+Desde un mapa BMS (MAP2CAF), el usuario puede seleccionar distintas funciones mediante teclas de función (PF1 a PF12).
 
 #### Objetivos del Programa
-- Mostrar una pantalla de entrada con los campos del cliente.
-- Validar: tipo y número de documento, nombre/apellido, fecha de nacimiento y sexo.
-- Persistir el alta en VSAM (WRITE FILE).
-- Informar al usuario el resultado (éxito/errores) en el área de mensajes del mapa.
-
+- Presentar al usuario un menú inicial con mensaje guía.
+- Detectar y procesar teclas de función (PFKEYS).
+- Derivar a programas específicos de Alta, Baja, Modificación y Consulta de clientes.
+- Mostrar mensajes de error o confirmación en el área de mensajes del mapa.
+- Permitir la salida ordenada de la transacción (PF12).
 ---
 
 </br>
@@ -27,25 +26,22 @@ El registro maestro incluye clave primaria compuesta por Tipo de Documento (2) +
 
 ```
 ├── src/
-│   ├── PGMALCAF.cbl          # Programa COBOL CICS
+│   ├── PROGM35S.cbl          # Programa COBOL CICS (menú principal)
 │   ├── COPY/
-│   │   ├── MAP3CAF.cpy       # Copymap BMS (generado por ensamblado BMS)
+│   │   ├── MAP2CAF.cpy       # Copymap BMS (generado por ensamblado BMS)
 │   │   ├── DFHBMSCA          # Constantes BMS
 │   │   └── DFHAID            # Códigos de AID (ENTER/PF)
 │
 ├── bms/
-│   └── MAP3CAF.bms           # Definición BMS del mapa
-│
-├── vsam/
-│   └── PERSOCAF.def          # Definición/IDCAMS del KSDS (opcional)
+│   └── MAP2CAF.bms           # Definición BMS del mapa
 │
 ├── jcl/
-│   ├── ASM_BMS.jcl           # Ensamblado BMS → copia MAP3CAF + load del MAPSET
+│   ├── ASM_BMS.jcl           # Ensamblado BMS → copia MAP2CAF + load del MAPSET
 │   ├── LINK_PGM.jcl          # Linkedit del programa
-│   ├── IDCAMS.jcl            # Define/Alter/Print del KSDS PERSOCAF
-│   └── RDO.csd               # Definiciones CICS: PROGRAM/TRANSACTION/FILE/MAPSET
+│   └── RDO.csd               # Definiciones CICS: PROGRAM/TRANSACTION/MAPSET
 │
 └── README.md
+
 ```
 </br>
 
@@ -88,63 +84,56 @@ El registro maestro incluye clave primaria compuesta por Tipo de Documento (2) +
 
 ##  🖥️ Pantalla (BMS)
 
-***Mapa***: MAP3CAF. Campos relevantes (sufijo I = input, O = output):
-- Ingreso: TIPDOCI, NUMDOCI, NOMAPEI, ANIOI, MESI, DIAI, SEXOI.
-- Salida: MSGO (mensajes), FECHAO (fecha formateada DD/MM/YYYY).
+***Mapa***: MAP2CAF. Campos relevantes (sufijo I = input, O = output):
+- TIPDOCI, NUMDOCI (entrada de documento, para pasar a otros programas).
+- MSGO (mensajes al usuario).
+- FECHAO (fecha formateada por el programa).
 
 ***Teclas soportadas***:
-- ENTER → valida y, si todo OK, intenta WRITE.
-- PF3 → limpia pantalla y muestra “INGRESE LOS DATOS Y PRESIONE ENTER”.
-- PF12 → FIN TRANSACCION y RETURN a CICS.
+- PF1 → Alta de cliente (PGMALCAF).
+- PF2 → Baja de cliente (PGMBACAF).
+- PF3 → Modificación (PGMMOCAF) → se pasa COMMAREA con tipo y número de documento.
+- PF4 → Consulta individual (PGMPRCAF).
+- PF5 → Limpiar mapa (reinicia pantalla con mensaje inicial).
+- PF6 → Consulta general (función placeholder).
+- PF12 → Salir de la transacción (envía mensaje “FIN TRANSACCION BCAF” y ejecuta RETURN).
+- Cualquier otra tecla → Mensaje de error (“TECLA INVALIDA”).
 
 ---
 
 ## 🏛️ Estructura del Programa 
 
 - **1000-INICIO**:
-  - Limpia mapa de salida, toma `DFHCOMMAREA` a `WS-COMMAREA`.
-  - Si `EIBCALEN = 0 `→ primer ingreso: setea mensaje inicial, hora/fecha y SEND MAP.
+  - Limpia mapa, inicializa variables y copia DFHCOMMAREA en WS-COMMAREA.
+  - Si EIBCALEN = 0, es la primera entrada: muestra mensaje inicial “INGRESE LA OPCION DESEADA”.
+  - Caso contrario, recibe el mapa con los datos ingresados.
 
 - **2000-PROCESO**:
-  - RECEIVE MAP → `WS-RESP`.
-  - Copia a `WS-USER-DATA` (TIPDOCI + NUMDOCI) para usar como RIDFLD.
-  - Deriva por tecla en 3000-TECLAS.
-
-- **3000-TECLAS**:
-  - **ENTER** → `3100-ENTER`.
-  - **PF3** → `3200-PF3` (limpia pantalla y mensaje inicial).
-  - **PF12** → `3300-PF12` (fin transacción).
-
-- **3100-ENTER**:
-  - Llama `3150-VALIDAR`. Si **CLIENTEOK**, va a `5000-WRITE`; si no, reenvía mapa con mensaje de error.
-
-- **3150-VALIDAR**:
-  - Setea `CLIENTEOK` y llama `3700-VERIF-FECHA`.
-  - Evalúa reglas: tipo doc, nro doc, nombre, fecha, sexo.
-
-- **3700-VERIF-FECHA**:
-  - Arma validación básica de AAAA/MM/DD.
-
-- **5000-WRITE**:
-  - Mueve campos del mapa a `REG-PERSONA` y ejecuta `EXEC CICS WRITE FILE(PERSOCAF)` con `RIDFLD(WS-USER-DATA)` (13 bytes).
-  - Manejo de RESP: DUPREC (ya existe), NORMAL (alta OK), OTHER (error archivo).
-  - Reenvía mapa con MSGO correspondiente.
-
+  - Evalúa WS-RESP del RECEIVE MAP.
+  - Si NORMAL → llama a 2500-PULSAR-TECLA.
+  - Si MAPFAIL → vuelve a mostrar menú inicial.
+  - Otros casos → muestra mensaje de error genérico.
+- **2500-PULSAR-TECLA**:
+  - Evalúa EIBAID (tecla pulsada) y deriva al párrafo correspondiente (PF1–PF12).
+- **3000–4700 (PF1 a PF6)**:
+  - Derivación a otros programas mediante EXEC CICS XCTL PROGRAM(...).
+  - PF5 reinicia la pantalla.
+  - PF6 muestra mensaje fijo “FUNCIÓN DE CONSULTA GENERAL”.
+- **5500-PF12**:
+  - Envía “FIN TRANSACCION BCAF”.
+  - Ejecuta RETURN a CICS.
 - **7000-TIME**:
-  - `ASKTIME` + `FORMATTIME` → muestra fecha/hora en mapa.
-
+  - Usa ASKTIME y FORMATTIME para mostrar fecha y hora en el mapa.
+- **8000-SEND-MAPA**:
+  - Arma la salida y envía mapa al usuario.
 - **9999-FINAL**:
-  - `RETURN TRANSID('DCAF') COMMAREA(WS-COMMAREA)`.
+  - Ejecuta RETURN TRANSID('BCAF') COMMAREA(WS-COMMAREA).
 
 ---
 
 
 ## 🎯 Resultado
-<image src="./print_1.png" alt="Diagrama de Flujo del Programa 1"> </br>
-<image src="./print_2.png" alt="Diagrama de Flujo del Programa 2"> </br>
-<image src="./print_3.png" alt="Diagrama de Flujo del Programa 3"> </br>
-<image src="./print_4.png" alt="Diagrama de Flujo del Programa 4"> </br>
-<image src="./print_5.png" alt="Diagrama de Flujo del Programa 5"> </br>
+
 ### 💻️ Display 
 ```TEXT
 >>> CUENTA SIN CLIENTE EN TBCURCLI             

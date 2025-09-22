@@ -208,10 +208,10 @@
       
        MAIN-PROGRAM-I. 
       
-           PERFORM 1000-INICIO-I  THRU  1000-INICIO-F. 
-           PERFORM 2000-PROCESO-I THRU  2000-PROCESO-F 
-                                  UNTIL WS-FIN-LECTURA. 
-           PERFORM 9999-FINAL-I   THRU  9999-FINAL-F. 
+           PERFORM 1000-INICIO-I  THRU 1000-INICIO-F 
+           PERFORM 2000-PROCESO-I THRU 2000-PROCESO-F 
+                                       UNTIL WS-FIN-LECTURA
+           PERFORM 9999-FINAL-I   THRU 9999-FINAL-F. 
                
        MAIN-PROGRAM-F. GOBACK. 
       
@@ -393,10 +393,11 @@
       *--------------------------------------------------------------
        2410-UPDATE-CL-I.
       
-           EXEC SQL UPDATE KC02803.TBCURCLI
-              SET NROCLI   = :REG-NROCLI
+           EXEC SQL 
+              UPDATE KC02803.TBCURCLI
+              SET NROCLI = :REG-NROCLI
               WHERE TIPDOC = :REG-TIPDOC 
-                AND NRODOC = :REG-NRODOC
+              AND NRODOC = :REG-NRODOC
            END-EXEC.
       
        2410-UPDATE-CL-F. EXIT.
@@ -404,10 +405,11 @@
       *--------------------------------------------------------------
        2420-UPDATE-CN-I.
            
-           EXEC SQL UPDATE KC02803.TBCURCLI
-              SET NOMAPE   = :REG-NOMAPE
+           EXEC SQL 
+              UPDATE KC02803.TBCURCLI
+              SET NOMAPE = :REG-NOMAPE
               WHERE TIPDOC = :REG-TIPDOC
-              AND   NRODOC = :REG-NRODOC
+              AND NRODOC = :REG-NRODOC
            END-EXEC.
       
        2420-UPDATE-CN-F. EXIT.
@@ -415,10 +417,11 @@
       *--------------------------------------------------------------
        2430-UPDATE-CX-I.
       
-           EXEC SQL UPDATE KC02803.TBCURCLI
-              SET SEXO     = :REG-SEXO
+           EXEC SQL 
+              UPDATE KC02803.TBCURCLI
+              SET SEXO = :REG-SEXO
               WHERE TIPDOC = :REG-TIPDOC
-                AND NRODOC = :REG-NRODOC
+              AND NRODOC = :REG-NRODOC
            END-EXEC.
       
        2430-UPDATE-CX-F. EXIT.

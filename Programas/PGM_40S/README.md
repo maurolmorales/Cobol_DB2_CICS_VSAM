@@ -129,7 +129,8 @@ El proyecto incluye:
 
 ---
 
-## 📊 Diagrama de Flujo <image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa"> 
+## 📊 Diagrama de Flujo
+ <image src="./grafico.jpg" alt="Diagrama de Flujo del Programa"> 
 
 ---
 
@@ -140,13 +141,14 @@ El archivo de salida `LISTADO` contiene líneas formateadas con información agr
 #### 💬 DISPLAY
 
 ```text
-CUENTA SIN CLIENTE EN TBCURCLI                          
-CUENTA SIN CLIENTE EN TBCURCLI                          
-CUENTA SIN CLIENTE EN TBCURCLI                          
-*******************************          
-LEIDOS:           014                                   
-ENCONTRADOS:      011                                   
-NO ENCONTRADOS:   003                                   
+CUENTA SIN CLIENTE EN TBCURCLI                   
+CUENTA SIN CLIENTE EN TBCURCLI                   
+CUENTA SIN CLIENTE EN TBCURCLI                   
+FIN DE DATOS. NO HAY MÁS REGISTROS.              
+**********************************************   
+LEIDOS:           014                            
+ENCONTRADOS:      011                            
+NO ENCONTRADOS:   003
 ```
 </br>
 

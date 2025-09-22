@@ -96,7 +96,7 @@ Ejecuta el programa indicando DDs de entrada y salida. Al finalizar genera la sa
 ---
 
 ## 📊 Diagrama de Flujo
-<image src="./GRAFICO.png" alt="Diagrama de Flujo del Programa">
+<image src="./grafico.jpg" alt="Diagrama de Flujo del Programa">
 
 ---
 
