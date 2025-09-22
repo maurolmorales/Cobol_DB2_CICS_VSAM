@@ -2,18 +2,18 @@
 //             TIME=(,3) ,RESTART=STEP2 
 //JOBLIB   DD DSN=DSND10.SDSNLOAD,DISP=SHR 
 //         DD DSN=KC03CAF.CURSOS.PGMLIB,DISP=SHR 
-//*----------------------------------------------------------------* 
-//*  PASO OPCIONAL: BORRADO DE ARCHIVOS CON IDCAMS                 * 
-//*----------------------------------------------------------------* 
+//*----------------------------------------------------------------  
+//*  PASO OPCIONAL: BORRADO DE ARCHIVOS CON IDCAMS                   
+//*----------------------------------------------------------------  
 //STEP1    EXEC PGM=IDCAMS,COND=(8,LT) 
 //SYSPRINT DD SYSOUT=* 
 //SYSIN    DD * 
   DELETE   KC03CAF.ARCHIVOS.ERRORES 
   SET MAXCC=0 
 /* 
-//*************************************************************** 
-//*      EJECUTAR PROGRAMA COBOL CON SQL EMBEBIDO               * 
-//*************************************************************** 
+//*----------------------------------------------------------------
+//*      EJECUTAR PROGRAMA COBOL CON SQL EMBEBIDO                 
+//*---------------------------------------------------------------
 //* 
 //STEP2    EXEC PGM=IKJEFT01,DYNAMNBR=20,COND=(4,LT) 
 //SYSTSPRT DD SYSOUT=* 
@@ -30,5 +30,3 @@
 //SYSPRINT DD SYSOUT=* 
 //SYSUDUMP DD SYSOUT=* 
 //SYSIN    DD * 
-//* 
-// 

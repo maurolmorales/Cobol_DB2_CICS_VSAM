@@ -55,15 +55,15 @@ La interacción se da mediante un mapa BMS (MAP4CAF) donde el usuario ingresa ti
 
 ### 📋 Archivos Involucrados
 
-- **Programa**: `PGMALCAF.cbl` Programa fuente.
+- **Programa**: `PROGM38S.cbl` Programa fuente.
 - **JCL**: \
 `COMPILA.jcl`:
   - Usa un procedimiento COMPDB2 para compilar programas con SQL embebido.
   - ALUMLIB apunta al lugar donde se genera el objeto compilado.
-  - GOPGM debe coincidir con el nombre del programa (PGMALCAF).
+  - GOPGM debe coincidir con el nombre del programa (PROGM38S).
 
   `BIND.jcl`: 
-  - Hace el bind del módulo (PGMALCAF) al plan CURSOCAF.
+  - Hace el bind del módulo (PROGM38S) al plan CURSOCAF.
   - Usa DSNTIAD bajo IKJEFT01 para enviar los comandos al entorno DB2.
   - Se asume que el DBRMLIB fue generado durante la compilación.
 
@@ -92,7 +92,7 @@ La interacción se da mediante un mapa BMS (MAP4CAF) donde el usuario ingresa ti
 
 ##  🖥️ Pantalla (BMS)
 
-***Mapa***: MAP3CAF. Campos relevantes (sufijo I = input, O = output):
+***Mapa***: MAP4CAF. Campos relevantes (sufijo I = input, O = output):
 - Ingreso: TIPDOCI, NUMDOCI, NOMAPEI, ANIOI, MESI, DIAI, SEXOI.
 - Salida: MSGO (mensajes), FECHAO (fecha formateada DD/MM/YYYY).
 

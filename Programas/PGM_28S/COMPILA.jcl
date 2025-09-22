@@ -1,9 +1,5 @@
 //USUARIOF JOB CLASS=A,MSGCLASS=O,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
-//*********************************************** 
-//*   COMPILADOR COBOL/DB2 BATCH                * 
-//*   XX =    DIGITAR SU USERID ALUMNO          * 
-//*   GOPGM DIGITAR SU PROGRAM-ID               * 
-//*********************************************** 
+//*----------------------------------------------------------
 //JCLLIB   JCLLIB ORDER=KC02787.CURSOS.PROCLIB 
 //STEP1    EXEC COMPDB2, 
 //         ALUMLIB=USUARIO.CURSOS, 

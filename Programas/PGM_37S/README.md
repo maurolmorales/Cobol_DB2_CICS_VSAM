@@ -87,7 +87,7 @@ El programa valida los datos, accede al archivo maestro PERSOCAF (VSAM KSDS) y m
 
 ##  🖥️ Pantalla (BMS)
 
-***Mapa***: MAP3CAF. Campos relevantes (sufijo I = input, O = output):
+***Mapa***: MAP1CAF. Campos relevantes (sufijo I = input, O = output):
 - TIPDOCI → tipo de documento (DU, PA, PE).
 - NUMDOCI → número de documento.
 - TIPDOCO, NUMDOCO, NOMAPEO, DIAO, MESO, ANIOO, SEXOO.

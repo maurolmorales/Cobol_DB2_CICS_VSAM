@@ -59,12 +59,12 @@
 ---
 
 ## ⚙️ Secuencia del programa
-1. Inicio del programa
+1. **Inicio del programa**
     - Inicializa el indicador de fin de archivo (`WS-FIN-CLI` ← `'N'`).
-2. Apertura del archivo
+2. **Apertura del archivo**
     - Abre el archivo CLIENTES.
     - Si hay error al abrir, muestra mensaje y termina el programa.
-3. Bucle de procesamiento
+3. **Bucle de procesamiento**
     - Mientras no sea fin de archivo (WS-FIN-CLI = `'N'`):
       - Lee un registro del archivo en `REG-CLIENTE`.
       - Si la lectura fue exitosa (`WS-FILE-CLI = '00'`), suma 1 al contador `WS-CANT-LEIDOS`.
@@ -73,14 +73,14 @@
         - Incrementa el contador `WS-CANT-DU`.
       - Si llega fin de archivo (`WS-FILE-CLI = '10'`), se sale del bucle.
       - Si hay otro error de lectura, muestra mensaje y termina.
-4. Cierre del archivo
+4. **Cierre del archivo**
     - Cierra el archivo `CLIENTES`.
     - Si hay error al cerrar, muestra mensaje.
-5. Muestra resumen por pantalla
+5. **Muestra resumen por pantalla**
     - Total de registros leídos.
     - Cantidad de `'DU'` encontrados.
     - Total acumulado de saldos para `'DU'`.
-6. Fin del programa
+6. **Fin del programa**
     - `GOBACK` al sistema o programa llamador.
 
   

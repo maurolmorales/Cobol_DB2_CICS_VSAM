@@ -45,12 +45,12 @@ Cada carpeta contiene programas representativos de cada etapa de la cursada:
 |[PGM_23S](/Programas/PGM_23S/)|Doble Corte de Control                    |VSAM |     |   |   |
 |[PGM_27S](/Programas/PGM_27S/)|DB2 de carga de datos                     |VSAM |     |   |✅ |
 |[PGM_16S](/Programas/PGM_16S/)|Corte de Control con SQL Embebido         |     |     |   |✅ |
-|[PGM_16A](/Programas/PGM_16A/)|Consulta DB2 con Doble Corte de Control   |QSAM |     |   |✅ |
-|[PGM_18A](/Programas/PGM_18A/)|Apareamiento - Consulta DB2 con Cursores  |QSAM |     |   |✅ |
-|[PGM_28S](/Programas/PGM_28S/)|Consulta con Cursor DB2 e Impresión       |DB2  |QSAM |☑️ |✅ |
+|[PGM_16A](/Programas/PGM_16A/)|Consulta DB2 con Doble Corte de Control   |     |     |   |✅ |
+|[PGM_18A](/Programas/PGM_18A/)|Apareamiento - Consulta DB2 con Cursores  |     |     |   |✅ |
+|[PGM_28S](/Programas/PGM_28S/)|Consulta con Cursor DB2 e Impresión       |     |QSAM |☑️ |✅ |
 |[PGM_30S](/Programas/PGM_30S/)|Actualizador de Clientes DB2 CALL         |VSAM |     |   |✅ |
-|[PGM_32S](/Programas/PGM_30S/)|Apareamiento con Inner Join               |QSAM |     |   |✅ |
-|[PGM_40S](/Programas/PGM_40S/)|Apareo con Left Join                      |QSAM |QSAM |☑️ |✅ |
+|[PGM_32S](/Programas/PGM_32S/)|Apareamiento con Inner Join               |QSAM |     |   |✅ |
+|[PGM_40S](/Programas/PGM_40S/)|Apareo con Left Join                      |     |QSAM |☑️ |✅ |
 |[PGM_41S](/Programas/PGM_41S/)|Modificación de Clientes por Novedades    |QSAM |QSAM |   |   |
 |[PGM_42S](/Programas/PGM_42S/)|Altas de Clientes por Novedades           |QSAM |QSAM |   |   |
 |[PGM_35S](/Programas/PGM_35S/)|CICS Menú de Clientes                     |     |VSAM |   |   |

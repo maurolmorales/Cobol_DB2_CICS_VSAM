@@ -67,7 +67,7 @@ consola y no se graban.
     - Si hay error en OPEN, lo muestra por pantalla y termina.
     - Si la entrada abre bien, lee el primer registro (2100-LEER-I).
   - **2000-PROCESO**
-    - **2010-VERIFICAR**
+  - **2010-VERIFICAR**
       - Se ejecuta en ciclo hasta `FS-ENTRADA-FIN`.
       - Valida el tipo de documento (`DU`, `PA`, `PE`, `CI`).
       - Valida si el número de documento es de tipo numérico. 
@@ -75,7 +75,7 @@ consola y no se graban.
       - Verifica la fecha estén dentro de los parámetros correspondientes (`2020-VERIF-FECHA`).
       - Si se verifica todo: graba el registro (2200-GRABAR-REG).
         - Si no es válido: lo rechaza y muestra mensaje por display.
-    - **2100-LEER** 
+  - **2100-LEER** 
       - lee el siguiente registro
 
   - **2020-VERIF-FECHA**

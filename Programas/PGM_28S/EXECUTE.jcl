@@ -1,25 +1,25 @@
 //USUARIOD JOB  CLASS=A,MSGCLASS=O,MSGLEVEL=(1,1),NOTIFY=&SYSUID 
 //JOBLIB   DD   DSN=DSND10.SDSNLOAD,DISP=SHR 
 //         DD   DSN=USUARIO.CURSOS.PGMLIB,DISP=SHR 
-//*************************************************************** 
+//*-------------------------------------------------------------- 
 //* OPCIONAL: CREAR ARCHIVO DE SALIDA LA PRIMERA VEZ            * 
-//*************************************************************** 
+//*--------------------------------------------------------------
 //*CREAFILE EXEC PGM=IEFBR14 
 //*DD1      DD   DSN=USUARIO.DB2.SALIDA,UNIT=SYSDA, 
 //*              DCB=(LRECL=80,BLKSIZE=8000,RECFM=FB), 
 //*              SPACE=(TRK,(1,1),RLSE),DISP=(NEW,CATLG,DELETE) 
-//*************************************************************** 
+//*--------------------------------------------------------------
 //* ELIMINAR ARCHIVO DE SALIDA ORDENADO                         * 
-//*************************************************************** 
+//*--------------------------------------------------------------
 //DELFILE  EXEC PGM=IDCAMS 
 //SYSPRINT DD SYSOUT=* 
 //SYSIN    DD * 
   DELETE USUARIO.ARCHIVOS.LISTADO 
   SET MAXCC=0 
 /* 
-//*************************************************************** 
+//*--------------------------------------------------------------
 //* OPCIONAL: ORDENAMIENTO DEL ARCHIVO LISTADO                  * 
-//*************************************************************** 
+//*--------------------------------------------------------------
 //*SRTLISTA EXEC PGM=SORT 
 //*SYSOUT   DD SYSOUT=* 
 //*SORTIN   DD DSN=USUARIO.ARCHIVOS.LISTADO,DISP=SHR 
@@ -31,9 +31,9 @@
 //*SYSIN    DD * 
 //*  SORT FIELDS=(1,2,CH,A) 
 //* 
-//*************************************************************** 
-//* EJECUCIÓN DEL PROGRAMA MLMB2CAF                             * 
-//*************************************************************** 
+//*--------------------------------------------------------------
+//* EJECUCION DEL PROGRAMA                                        
+//*--------------------------------------------------------------
 //EJECMLM  EXEC PGM=IKJEFT01,DYNAMNBR=20 
 //SYSTSPRT DD SYSOUT=* 
 //*DDENTRA  DD DSN=USUARIO.ARCHIVOS.LISTADO,DISP=SHR 

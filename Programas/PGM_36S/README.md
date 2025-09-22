@@ -9,7 +9,7 @@
 - Tipo: Cobol CICS online (BMS + VSAM)
 - Salida: VSAM
 ## 📚 Descripción del Programa
-`PGMALCAF` es un programa COBOL bajo CICS que permite dar de alta clientes desde un mapa BMS (MAP3CAF).
+`PROGM36S` es un programa COBOL bajo CICS que permite dar de alta clientes desde un mapa BMS (MAP3CAF).
 Al presionar ENTER, valida los datos ingresados y realiza un WRITE sobre un `VSAM KSDS` maestro de personas (PERSOCAF).
 El registro maestro incluye clave primaria compuesta por Tipo de Documento (2) + Número de Documento (11) ⇒ 13 bytes.
 
@@ -27,7 +27,7 @@ El registro maestro incluye clave primaria compuesta por Tipo de Documento (2) +
 
 ```
 ├── src/
-│   ├── PGMALCAF.cbl          # Programa COBOL CICS
+│   ├── PROGM36S.cbl          # Programa COBOL CICS
 │   ├── COPY/
 │   │   ├── MAP3CAF.cpy       # Copymap BMS (generado por ensamblado BMS)
 │   │   ├── DFHBMSCA          # Constantes BMS
@@ -51,15 +51,15 @@ El registro maestro incluye clave primaria compuesta por Tipo de Documento (2) +
 
 ### 📋 Archivos Involucrados
 
-- **Programa**: `PGMALCAF.cbl` Programa fuente.
+- **Programa**: `PROGM36S.cbl` Programa fuente.
 - **JCL**: \
 `COMPILA.jcl`:
   - Usa un procedimiento COMPDB2 para compilar programas con SQL embebido.
   - ALUMLIB apunta al lugar donde se genera el objeto compilado.
-  - GOPGM debe coincidir con el nombre del programa (PGMALCAF).
+  - GOPGM debe coincidir con el nombre del programa (PROGM36S).
 
   `BIND.jcl`: 
-  - Hace el bind del módulo (PGMALCAF) al plan CURSOCAF.
+  - Hace el bind del módulo (PROGM36S) al plan CURSOCAF.
   - Usa DSNTIAD bajo IKJEFT01 para enviar los comandos al entorno DB2.
   - Se asume que el DBRMLIB fue generado durante la compilación.
 

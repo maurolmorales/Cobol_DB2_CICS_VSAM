@@ -1,17 +1,17 @@
 //USUARIOJ JOB CLASS=A,MSGCLASS=O,MSGLEVEL=(1,1),NOTIFY=&SYSUID, 
 //             TIME=(,5) 
-//************************************ 
-//* EJEMPLO EJECUCION JOB BATCH      * 
-//************************************ 
+//*---------------------------------------------------------------
+//* EJEMPLO EJECUCION JOB BATCH            
+//*---------------------------------------------------------------
 //STEP1    EXEC PGM=IDCAMS,COND=(8,LT) 
 //SYSPRINT DD SYSOUT=* 
 //SYSIN    DD * 
      DELETE   USUARIO.ARCHIVOS.CLIENTE.SORT 
      SET MAXCC=0 
 /* 
-//********************************* 
-//*     SORT POR SUC-SEXO         * 
-//********************************* 
+//*---------------------------------------------------------------
+//* SORT                           
+//*---------------------------------------------------------------
 //STEP2     EXEC PGM=SORT,COND=EVEN 
 //SYSOUT    DD SYSOUT=* 
 //SORTIN    DD DSN=USUARIO.ARCHIVOS.CLIENTE,DISP=SHR 
@@ -22,9 +22,9 @@
 //SYSIN     DD * 
   SORT      FORMAT=BI,FIELDS=(1,2,A) 
 /* 
-//************************************ 
-//* EJECUCION PROGRAMA CLIENTE       * 
-//************************************ 
+//*---------------------------------------------------------------
+//* EJECUCION PROGRAMA                  
+//*---------------------------------------------------------------
 //STEP4    EXEC PGM=PGMPRUAR 
 //STEPLIB  DD DSN=USUARIO.CURSOS.PGMLIB,DISP=SHR 
 //DDENTRA  DD DSN=USUARIO.ARCHIVOS.CLIENTE.SORT,DISP=SHR 

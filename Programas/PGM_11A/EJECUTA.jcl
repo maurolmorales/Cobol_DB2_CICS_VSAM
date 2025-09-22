@@ -1,17 +1,17 @@
 //KC03CAFJ JOB CLASS=A,MSGCLASS=O,MSGLEVEL=(1,1),NOTIFY=&SYSUID, 
 //             TIME=(,5) 
-//************************************ 
-//* EJEMPLO EJECUCION JOB BATCH      * 
-//************************************ 
+//*----------------------------------------------------------
+//* EJEMPLO EJECUCION JOB BATCH        
+//*----------------------------------------------------------
 //STEP1    EXEC PGM=IDCAMS,COND=(8,LT) 
 //SYSPRINT DD SYSOUT=* 
 //SYSIN    DD * 
      DELETE   KC03CAF.ARCHIVOS.CLIENTES.SORT 
      DELETE   KC03CAF.ARCHIVOS.LISTADO 
      SET MAXCC=0 
-//********************************* 
-//*     SORT POR ESTADO CIVIL     * 
-//********************************* 
+//*----------------------------------------------------------
+//*     SORT POR ESTADO CIVIL       
+//*----------------------------------------------------------
 //STEP2     EXEC PGM=SORT,COND=EVEN 
 //SYSOUT    DD SYSOUT=* 
 //SORTIN    DD DSN=KC03CAF.ARCHIVOS.CLIENTES,DISP=SHR 
@@ -21,9 +21,9 @@
 //          SPACE=(TRK,(1,1),RLSE) 
 //SYSIN     DD * 
   SORT      FORMAT=BI,FIELDS=(1,6,A) 
-//************************************ 
-//* EJECUCION PROGRAMA CUENTA        * 
-//************************************ 
+//*----------------------------------------------------------
+//* EJECUCION PROGRAMA CUENTA          
+//*----------------------------------------------------------
 //STEP3    EXEC PGM=PGMIMCAF 
 //STEPLIB  DD DSN=KC03CAF.CURSOS.PGMLIB,DISP=SHR 
 //DDENTRA  DD DSN=KC03CAF.ARCHIVOS.CLIENTES.SORT,DISP=SHR 

@@ -5,7 +5,7 @@
 </div>
 
 # 🧾 Consulta DB2 con Cursor e Impresión
-Programa para generar un listado de impresión en base a una consulta específica. 
+- Salida: QSAM
 
 ## 📚 Descripción del programa
 

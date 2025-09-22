@@ -58,7 +58,7 @@ El programa `PROGM06A` realiza un **corte de control por número de sucursal**, 
   - Si abre bien, lee el primer registro.
   - Si hay datos, inicializa variables con los datos leídos.
 - **2000-PROCESO**: 
-Lee un nuevo registro.
+    Lee un nuevo registro.
   - Si ya no hay más registros, hace el último corte.
   - Si hay datos:
     - Si la sucursal es la misma que la anterior, sigue acumulando.

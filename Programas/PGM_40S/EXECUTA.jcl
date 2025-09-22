@@ -2,7 +2,6 @@
 //JOBLIB   DD   DSN=DSND10.SDSNLOAD,DISP=SHR 
 //         DD   DSN=KC03CAF.CURSOS.PGMLIB,DISP=SHR 
 //*-----------------------------------------------------------------
-//* 
 //STEP2    EXEC PGM=IKJEFT01,DYNAMNBR=20,COND=(4,LT) 
 //SYSTSPRT DD   SYSOUT=* 
 //DDLISTA  DD DSN=KC03CAF.ARCHIVOS.IMPRIME,UNIT=SYSDA, 
